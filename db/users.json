@@ -1,0 +1,16 @@
+{
+    "67ba0ccc42169": {
+        "username": "medj364",
+        "email": "admin.email@domain.com",
+        "role": "ADMIN",
+        "password": "password",
+        "id": "67ba0ccc42169"
+    },
+    "67ba0ccc421af": {
+        "username": "new_bish",
+        "email": "new_bish@bish.net",
+        "role": "requestTRANSLATOR",
+        "password": "$2y$12$XXjSq2v.GDkVcij4cViBuu6S4BtjLXaRwHnbdNFw4Zx8TjpyK6awy",
+        "id": "67ba0ccc421af"
+    }
+}
