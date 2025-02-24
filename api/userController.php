@@ -38,25 +38,40 @@
         // POST: ~/controllers/userControllers.php {params in request body}
         if ($_POST['action'] == 'signup') {
             if (isset($_POST['username'])) { 
-                $new_user['username'] = $_POST['username'];
-                if (isset($_POST['email'])) { 
-                    $new_user['email'] = $_POST['email'];
-                    if (isset($_POST['password'])) { 
-                        $new_user['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                        if (isset($_POST['role'])) { 
-                            $new_user['role'] = $_POST['role'];
-                            $new_user['id'] = uniqid();
 
-                            $users = json_decode(file_get_contents("../db/users.json"), true);
-                            $users[$new_user['id']] = $new_user;
-                            file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
-                            echo '{"id" : '.$new_user['id'].'}';
+                $users = json_decode(file_get_contents("../db/users.json"), true);
+                $found_username = null;
+                $found_email = null;
+                foreach ($users as $id => $user) {
+                    if ($user['username'] === $_POST['username']) {
+                        $found_username = $user;
+                    }
+                    if ($user['email'] === $_POST['email']) {
+                        $found_email = $user;
+                    }
+                }
+                if ($found_username === null && $found_email === null) {
+                    $new_user['username'] = $_POST['username'];
+                    if (isset($_POST['email'])) { 
+                        $new_user['email'] = $_POST['email'];
+                        if (isset($_POST['password'])) { 
+                            $new_user['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                            if (isset($_POST['role'])) { 
+                                $new_user['role'] = $_POST['role'];
+                                $new_user['id'] = uniqid();
+    
+                                $users[$new_user['id']] = $new_user;
+                                file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
+                                echo '{"id" : '.$new_user['id'].'}';
+                            } 
+                            else { http_response_code(400); echo '{"error" : "Missing role"}'; }
                         } 
-                        else { http_response_code(400); echo '{"error" : "Missing role"}'; }
+                        else { http_response_code(400); echo '{"error" : "Missing password"}'; }
                     } 
-                    else { http_response_code(400); echo '{"error" : "Missing password"}'; }
-                } 
-                else { http_response_code(400); echo '{"error" : "Missing email"}'; }
+                    else { http_response_code(400); echo '{"error" : "Missing email"}'; }
+                }
+                else if ($found_username !== null) { http_response_code(409); echo '{"error" : "Nom d\'utilisateur déjà existant"}'; }
+                else { http_response_code(409); echo '{"error" : "Adresse email déjà existante"}'; }
             } 
             else { http_response_code(400); echo '{"error" : "Missing username"}'; }
         }
