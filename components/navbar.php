@@ -12,16 +12,24 @@
     <script src="js/navbar.js"></script>
 </head>
 <body>
+    <div class="navbar_container">
+        <a href="/">
+            <img class="navbar_logo" src="../assets/images/website/logo.png" alt="BonApp logo">
+        </a>
 
-    <div>LINKS</div>
+        <ul class="navlinks">
+            <li class="navlink">Accueil</li>
+            <li class="navlink">Recettes</li>
+            <li class="navlink">Favoris</li>
+        </ul>
 
-
-
-    <?php if (isset($_SESSION['userId'])) { ?>
-        <span>Hello <?php echo $_SESSION['userId'] ?>!</span>
-        <button id="signoutButton">Signout</button>
-    <?php } else { ?>
-        <a href="/public/signin.php">Signin</a>
-    <?php } ?>
+        <div class="signbutton">
+            <?php if (isset($_SESSION['userId'])) { ?>
+                <button id="signoutButton">Signout</button>
+            <?php } else { ?>
+                <a id="signinBut" href="/public/signin.php">Signin</a>
+            <?php } ?>
+        </div>
+    </div>
 </body>
 </html>

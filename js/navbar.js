@@ -16,14 +16,8 @@ $(document).ready(function () {
             .done(function (_) {
                 window.location.href = "/";
             })
-            .fail(function (xhr) {
-                let err = null;
-                err = JSON.parse(xhr.responseText);
-                if (err && err.error) {
-                    // errorMessage.text(err.error);
-                } else {
-                    // errorMessage.text("Une erreur est survenue.");
-                }
+            .fail(function (err) {
+                console.log(err);
             })
             .always(function () {
                 loading = false;

@@ -6,11 +6,16 @@
     <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
-    <footer class="container">
+    <footer class="footer_container">
         <div class="inner_container">
             <div class="overline">
-                <a class="logo" href="/">
-                    <img src="../assets/images/website/logo.png" alt="BonApp logo">
+                <a href="/" onclick="
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth',
+                    });"
+                >
+                    <img class="footer_logo" src="../assets/images/website/logo.png" alt="BonApp logo">
                 </a>
 
                 <button id="scrollbutton" onclick="
