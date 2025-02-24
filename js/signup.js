@@ -24,7 +24,7 @@ $(document).ready(function () {
 
             errorMessage.text("");
 
-            if (!username || !password) {
+            if (!username || !email || !password || !confirmpassword) {
                 if (!username) {
                     usernameInputBox.removeClass("input_box").addClass("input_box_error");
                 }
@@ -37,9 +37,36 @@ $(document).ready(function () {
                 if (!confirmpassword) {
                     confirmpasswordInputBox.removeClass("input_box").addClass("input_box_error");
                 }
-                errorMessage.text("Veuillez remplir tous les champs.");
+                errorMessage.text("Veuillez remplir tous les champs");
                 loading = false;
-                button.removeClass("loading").text("Se connecter");
+                button.removeClass("loading").text("S'inscrire");
+                return;
+            }
+
+            let regex = /^[a-zA-Z0-9_]+$/;
+            let regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (username.length < 8) {
+                usernameInputBox.removeClass("input_box").addClass("input_box_error");
+                errorMessage.text("Le nom d'utilisateur doit être composé de 8 caracters au minimum");
+                loading = false;
+                button.removeClass("loading").text("S'inscrire");
+                return;
+            }
+
+            if (!regex.test(username)) {
+                usernameInputBox.removeClass("input_box").addClass("input_box_error");
+                errorMessage.text("Le nom d'utilisateur ne doit pas contenir des caracters speciaux");
+                loading = false;
+                button.removeClass("loading").text("S'inscrire");
+                return;
+            }
+
+            if (!regexEmail.test(email)) {
+                emailInputBox.removeClass("input_box").addClass("input_box_error");
+                errorMessage.text("L'adresse email n'est pas valide");
+                loading = false;
+                button.removeClass("loading").text("S'inscrire");
                 return;
             }
 
@@ -48,7 +75,23 @@ $(document).ready(function () {
                 confirmpasswordInputBox.removeClass("input_box").addClass("input_box_error");
                 errorMessage.text("Les mots de passes ne sont pas identiques");
                 loading = false;
-                button.removeClass("loading").text("Se connecter");
+                button.removeClass("loading").text("S'inscrire");
+                return;
+            }
+
+            if (password.length < 8) {
+                passwordInputBox.removeClass("input_box").addClass("input_box_error");
+                errorMessage.text("Le mot de passe doit être composé de 8 caracters au minimum");
+                loading = false;
+                button.removeClass("loading").text("S'inscrire");
+                return;
+            }
+
+            if (!regex.test(password)) {
+                passwordInputBox.removeClass("input_box").addClass("input_box_error");
+                errorMessage.text("Le mot de passe ne doit pas contenir des caracters speciaux");
+                loading = false;
+                button.removeClass("loading").text("S'inscrire");
                 return;
             }
 
@@ -90,7 +133,7 @@ $(document).ready(function () {
             })
             .always(function () {
                 loading = false;
-                button.removeClass("loading").text("Se connecter");
+                button.removeClass("loading").text("S'inscrire");
             });
         }
     });
