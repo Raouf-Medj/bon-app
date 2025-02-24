@@ -3,7 +3,10 @@
 
 body {
     font-family: "Poppins", serif;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
 }
 
 .main_container {

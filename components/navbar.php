@@ -18,16 +18,16 @@
         </a>
 
         <ul class="navlinks">
-            <li class="navlink">Accueil</li>
-            <li class="navlink">Recettes</li>
-            <li class="navlink">Favoris</li>
+            <li class="navlink">ACCUEIL</li>
+            <li class="navlink">RECETTES</li>
+            <li class="navlink">FAVORIS</li>
         </ul>
 
         <div class="signbutton">
             <?php if (isset($_SESSION['userId'])) { ?>
-                <button id="signoutButton">Signout</button>
+                <button id="signoutButton">Se déconnecter</button>
             <?php } else { ?>
-                <a id="signinBut" href="/public/signin.php">Signin</a>
+                <a id="signinBut" href="/public/signin.php">Se connecter</a>
             <?php } ?>
         </div>
     </div>

@@ -15,7 +15,7 @@
                         behavior: 'smooth',
                     });"
                 >
-                    <img class="footer_logo" src="../assets/images/website/logo.png" alt="BonApp logo">
+                    <img class="footer_logo" src="../assets/images/website/logo_white.png" alt="BonApp logo">
                 </a>
 
                 <button id="scrollbutton" onclick="
@@ -30,8 +30,7 @@
 
                 <div class="links">
                     <a class="link" href="https://www.instagram.com" target="_blank"><i class="uil uil-instagram"></i></a>
-                    <a class="link" href="https://www.linkedin.com" target="_blank" style="margin-left: 1rem; margin-right: 1rem;"><i class="uil uil-linkedin-alt"></i></a>
-                    <a class="link" href="https://www.x.com" target="_blank"><i class="uil uil-twitter-alt"></i></a>
+                    <a class="link" href="https://www.x.com" target="_blank" style="margin-left: 1rem;"><i class="uil uil-twitter-alt"></i></a>
                     <a class="link" href="https://www.facebook.com" target="_blank" style="margin-left: 1rem; margin-right: 1rem;"><i class="uil uil-facebook-f"></i></a>
                     <a class="link" href="mailto:contact@bonapp.fr" target="_blank"><i class="uil uil-at"></i></a>
                 </div>
