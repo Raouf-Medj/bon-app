@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/auth.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <script src="../js/signup.js"></script>
 </head>
 <body>
@@ -88,7 +87,7 @@
                 </div>
                 <div class='text_under_button'>
                     <h3 class='question'>Vous n'avez pas de compte?</h3>
-                    <a href="/public/signin.html" class='link'>Connectez-vous</a>
+                    <a href="/public/signin.php" class='link'>Connectez-vous</a>
                 </div>
             </div>
         </div>

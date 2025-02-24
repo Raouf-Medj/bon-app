@@ -7,11 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar</title>
+    <link rel="stylesheet" href="../css/navbar.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/signout.js"></script>
+    <script src="js/navbar.js"></script>
 </head>
 <body>
+
+    <div>LINKS</div>
+
+
+
     <?php if (isset($_SESSION['userId'])) { ?>
         <span>Hello <?php echo $_SESSION['userId'] ?>!</span>
         <button id="signoutButton">Signout</button>

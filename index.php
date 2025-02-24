@@ -11,7 +11,8 @@
     <link href="./css/global.css" rel="stylesheet">
 </head>
 <body>
-    <nav>
+    <div class="main_container">HELLO</div>
+    <!-- <nav>
         <ul>
             <li>Logo</li>
             <li>Home</li>
@@ -19,6 +20,10 @@
             <li>Favorites</li>
             <li>Signin</li>
         </ul>
-    </nav>
+    </nav> -->
 </body>
 </html>
+
+<?php
+    include_once __DIR__.'/components/footer.php';
+?>
