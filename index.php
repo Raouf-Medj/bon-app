@@ -1,3 +1,7 @@
+<?php
+    include_once __DIR__.'/components/navbar.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

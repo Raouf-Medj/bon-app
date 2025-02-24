@@ -39,20 +39,7 @@ $(document).ready(function () {
                     password: password 
                 }
             })
-            .done(function (response) {
-                // localStorage.setItem("token", response.access_token);
-                // localStorage.setItem("role", response.role);
-                // localStorage.setItem("user_id", response.id);
-            
-                // if (response.role === "COOK") {
-                //     window.location.href = "/";
-                // } else if (response.role === "TRANSLATOR") {
-                //     window.location.href = "/translate";
-                // } else if (response.role === "CHEF") {
-                //     window.location.href = "/chefpage";
-                // } else if (response.role === "ADMIN") {
-                //     window.location.href = "/admin";
-                // }
+            .done(function (_) {
                 window.location.href = "/";
             })
             .fail(function (xhr) {

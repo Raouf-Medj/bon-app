@@ -1,14 +1,15 @@
 <?php
-    
+    include_once __DIR__.'/../components/session.php';
+
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && (isset($_GET['action']))) {
 
-        // GET: ~/controllers/userControllers.php?action=getall
+        // GET: ~/api/userControllers.php?action=getall
         if ($_GET['action'] == 'getall') {
             $users = file_get_contents("../db/users.json");
             echo ($users ?? '[]');
         }
 
-        // GET: ~/controllers/userControllers.php?action=get&id=[user_id]
+        // GET: ~/api/userControllers.php?action=get&id=[user_id]
         else if ($_GET['action'] == 'get') {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
@@ -35,7 +36,7 @@
 
     else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         
-        // POST: ~/controllers/userControllers.php {params in request body}
+        // POST: ~/api/userControllers.php {params in request body}
         if ($_POST['action'] == 'signup') {
             if (isset($_POST['username'])) { 
 
@@ -62,6 +63,10 @@
     
                                 $users[$new_user['id']] = $new_user;
                                 file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
+
+                                $_SESSION['userId'] = $new_user['id'];
+                                $_SESSION['userRole'] = $new_user['role'];
+
                                 echo '{"id" : '.$new_user['id'].'}';
                             } 
                             else { http_response_code(400); echo '{"error" : "Missing role"}'; }
@@ -76,7 +81,7 @@
             else { http_response_code(400); echo '{"error" : "Missing username"}'; }
         }
 
-        // POST: ~/controllers/userControllers.php {params in request body}
+        // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'signin') {
             if (isset($_POST['username'])) {
                 $users = json_decode(file_get_contents("../db/users.json"), true);
@@ -90,6 +95,10 @@
                 if ($found !== null) {
                     if (isset($_POST['password'])) {
                         if (password_verify($_POST['password'], $found['password'])) {
+
+                            $_SESSION['userId'] = $found['id'];
+                            $_SESSION['userRole'] = $found['role'];
+
                             echo '{"id" : '.$found['id'].'}';
                         }
                         else { http_response_code(401); echo '{"error" : "Mot de passe erroné"}'; }
@@ -100,8 +109,17 @@
             } 
             else { http_response_code(400); echo '{"error" : "Missing username"}'; }
         }
+
+        // POST: ~/api/userControllers.php {params in request body}
+        else if ($_POST['action'] == 'signout') {
+            session_destroy();
+        }
+
+        else if ($_POST['action'] == 'getsession') {
+            echo '{ "session" : '.$_SESSION['userId'].' }';
+        }
         
-        // POST: ~/controllers/userControllers.php {params in request body}
+        // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'put') {
             if (isset($_POST['id'])) { 
                 $id = $_POST['id'];
@@ -136,7 +154,7 @@
             else { http_response_code(400); echo '{"error" : "Missing id"}'; }
         }
 
-        // POST: ~/controllers/userControllers.php {params in request body}
+        // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'delete') {
             if (isset($_POST['id'])) { 
                 $id = $_POST['id'];
@@ -153,7 +171,7 @@
             else { http_response_code(400); echo '{"error" : "Missing id"}'; }
         }
 
-        // POST: ~/controllers/userControllers.php {params in request body}
+        // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'request-role') {
             if (isset($_POST['id'])) {
                 $id = $_POST['id'];
