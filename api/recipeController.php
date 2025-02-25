@@ -81,7 +81,42 @@
 
         // POST: ~/api/recipeControllers.php {params in request body}
         else if($_POST['action'] == 'put') {
-            
+            if (isset($_POST['id'])) { 
+                $id = $_POST['id'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $old_recipe = $recipes[$id] ?? null;
+
+                if ($old_recipe !== null) {
+                    function set_attr($attr, &$modified, $old) {
+                        if (isset($_POST[$attr])) {
+                            $modified[$attr] = $_POST[$attr];
+                        }
+                        else { $modified[$attr] = $old[$attr]; }
+                    }
+
+                    $modified_recipe['id'] = $id;
+                    set_attr('title', $modified_recipe, $old_recipe);
+                    set_attr('author', $modified_recipe, $old_recipe);
+                    set_attr('photo-link', $modified_recipe, $old_recipe);
+                    set_attr('cooking-time', $modified_recipe, $old_recipe);
+                    set_attr('ingredients', $modified_recipe, $old_recipe);
+                    set_attr('steps', $modified_recipe, $old_recipe);
+                    set_attr('is-gluten-free', $modified_recipe, $old_recipe);
+                    set_attr('is-dairy-free', $modified_recipe, $old_recipe);
+                    set_attr('diet', $modified_recipe, $old_recipe);
+                    set_attr('difficulty', $modified_recipe, $old_recipe);
+                    set_attr('meal', $modified_recipe, $old_recipe);
+                    set_attr('cuisine', $modified_recipe, $old_recipe);
+                    set_attr('language', $modified_recipe, $old_recipe);
+                    set_attr('id_pair', $modified_recipe, $old_recipe);
+
+                    $recipes[$modified_recipe['id']] = $modified_recipe;
+                    file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
+                    echo '{"recipe" : '.json_encode($modified_recipe, JSON_PRETTY_PRINT).'}';
+                }
+                else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
+            } 
+            else { http_response_code(400); echo '{"error" : "Missing id"}'; }
         }
 
 
