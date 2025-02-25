@@ -1,0 +1,36 @@
+{
+    "67b69f7da7803": {
+        "id": "67b69f7da7803",
+        "title": "DUCKDUCK",
+        "author": null,
+        "photo-link": null,
+        "cooking-time": null,
+        "ingredients": null,
+        "steps": null,
+        "is-gluten-free": null,
+        "is-dairy-free": null,
+        "diet": null,
+        "difficulty": null,
+        "meal": null,
+        "cuisine": null,
+        "language": "fr",
+        "id_pair": "id2"
+    },
+    "67bd0f7d69803": {
+        "id": "67bd0f7d69803",
+        "title": "YUMMYYY",
+        "author": null,
+        "photo-link": null,
+        "cooking-time": null,
+        "ingredients": null,
+        "steps": null,
+        "is-gluten-free": null,
+        "is-dairy-free": null,
+        "diet": null,
+        "difficulty": null,
+        "meal": null,
+        "cuisine": null,
+        "language": "en",
+        "id_pair": "id1"
+    }
+}
