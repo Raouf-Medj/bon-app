@@ -53,6 +53,7 @@
                     if (isset($_POST['language'])) { 
                         $new_recipe['language'] = $_POST['language'];
                         $new_recipe['id_pair'] = $_POST['id_pair'];
+                        $new_recipe['description'] = $_POST['description'];
                         $new_recipe['author'] = $_POST['author'];
                         $new_recipe['photo-link'] = $_POST['photo-link'];
                         $new_recipe['cooking-time'] = $_POST['cooking-time'];
@@ -96,6 +97,7 @@
 
                     $modified_recipe['id'] = $id;
                     set_attr('title', $modified_recipe, $old_recipe);
+                    set_attr('description', $modified_recipe, $old_recipe);
                     set_attr('author', $modified_recipe, $old_recipe);
                     set_attr('photo-link', $modified_recipe, $old_recipe);
                     set_attr('cooking-time', $modified_recipe, $old_recipe);
