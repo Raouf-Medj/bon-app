@@ -57,13 +57,13 @@
                     $new_recipe['is-dairy-free'] = $_POST['is-dairy-free'];
                     $new_recipe['diet'] = $_POST['diet'];
                     $new_recipe['difficulty'] = $_POST['difficulty'];
-                    $new_recipe['ingredients'] = $_POST['ingredients'];
-                    $new_recipe['ingredientsFR'] = $_POST['ingredientsFR'];
-                    $new_recipe['steps'] = $_POST['steps'];
-                    $new_recipe['stepsFR'] = $_POST['stepsFR'];
-                    $new_recipe['timers'] = $_POST['timers'];
                     $new_recipe['imageURL'] = $_POST['imageURL'];
                     $new_recipe['originalURL'] = $_POST['originalURL'];
+                    $new_recipe['ingredients'] = json_decode($_POST['ingredients'], true);
+                    $new_recipe['ingredientsFR'] = json_decode($_POST['ingredientsFR'], true);
+                    $new_recipe['steps'] = json_decode($_POST['steps'], true);
+                    $new_recipe['stepsFR'] = json_decode($_POST['stepsFR'], true);
+                    $new_recipe['timers'] = json_decode($_POST['timers'], true);
 
                     $recipes[$new_recipe['id']] = $new_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
@@ -84,28 +84,29 @@
                 $old_recipe = $recipes[$id] ?? null;
 
                 if ($old_recipe !== null) {
-                    function set_attr($attr, &$modified, $old) {
+                    function set_attr($attr, &$modified, $old, $is_obj) {
                         if (isset($_POST[$attr])) {
-                            $modified[$attr] = $_POST[$attr];
+                            if ($is_obj) { $modified[$attr] = json_decode($_POST[$attr], true); }
+                            else { $modified[$attr] = $_POST[$attr]; }
                         }
                         else { $modified[$attr] = $old[$attr]; }
                     }
 
                     $modified_recipe['id'] = $id;
-                    set_attr('name', $modified_recipe, $old_recipe);
-                    set_attr('nameFR', $modified_recipe, $old_recipe);
-                    set_attr('author', $modified_recipe, $old_recipe);
-                    set_attr('is-gluten-free', $modified_recipe, $old_recipe);
-                    set_attr('is-dairy-free', $modified_recipe, $old_recipe);
-                    set_attr('diet', $modified_recipe, $old_recipe);
-                    set_attr('difficulty', $modified_recipe, $old_recipe);
-                    set_attr('ingredients', $modified_recipe, $old_recipe);
-                    set_attr('ingredientsFR', $modified_recipe, $old_recipe);
-                    set_attr('steps', $modified_recipe, $old_recipe);
-                    set_attr('stepsFR', $modified_recipe, $old_recipe);
-                    set_attr('timers', $modified_recipe, $old_recipe);
-                    set_attr('imageURL', $modified_recipe, $old_recipe);
-                    set_attr('originalURL', $modified_recipe, $old_recipe);
+                    set_attr('name', $modified_recipe, $old_recipe, false);
+                    set_attr('nameFR', $modified_recipe, $old_recipe, false);
+                    set_attr('author', $modified_recipe, $old_recipe, false);
+                    set_attr('is-gluten-free', $modified_recipe, $old_recipe, false);
+                    set_attr('is-dairy-free', $modified_recipe, $old_recipe, false);
+                    set_attr('diet', $modified_recipe, $old_recipe, false);
+                    set_attr('difficulty', $modified_recipe, $old_recipe, false);
+                    set_attr('imageURL', $modified_recipe, $old_recipe, false);
+                    set_attr('originalURL', $modified_recipe, $old_recipe, false);
+                    set_attr('ingredients', $modified_recipe, $old_recipe, true);
+                    set_attr('ingredientsFR', $modified_recipe, $old_recipe, true);
+                    set_attr('steps', $modified_recipe, $old_recipe, true);
+                    set_attr('stepsFR', $modified_recipe, $old_recipe, true);
+                    set_attr('timers', $modified_recipe, $old_recipe, true);
 
                     $recipes[$modified_recipe['id']] = $modified_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
