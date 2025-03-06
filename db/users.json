@@ -19,5 +19,12 @@
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "role": "COOK",
         "id": "67bc47c11ea94"
+    },
+    "67c96cf612531": {
+        "username": "daneismyname",
+        "email": "myemail@mail.com",
+        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
+        "role": "COOK",
+        "id": "67c96cf612531"
     }
 }

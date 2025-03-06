@@ -39,44 +39,40 @@
         
         // POST: ~/api/recipeControllers.php {params in request body}
         if ($_POST['action'] == 'add') {
-            if (isset($_POST['title'])) { 
+            if (isset($_POST['name'])) { 
 
                 $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
                 $found = null;
                 foreach ($recipes as $id => $recipe) {
-                    if ($recipe['title'] === $_POST['title']) {
+                    if ($recipe['name'] === $_POST['name']) {
                         $found = $recipe;
                     }
                 }
                 if ($found === null) {
-                    $new_recipe['title'] = $_POST['title'];
-                    if (isset($_POST['language'])) { 
-                        $new_recipe['language'] = $_POST['language'];
-                        $new_recipe['id_pair'] = $_POST['id_pair'];
-                        $new_recipe['description'] = $_POST['description'];
-                        $new_recipe['author'] = $_POST['author'];
-                        $new_recipe['photo-link'] = $_POST['photo-link'];
-                        $new_recipe['cooking-time'] = $_POST['cooking-time'];
-                        $new_recipe['ingredients'] = $_POST['ingredients'];
-                        $new_recipe['steps'] = $_POST['steps'];
-                        $new_recipe['is-gluten-free'] = $_POST['is-gluten-free'];
-                        $new_recipe['is-dairy-free'] = $_POST['is-dairy-free'];
-                        $new_recipe['diet'] = $_POST['diet'];
-                        $new_recipe['meal'] = $_POST['meal'];
-                        $new_recipe['cuisine'] = $_POST['cuisine'];
-                        $new_recipe['difficulty'] = $_POST['difficulty'];
-                        $new_recipe['id'] = uniqid();
+                    $new_recipe['id'] = uniqid();
+                    $new_recipe['name'] = $_POST['name'];
+                    $new_recipe['nameFR'] = $_POST['nameFR'];
+                    $new_recipe['author'] = $_POST['author'];
+                    $new_recipe['is-gluten-free'] = $_POST['is-gluten-free'];
+                    $new_recipe['is-dairy-free'] = $_POST['is-dairy-free'];
+                    $new_recipe['diet'] = $_POST['diet'];
+                    $new_recipe['difficulty'] = $_POST['difficulty'];
+                    $new_recipe['ingredients'] = $_POST['ingredients'];
+                    $new_recipe['ingredientsFR'] = $_POST['ingredientsFR'];
+                    $new_recipe['steps'] = $_POST['steps'];
+                    $new_recipe['stepsFR'] = $_POST['stepsFR'];
+                    $new_recipe['timers'] = $_POST['timers'];
+                    $new_recipe['imageURL'] = $_POST['imageURL'];
+                    $new_recipe['originalURL'] = $_POST['originalURL'];
 
-                        $recipes[$new_recipe['id']] = $new_recipe;
-                        file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
+                    $recipes[$new_recipe['id']] = $new_recipe;
+                    file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
 
-                        echo '{"id" : '.$new_recipe['id'].'}';
-                    } 
-                    else { http_response_code(400); echo '{"error" : "Missing language"}'; }
+                    echo '{"id" : '.$new_recipe['id'].'}';
                 }
-                else { http_response_code(409); echo '{"error" : "Titre déjà existant"}'; }
+                else { http_response_code(409); echo '{"error" : "Nom de recette déjà existant"}'; }
             } 
-            else { http_response_code(400); echo '{"error" : "Missing title"}'; }
+            else { http_response_code(400); echo '{"error" : "Missing name"}'; }
         }
 
 
@@ -96,21 +92,20 @@
                     }
 
                     $modified_recipe['id'] = $id;
-                    set_attr('title', $modified_recipe, $old_recipe);
-                    set_attr('description', $modified_recipe, $old_recipe);
+                    set_attr('name', $modified_recipe, $old_recipe);
+                    set_attr('nameFR', $modified_recipe, $old_recipe);
                     set_attr('author', $modified_recipe, $old_recipe);
-                    set_attr('photo-link', $modified_recipe, $old_recipe);
-                    set_attr('cooking-time', $modified_recipe, $old_recipe);
-                    set_attr('ingredients', $modified_recipe, $old_recipe);
-                    set_attr('steps', $modified_recipe, $old_recipe);
                     set_attr('is-gluten-free', $modified_recipe, $old_recipe);
                     set_attr('is-dairy-free', $modified_recipe, $old_recipe);
                     set_attr('diet', $modified_recipe, $old_recipe);
                     set_attr('difficulty', $modified_recipe, $old_recipe);
-                    set_attr('meal', $modified_recipe, $old_recipe);
-                    set_attr('cuisine', $modified_recipe, $old_recipe);
-                    set_attr('language', $modified_recipe, $old_recipe);
-                    set_attr('id_pair', $modified_recipe, $old_recipe);
+                    set_attr('ingredients', $modified_recipe, $old_recipe);
+                    set_attr('ingredientsFR', $modified_recipe, $old_recipe);
+                    set_attr('steps', $modified_recipe, $old_recipe);
+                    set_attr('stepsFR', $modified_recipe, $old_recipe);
+                    set_attr('timers', $modified_recipe, $old_recipe);
+                    set_attr('imageURL', $modified_recipe, $old_recipe);
+                    set_attr('originalURL', $modified_recipe, $old_recipe);
 
                     $recipes[$modified_recipe['id']] = $modified_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
