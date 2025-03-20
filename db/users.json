@@ -4,20 +4,23 @@
         "email": "admin.email@domain.com",
         "role": "ADMIN",
         "password": "password",
-        "id": "67ba0ccc42169"
+        "id": "67ba0ccc42169",
+        "favorites": ["67b69f7da7803", "67bd0f7d69803"]
     },
     "67ba0ccc421af": {
         "username": "new_bish",
         "email": "new_bish@bish.net",
         "role": "requestTRANSLATOR",
         "password": "$2y$12$XXjSq2v.GDkVcij4cViBuu6S4BtjLXaRwHnbdNFw4Zx8TjpyK6awy",
-        "id": "67ba0ccc421af"
+        "id": "67ba0ccc421af",
+        "favorites": ["67b69f7da7803"]
     },
     "67bc47c11ea94": {
         "username": "test_add",
         "email": "test_add@add.com",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "role": "COOK",
-        "id": "67bc47c11ea94"
+        "id": "67bc47c11ea94",
+        "favorites": []
     }
 }
