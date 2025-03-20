@@ -10,6 +10,7 @@
     <title>BonApp!</title>
     <link href="./css/global.css" rel="stylesheet">
     <link href="./css/index.css" rel="stylesheet">
+    <link href="./css/recipeCard.css" rel="stylesheet">
 </head>
 <body>
     <div class="main_container">
@@ -21,10 +22,13 @@
                 <button class="explorerecipes">Explorer les recettes</button>
             </div>
         </div>
+
+        <ul id="recipes_list"></ul>
+        <script src="../js/index.js"></script>
     </div>
 </body>
 </html>
 
-<?php
+<!-- <?php
     include_once __DIR__.'/components/footer.php';
-?>
+?> -->

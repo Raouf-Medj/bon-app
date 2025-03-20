@@ -145,3 +145,14 @@
 .link:hover {
     color: #0891B2;
 }
+
+.foot_link {
+    color: #f0ebe19d;
+    margin-left: 1rem;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.foot_link:hover {
+    color: #0891B2;
+}

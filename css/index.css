@@ -1,3 +1,8 @@
+body {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
 .hero {
     width: 100%;
     height: auto;
@@ -63,4 +68,10 @@
 
 .explorerecipes:hover {
     background-color: #0891B2;
+}
+
+#recipes_list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
