@@ -3,14 +3,14 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && (isset($_GET['action']))) {
 
-        // GET: ~/api/recipeControllers.php?action=getall
+        // GET: ~/api/recipeController.php?action=getall
         if ($_GET['action'] == 'getall') {
             $recipes = file_get_contents("../db/recipes.json");
             echo ($recipes ?? '[]');
         }
 
 
-        // GET: ~/api/recipeControllers.php?action=get&id=[user_id]
+        // GET: ~/api/recipeController.php?action=get&id=[user_id]
         else if ($_GET['action'] == 'get') {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
@@ -37,7 +37,7 @@
 
     else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         
-        // POST: ~/api/recipeControllers.php {params in request body}
+        // POST: ~/api/recipeController.php {params in request body}
         if ($_POST['action'] == 'add') {
             if (isset($_POST['name'])) { 
 
@@ -76,7 +76,7 @@
         }
 
 
-        // POST: ~/api/recipeControllers.php {params in request body}
+        // POST: ~/api/recipeController.php {params in request body}
         else if($_POST['action'] == 'put') {
             if (isset($_POST['id'])) { 
                 $id = $_POST['id'];
@@ -118,7 +118,7 @@
         }
 
 
-        // POST: ~/api/recipeControllers.php {params in request body}
+        // POST: ~/api/recipeController.php {params in request body}
         else if($_POST['action'] == 'delete') {
             if (isset($_POST['id'])) { 
                 $id = $_POST['id'];
