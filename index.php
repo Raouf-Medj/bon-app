@@ -28,7 +28,7 @@
             <h1>Embarquez pour un voyage culinaire</h1>
             <p>Avec notre collection variée de recettes, nous avons de quoi satisfaire toutes les papilles.</p>
             <div class="search-bar">
-                <input type="text" placeholder="RECHERCHER..." />
+                <input type="text" id="search_bar" placeholder="RECHERCHER..." />
             </div>
             <div class="filter-buttons">
                 <button class="active">ALL</button>

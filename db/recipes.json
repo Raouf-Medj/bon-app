@@ -382,6 +382,7 @@
     "67ba1bae710f7": {
         "id": "67ba1bae710f7",
         "name": "Old-Fashioned Oatmeal Cookies",
+        "nameFR": "Biscuits aux flocons d'avoine à l'ancienne",
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
@@ -479,6 +480,7 @@
     "67ba2eae710f7": {
         "id": "67ba2eae710f7",
         "name": "Blueberry Oatmeal Squares",
+        "nameFR": "Carrés aux myrtilles et flocons d'avoine",
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
@@ -562,6 +564,7 @@
     "67ba1eae71069": {
         "id": "67ba1eae71069",
         "name": "Curried chicken salad",
+        "nameFR": "Salade de poulet au curry",
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,

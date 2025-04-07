@@ -88,6 +88,25 @@
         }
 
 
+        else if ($_GET['action'] == 'getbyquery') {
+            if (isset($_GET['query'])) {
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $filtered_recipes = array_filter($recipes, function($recipe) {
+                    $query = $_GET['query'];
+                    return (
+                        str_contains(strtolower($recipe['name']), strtolower($query)) ||
+                        str_contains(strtolower($recipe['nameFR']), strtolower($query)) ||
+                        str_contains(strtolower($recipe['author']), strtolower($query))
+                    );
+                });
+                echo json_encode(array_values($filtered_recipes), JSON_PRETTY_PRINT);
+            }
+            else {
+                http_response_code(400); echo '{"error" : "query is not defined"}';
+            }
+        }
+
+
         else {
             http_response_code(400); echo '{"error" : "Invalid action"}';
         }
