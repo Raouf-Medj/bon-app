@@ -23,6 +23,26 @@
             </div>
         </div>
 
+        <div id="recipes_section" class="header">
+            <span class="badge">RECETTES</span>
+            <h1>Embarquez pour un voyage culinaire</h1>
+            <p>Avec notre collection variée de recettes, nous avons de quoi satisfaire toutes les papilles.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="RECHERCHER..." />
+            </div>
+            <div class="filter-buttons">
+                <button class="active">ALL</button>
+                <button>VÉGÉTARIEN</button>
+                <button>VEGAN</button>
+                <button>SANS GLUTEN</button>
+                <button>SANS LACTOSE</button>
+                <button>EASY</button>
+                <button>MEDIUM</button>
+                <button>HARD</button>
+                <button>FAVORIS</button>
+            </div>
+        </div>
+
         <ul id="recipes_list"></ul>
         <script src="../js/index.js"></script>
     </div>

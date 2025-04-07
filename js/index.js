@@ -1,5 +1,46 @@
 $(document).ready(function () {
-    loadRecipes();    
+    loadRecipes();
+
+    $(".filter-buttons button").click(function () {
+        $(".filter-buttons button").removeClass("active");
+        $(this).addClass("active");
+
+        const selectedCategory = $(this).text().trim();
+        
+        clearRecipes();
+        if (selectedCategory == 'FAVORIS') {
+            $.ajax({
+                url: "http://localhost:3000/api/recipeController.php",
+                method: "GET",
+                data: { 
+                    action: "getbycategory",
+                    category: selectedCategory
+                }
+            })
+            .done(function (data) {
+                displayRecipes(JSON.parse(data));
+            })
+            .fail(function (err) {
+                console.log(err);
+            });
+        }
+        else {
+            $.ajax({
+                url: "http://localhost:3000/api/recipeController.php",
+                method: "GET",
+                data: { 
+                    action: "getbycategory",
+                    category: selectedCategory
+                }
+            })
+            .done(function (data) {
+                displayRecipes(JSON.parse(data));
+            })
+            .fail(function (err) {
+                console.log(err);
+            });
+        }
+    });
 });
 
 function loadRecipes() {
@@ -40,7 +81,7 @@ function displayRecipes(recipes) {
                             ${formattedTime} - ${recipe.difficulty} - ${recipe.diet}
                         </div>
                         <button class="recipecard_viewbutton">
-                            Voir la recette
+                            VOIR LA RECETTE
                         </button>
                     </div>
                 </div>
@@ -48,4 +89,8 @@ function displayRecipes(recipes) {
         `;
         recipeList.append(listItem);
     });
+}
+
+function clearRecipes() {
+    $("#recipes_list").empty();
 }

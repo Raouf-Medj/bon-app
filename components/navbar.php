@@ -18,9 +18,9 @@
         </a>
 
         <ul class="navlinks">
-            <li class="navlink">ACCUEIL</li>
-            <li class="navlink">RECETTES</li>
-            <li class="navlink">FAVORIS</li>
+            <a href="#home_section" class="navlink">ACCUEIL</a>
+            <a href="#recipes_section" class="navlink">RECETTES</a>
+            <a href="#recipes_section" class="navlink">FAVORIS</a>
         </ul>
 
         <div class="signbutton">

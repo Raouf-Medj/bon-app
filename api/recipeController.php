@@ -29,6 +29,65 @@
         }
 
 
+        else if ($_GET['action'] == 'getbycategory') {
+            if (isset($_GET['category'])) {
+                $category = $_GET['category'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                
+                # La logique de filtrage:
+                if ($category == 'ALL') {
+                    $filtered_recipes = $recipes;
+                }
+                else if ($category == 'FAVORIS') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is-favorite'] == true;
+                    });
+                }
+                else if ($category == 'VEGAN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['diet'] == 'Vegan';
+                    });
+                }
+                else if ($category == 'VÉGÉTARIEN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['diet'] == 'Vegetarien';
+                    });
+                }
+                else if ($category == 'SANS GLUTEN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is-gluten-free'] == true;
+                    });
+                }
+                else if ($category == 'SANS LACTOSE') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is-dairy-free'] == true;
+                    });
+                }
+                else if ($category == 'EASY') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Easy';
+                    });
+                }
+                else if ($category == 'MEDIUM') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Medium';
+                    });
+                }
+                else if ($category == 'HARD') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Hard';
+                    });
+                }
+                else { http_response_code(400); echo '{"error" : "Invalid category"}'; exit; }
+
+                echo json_encode(array_values($filtered_recipes), JSON_PRETTY_PRINT);
+            }
+            else {
+                http_response_code(400); echo '{"error" : "Category is not defined"}';
+            }
+        }
+
+
         else {
             http_response_code(400); echo '{"error" : "Invalid action"}';
         }

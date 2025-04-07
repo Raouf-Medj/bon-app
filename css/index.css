@@ -75,3 +75,56 @@ body {
     flex-wrap: wrap;
     width: 100%;
 }
+  
+.header {
+    text-align: center;
+    padding: 2rem;
+}
+
+.badge {
+    background-color: #EE6352;
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.search-bar {
+    margin: 1.5rem 0;
+}
+
+.search-bar input {
+    outline: none;
+    width: 50%;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #cccccc;
+    border-radius: 2rem;
+    font-size: 1rem;
+}
+
+.search-bar input:focus-within {
+    border-color: #EE6352;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-buttons button {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.filter-buttons button.active {
+    background-color: #a3d858;
+    color: white;
+    border: none;
+}

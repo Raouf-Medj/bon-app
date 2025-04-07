@@ -195,7 +195,7 @@
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
-        "diet": "Vegentarian",
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -266,7 +266,7 @@
         "author": "Unknown",
         "is-gluten-free": true,
         "is-dairy-free": false,
-        "diet": "Vegetarian",
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -330,7 +330,7 @@
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
-        "diet": "Vegetarian",
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -385,7 +385,7 @@
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
-        "diet": null,
+        "diet": "Omnivore",
         "difficulty": "Easy",
         "ingredients": [
             {
@@ -482,7 +482,7 @@
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
-        "diet": null,
+        "diet": "Omnivore",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -556,7 +556,7 @@
             0,
             0
         ],
-        "imageURL": "http:\/\/www.canadianliving.com\/img\/photos\/biz\/blueberry-oatmeal-squares5801359401371.jpg",
+        "imageURL": "https://salu-salo.com/wp-content/uploads/2013/08/Blueberry-Oatmeal-Squares-3.jpg.webp",
         "originalURL": "http:\/\/www.canadianliving.com\/food\/blueberry_oatmeal_squares.php"
     },
     "67ba1eae71069": {
@@ -565,7 +565,7 @@
         "author": "Unknown",
         "is-gluten-free": false,
         "is-dairy-free": false,
-        "diet": null,
+        "diet": "Omnivore",
         "difficulty": "Easy",
         "ingredients": [
             {
