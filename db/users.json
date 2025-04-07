@@ -3,9 +3,9 @@
         "username": "medj364",
         "email": "admin.email@domain.com",
         "role": "ADMIN",
-        "password": "password",
+        "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "id": "67ba0ccc42169",
-        "favorites": ["67b69f7da7803", "67bd0f7d69803"]
+        "favorites": []
     },
     "67ba0ccc421af": {
         "username": "new_bish",
@@ -14,6 +14,7 @@
         "password": "$2y$12$XXjSq2v.GDkVcij4cViBuu6S4BtjLXaRwHnbdNFw4Zx8TjpyK6awy",
         "id": "67ba0ccc421af",
         "favorites": ["67b69f7da7803"]
+
     },
     "67bc47c11ea94": {
         "username": "test_add",
@@ -21,6 +22,22 @@
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "role": "COOK",
         "id": "67bc47c11ea94",
+        "favorites": []
+    },
+    "67c96cf612531": {
+        "username": "daneismyname",
+        "email": "myemail@mail.com",
+        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
+        "role": "COOK",
+        "id": "67c96cf612531",
+        "favorites": []
+    },
+    "67dbd814a92e3": {
+        "username": "raouf672346",
+        "email": "raouf@raouf.com",
+        "password": "$2y$12$crDhrpslQsz997ATuOu5uel6O1Cdw\/CsBo0M8cMlrYXgF6stCqvXe",
+        "role": "COOK",
+        "id": "67dbd814a92e3",
         "favorites": []
     }
 }
