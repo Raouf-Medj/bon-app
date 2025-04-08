@@ -158,6 +158,82 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    // Add recipe modal
+    const recipeModal = $('#recipeModal');
+    $('#addRecipeBtn').click(() => recipeModal.show());
+    $('.close').click(() => recipeModal.hide());
+
+    $('#addIngredient').click(function () {
+        $('#ingredientsContainer').append(`
+            <div class="ingredient-row">
+                <input type="text" name="quantity[]" placeholder="Quantité" required>
+                <input type="text" name="ingredientNameFR[]" placeholder="Nom (FR)" required>
+                <input type="text" name="ingredientName[]" placeholder="Name (EN)" required>
+                <input type="text" name="ingredientType[]" placeholder="Type">
+            </div>
+        `);
+    });
+
+    $('#recipeForm').submit(async function (e) {
+        e.preventDefault();
+
+        const formData = $(this).serializeArray();
+        const recipe = {
+            id: Math.random().toString(16).slice(2),
+            validated: false
+        };
+
+        const ingredients = [], ingredientsFR = [], steps = [], stepsFR = [];
+
+        formData.forEach(field => {
+            if (field.name === "quantity[]") {
+                ingredients.push({ quantity: field.value });
+                ingredientsFR.push({ quantity: field.value });
+            } else if (field.name === "ingredientName[]") {
+                ingredients[ingredients.length - 1].name = field.value;
+            } else if (field.name === "ingredientNameFR[]") {
+                ingredientsFR[ingredientsFR.length - 1].name = field.value;
+            } else if (field.name === "ingredientType[]") {
+                ingredients[ingredients.length - 1].type = field.value;
+                ingredientsFR[ingredientsFR.length - 1].type = field.value;
+            } else if (field.name === "steps") {
+                steps.push(...field.value.split('\n').filter(Boolean));
+            } else if (field.name === "stepsFR") {
+                stepsFR.push(...field.value.split('\n').filter(Boolean));
+            } else if (field.name === "is_gluten_free" || field.name === "is_dairy_free") {
+                recipe[field.name] = true;
+            } else {
+                recipe[field.name] = field.value;
+            }
+        });
+
+        recipe.ingredients = ingredients;
+        recipe.ingredientsFR = ingredientsFR;
+        recipe.steps = steps;
+        recipe.stepsFR = stepsFR;
+        recipe.timers = steps.map(() => 1); // default
+        recipe.imageURL = recipe.imageURL || "";
+        recipe.originalURL = recipe.originalURL || "";
+
+        console.log("New Recipe:", recipe);
+        const recipeId = await addRecipe(recipe);
+        console.log("Recipe added with ID:", recipeId);
+        $("#recipeList").append(`
+            <li id="${recipeId}" class="unvalidated-recipe-item">
+                <div>
+                    <span class="recipename">${recipe.nameFR}</span><span> (EN ATTENTE DE VALIDATION)</span>
+                </div>
+                <div class="actions">
+                    <button class="validateRecipe">Valider</button>
+                    <button class="editRecipe">Modifier</button>
+                    <button class="deleteRecipe">Supprimer</button>
+                </div>
+            </li>
+        `)
+        recipeModal.hide();
+    });
 });
 
 function loadUsers() {
@@ -309,31 +385,62 @@ async function deleteRecipe(id) {
     }
 }
 
-async function editRecipe(id, newName, newNameFR, newAuthor, newIsGlutenFree, newIsDairyFree, newDiet, newDifficulty, newIngredients, newSteps, newTimers, newImageURL, newOriginalURL) {
+async function editRecipe(recipe) {
     try {
         let response = await $.ajax({
             url: "http://localhost:3000/api/recipeController.php",
             method: "POST",
             data: { 
                 action: "put",
-                id: id,
-                name: newName,
-                nameFR: newNameFR,
-                author: newAuthor,
-                is_gluten_free: newIsGlutenFree,
-                is_dairy_free: newIsDairyFree,
-                diet: newDiet,
-                difficulty: newDifficulty,
-                ingredients: newIngredients,
-                steps: newSteps,
-                timers: newTimers,
-                imageURL: newImageURL,
-                originalURL: newOriginalURL
+                id: recipe.id,
+                name: recipe.name,
+                nameFR: recipe.nameFR,
+                author: recipe.author,
+                is_gluten_free: recipe.is_gluten_free,
+                is_dairy_free: recipe.is_dairy_free,
+                diet: recipe.diet,
+                difficulty: recipe.difficulty,
+                ingredients: JSON.stringify(recipe.ingredients),
+                ingredientsFR: JSON.stringify(recipe.ingredientsFR),
+                steps: JSON.stringify(recipe.steps),
+                stepsFR: JSON.stringify(recipe.stepsFR),
+                timers: JSON.stringify(recipe.timers),
+                imageURL: recipe.imageURL,
+                originalURL: recipe.originalURL
             }
         });
         return response;
     } catch (error) {
         console.error("Error editing recipe:", error);
+    }
+}
+
+async function addRecipe(recipe) {
+    try {
+        let response = await $.ajax({
+            url: "http://localhost:3000/api/recipeController.php",
+            method: "POST",
+            data: {
+                action: "add",
+                name: recipe.name,
+                nameFR: recipe.nameFR,
+                author: recipe.author,
+                is_gluten_free: recipe.is_gluten_free,
+                is_dairy_free: recipe.is_dairy_free,
+                diet: recipe.diet,
+                difficulty: recipe.difficulty,
+                ingredients: JSON.stringify(recipe.ingredients),
+                ingredientsFR: JSON.stringify(recipe.ingredientsFR),
+                steps: JSON.stringify(recipe.steps),
+                stepsFR: JSON.stringify(recipe.stepsFR),
+                timers: JSON.stringify(recipe.timers),
+                imageURL: recipe.imageURL,
+                originalURL: recipe.originalURL
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error("Error adding recipe:", error);
     }
 }
 

@@ -764,5 +764,41 @@
             0,
             0
         ]
+    },
+    "67f5b52876a4a": {
+        "id": "67f5b52876a4a",
+        "validated": false,
+        "name": "ok",
+        "nameFR": "ok",
+        "author": "ok",
+        "is_gluten_free": "true",
+        "is_dairy_free": null,
+        "diet": "Omnivore",
+        "difficulty": "Easy",
+        "imageURL": "ok",
+        "originalURL": "ok",
+        "ingredients": [
+            {
+                "quantity": "ok",
+                "name": "ok",
+                "type": "ok"
+            }
+        ],
+        "ingredientsFR": [
+            {
+                "quantity": "ok",
+                "name": "ok",
+                "type": "ok"
+            }
+        ],
+        "steps": [
+            "ok"
+        ],
+        "stepsFR": [
+            "ok"
+        ],
+        "timers": [
+            1
+        ]
     }
 }

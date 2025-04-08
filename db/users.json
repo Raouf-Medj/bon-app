@@ -29,10 +29,10 @@
     "67c96cf612531": {
         "username": "daneismyname",
         "email": "myemail@mail.com",
-        "role": "TRANSLATOR",
+        "role": "requestTRANSLATOR",
         "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
-        "id": "67c96cf612531",
-        "favorites": []
+        "favorites": [],
+        "id": "67c96cf612531"
     },
     "67c96cf613531": {
         "username": "daneismyname2",
