@@ -11,6 +11,13 @@
     border-width: 1px;
     border-color: #26252229;
     margin: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.recipecard_container:hover {
+    box-shadow: 0px 8px 10px 1px #04a6ce6a;
+    transform: translateY(-5px);
+    
 }
 
 .recipecard_image {
