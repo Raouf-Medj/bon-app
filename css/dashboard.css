@@ -32,8 +32,35 @@
     padding: 0;
 }
 
+.recipe-list {
+    list-style: none;
+    padding: 0;
+}
+
 .user-item {
     background: #eee;
+    color: #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.recipe-item {
+    background: #eee;
+    color: #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.unvalidated-recipe-item {
+    background: #ffe5dd;
     color: #111;
     display: flex;
     justify-content: space-between;
@@ -56,7 +83,22 @@
     color: #fff;
 }
 
+.editRecipe {
+    background: #FFA31A;
+    color: #fff;
+}
+
+.validateRecipe {
+    background: #88e058;
+    color: #fff;
+}
+
 .deleteUser {
+    background: #EE6352;
+    color: #fff;
+}
+
+.deleteRecipe {
     background: #EE6352;
     color: #fff;
 }

@@ -44,12 +44,5 @@
         "role": "TRANSLATOR",
         "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
         "id": "67c96cf612631"
-    },
-    "67c96cf612532": {
-        "username": "daneismyname4",
-        "email": "myemail4@mail.com",
-        "role": "TRANSLATOR",
-        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
-        "id": "67c96cf612532"
     }
 }

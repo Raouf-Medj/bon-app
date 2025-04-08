@@ -55,12 +55,12 @@
                 }
                 else if ($category == 'SANS GLUTEN') {
                     $filtered_recipes = array_filter($recipes, function($recipe) {
-                        return $recipe['is-gluten-free'] == true;
+                        return $recipe['is_gluten_free'] == true;
                     });
                 }
                 else if ($category == 'SANS LACTOSE') {
                     $filtered_recipes = array_filter($recipes, function($recipe) {
-                        return $recipe['is-dairy-free'] == true;
+                        return $recipe['is_dairy_free'] == true;
                     });
                 }
                 else if ($category == 'EASY') {
@@ -128,11 +128,12 @@
                 }
                 if ($found === null) {
                     $new_recipe['id'] = uniqid();
+                    $new_recipe['validated'] = false;
                     $new_recipe['name'] = $_POST['name'];
                     $new_recipe['nameFR'] = $_POST['nameFR'];
                     $new_recipe['author'] = $_POST['author'];
-                    $new_recipe['is-gluten-free'] = $_POST['is-gluten-free'];
-                    $new_recipe['is-dairy-free'] = $_POST['is-dairy-free'];
+                    $new_recipe['is_gluten_free'] = $_POST['is_gluten_free'];
+                    $new_recipe['is_dairy_free'] = $_POST['is_dairy_free'];
                     $new_recipe['diet'] = $_POST['diet'];
                     $new_recipe['difficulty'] = $_POST['difficulty'];
                     $new_recipe['imageURL'] = $_POST['imageURL'];
@@ -171,11 +172,12 @@
                     }
 
                     $modified_recipe['id'] = $id;
+                    set_attr('validated', $modified_recipe, $old_recipe, false);
                     set_attr('name', $modified_recipe, $old_recipe, false);
                     set_attr('nameFR', $modified_recipe, $old_recipe, false);
                     set_attr('author', $modified_recipe, $old_recipe, false);
-                    set_attr('is-gluten-free', $modified_recipe, $old_recipe, false);
-                    set_attr('is-dairy-free', $modified_recipe, $old_recipe, false);
+                    set_attr('is_gluten_free', $modified_recipe, $old_recipe, false);
+                    set_attr('is_dairy_free', $modified_recipe, $old_recipe, false);
                     set_attr('diet', $modified_recipe, $old_recipe, false);
                     set_attr('difficulty', $modified_recipe, $old_recipe, false);
                     set_attr('imageURL', $modified_recipe, $old_recipe, false);

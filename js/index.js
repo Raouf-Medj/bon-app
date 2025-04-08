@@ -13,7 +13,9 @@ function loadRecipes() {
         }
     })
     .done(function (data) {
-        displayRecipes(JSON.parse(data));
+        const recipes = Object.values(JSON.parse(data));
+        const validatedRecipes = recipes.filter(recipe => recipe.validated);
+        displayRecipes(validatedRecipes);
     })
     .fail(function (err) {
         console.log(err);
@@ -40,8 +42,9 @@ function showRecipes() {
                 }
             })
             .done(function (data) {
-                console.log(data);
-                displayRecipes(JSON.parse(data));
+                const recipes = Object.values(JSON.parse(data));
+                const validatedRecipes = recipes.filter(recipe => recipe.validated);
+                displayRecipes(validatedRecipes);
             })
             .fail(function (err) {
                 console.log(err);
@@ -109,7 +112,9 @@ async function fetchRecipesFromCategory(category) {
         method: "GET",
         data: { action: "getbycategory", category }
     });
-    return JSON.parse(data);
+    const recipes = Object.values(JSON.parse(data));
+    const validatedRecipes = recipes.filter(recipe => recipe.validated);
+    return validatedRecipes;
 }
 
 function loadRoleRequestButtons() {
@@ -156,7 +161,7 @@ function displayRecipes(recipes) {
     let recipeList = $("#recipes_list");
     recipeList.empty();
 
-    Object.values(recipes).forEach(recipe => {
+    recipes.forEach(recipe => {
         let totalTime = recipe.timers.reduce((sum, time) => sum + time, 0);
         let hours = Math.floor(totalTime / 60);
         let minutes = totalTime % 60;
@@ -211,8 +216,10 @@ async function fetchAndDisplayFavRecipes(userId) {
                     }).then(data => JSON.parse(data))
                 )
             );
-    
-            displayRecipes(recipeLst);
+
+            const recipes = Object.values(recipeLst);
+            const validatedRecipes = recipes.filter(recipe => recipe.validated);
+            displayRecipes(validatedRecipes);
         } catch (err) {
             console.log("Error:", err);
         }
