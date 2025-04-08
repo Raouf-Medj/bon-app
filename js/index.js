@@ -1,6 +1,7 @@
 $(document).ready(function () {
     loadRecipes();
     showRecipes();
+    loadRoleRequestButtons();
 });
 
 function loadRecipes() {
@@ -96,6 +97,18 @@ function showRecipes() {
         .fail(function (err) {
             console.log(err);
         });
+    });
+}
+
+function loadRoleRequestButtons() {
+    $('#request-chef').on('click', function () {
+        alert("Chef role requested!");
+        // Add AJAX call here if needed
+    });
+
+    $('#request-translator').on('click', function () {
+        alert("Translator role requested!");
+        // Add AJAX call here if needed
     });
 }
 

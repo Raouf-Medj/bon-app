@@ -45,6 +45,19 @@
 
         <ul id="recipes_list"></ul>
         <script src="../js/index.js"></script>
+
+        <div class="rr_container">
+            <div class="rr_card">
+            <h1>NE MANQUEZ PAS LE PLAISIR!<br>DEVENEZ CHEF OU TRADUCTEUR!</h1>
+            <p>
+                Demandez le rôle de chef pour ajouter de nouvelles recettes, ou celui de traducteur pour traduire des recettes.
+            </p>
+            <div class="rr_buttons">
+                <button id="request-chef">DEVENIR CHEF</button>
+                <button id="request-translator">DEVENIR TRADUCTEUR</button>
+            </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
