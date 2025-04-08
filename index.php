@@ -19,7 +19,7 @@
             <div class="hero_container">
                 <h1 class="hero_headline">LIBÉREZ L'EXCELLENCE CULINAIRE</h1>
                 <p class="hero_description">Explorez un monde de saveurs, découvrez des recettes artisanales et laissez l'arôme de notre passion pour la cuisine envahir votre cuisine.</p>
-                <button class="explorerecipes">Explorer les recettes</button>
+                <a href="#recipes_section" class="explorerecipes">Explorer les recettes</a>
             </div>
         </div>
 

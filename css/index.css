@@ -50,6 +50,7 @@ body {
 }
 
 .explorerecipes {
+    text-decoration: none;
     background-color: #FFA31A;
     border: none;
     border-radius: 9999px;
@@ -58,10 +59,7 @@ body {
     font-size: 1rem;
     display: flex;
     justify-content: center;
-    padding-left: 1.3rem;
-    padding-right: 1.3rem;
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
+    padding: 0.7rem 1.3rem;
     margin-top: 2rem;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;;
