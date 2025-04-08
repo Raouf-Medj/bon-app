@@ -1,11 +1,12 @@
 {
     "67ba1eae700f7": {
         "id": "67ba1eae700f7",
+        "validated": true,
         "name": "Crock Pot Roast",
         "nameFR": "Roti \u00e0 la cocotte",
         "author": "Unknown",
-        "is-gluten-free": true,
-        "is-dairy-free": true,
+        "is_gluten_free": true,
+        "is_dairy_free": true,
         "diet": "Omnivore",
         "difficulty": "Hard",
         "ingredients": [
@@ -85,11 +86,12 @@
     },
     "67ba1ebe710f7": {
         "id": "67ba1ebe710f7",
+        "validated": true,
         "name": "Roasted Asparagus",
         "nameFR": "Asperges roties",
         "author": "Unknown",
-        "is-gluten-free": true,
-        "is-dairy-free": true,
+        "is_gluten_free": true,
+        "is_dairy_free": true,
         "diet": "Vegan",
         "difficulty": "Easy",
         "ingredients": [
@@ -138,11 +140,12 @@
     },
     "67ba1eae710f0": {
         "id": "67ba1eae710f0",
+        "validated": true,
         "name": "Curried Lentils and Rice",
         "nameFR": "Lentilles et Riz au curry",
         "author": "Unknown",
-        "is-gluten-free": true,
-        "is-dairy-free": true,
+        "is_gluten_free": true,
+        "is_dairy_free": true,
         "diet": "Vegan",
         "difficulty": "Medium",
         "ingredients": [
@@ -186,16 +189,17 @@
             20,
             0
         ],
-        "imageURL": "https://www.noracooks.com/wp-content/uploads/2022/07/lentil-curry-3.jpg"
+        "imageURL": "https:\/\/www.noracooks.com\/wp-content\/uploads\/2022\/07\/lentil-curry-3.jpg"
     },
     "77ba1eae710f7": {
         "id": "77ba1eae710f7",
+        "validated": true,
         "name": "Big Night Pizza",
         "nameFR": "La pizza des grands soirs",
         "author": "Unknown",
-        "is-gluten-free": false,
-        "is-dairy-free": false,
-        "diet": "Vegentarian",
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -261,12 +265,13 @@
     },
     "67ba1eac710f7": {
         "id": "67ba1eac710f7",
+        "validated": true,
         "name": "Cranberry and Apple Stuffed Acorn Squash Recipe",
         "nameFR": "Courge poivr\u00e9e farcies aux cranberries et aux pommes",
         "author": "Unknown",
-        "is-gluten-free": true,
-        "is-dairy-free": false,
-        "diet": "Vegetarian",
+        "is_gluten_free": true,
+        "is_dairy_free": false,
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -325,12 +330,13 @@
     },
     "67ba1eae719f7": {
         "id": "67ba1eae719f7",
+        "validated": true,
         "name": "Mic's Yorkshire Puds",
         "nameFR": "Yorkshire pudding  de Mickey",
         "author": "Unknown",
-        "is-gluten-free": false,
-        "is-dairy-free": false,
-        "diet": "Vegetarian",
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Vegetarien",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -381,11 +387,13 @@
     },
     "67ba1bae710f7": {
         "id": "67ba1bae710f7",
+        "validated": true,
         "name": "Old-Fashioned Oatmeal Cookies",
+        "nameFR": "Biscuits aux flocons d'avoine \u00e0 l'ancienne",
         "author": "Unknown",
-        "is-gluten-free": false,
-        "is-dairy-free": false,
-        "diet": null,
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Omnivore",
         "difficulty": "Easy",
         "ingredients": [
             {
@@ -478,11 +486,13 @@
     },
     "67ba2eae710f7": {
         "id": "67ba2eae710f7",
+        "validated": true,
         "name": "Blueberry Oatmeal Squares",
+        "nameFR": "Carr\u00e9s aux myrtilles et flocons d'avoine",
         "author": "Unknown",
-        "is-gluten-free": false,
-        "is-dairy-free": false,
-        "diet": null,
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Omnivore",
         "difficulty": "Medium",
         "ingredients": [
             {
@@ -556,16 +566,18 @@
             0,
             0
         ],
-        "imageURL": "http:\/\/www.canadianliving.com\/img\/photos\/biz\/blueberry-oatmeal-squares5801359401371.jpg",
+        "imageURL": "https:\/\/salu-salo.com\/wp-content\/uploads\/2013\/08\/Blueberry-Oatmeal-Squares-3.jpg.webp",
         "originalURL": "http:\/\/www.canadianliving.com\/food\/blueberry_oatmeal_squares.php"
     },
     "67ba1eae71069": {
         "id": "67ba1eae71069",
+        "validated": true,
         "name": "Curried chicken salad",
+        "nameFR": "Salade de poulet au curry",
         "author": "Unknown",
-        "is-gluten-free": false,
-        "is-dairy-free": false,
-        "diet": null,
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Omnivore",
         "difficulty": "Easy",
         "ingredients": [
             {
@@ -653,5 +665,104 @@
         ],
         "imageURL": "http:\/\/www.chatelaine.com\/wp-content\/uploads\/2013\/05\/Curried-chicken-salad.jpg",
         "originalURL": "http:\/\/www.chatelaine.com\/recipe\/stovetop-cooking-method\/curried-chicken-salad\/"
+    },
+    "67b69eae71069": {
+        "id": "67b69eae71069",
+        "validated": false,
+        "name": "Curried chicken salad",
+        "nameFR": "testDelete1",
+        "author": "Unknown",
+        "is_gluten_free": false,
+        "is_dairy_free": false,
+        "diet": "Omnivore",
+        "difficulty": "Easy",
+        "imageURL": "http:\/\/www.chatelaine.com\/wp-content\/uploads\/2013\/05\/Curried-chicken-salad.jpg",
+        "originalURL": "http:\/\/www.chatelaine.com\/recipe\/stovetop-cooking-method\/curried-chicken-salad\/",
+        "ingredients": [
+            {
+                "quantity": "3",
+                "name": "skinless, boneless chicken breasts, halved lengthwise",
+                "type": "Meat"
+            },
+            {
+                "quantity": "1\/2 cup",
+                "name": "mayonnaise",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1 tbsp",
+                "name": "lemon zest",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1 tbsp ",
+                "name": "lemon juice",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1 1\/2 tsp",
+                "name": "curry powder",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1\/4 tsp",
+                "name": "salt",
+                "type": "Baking"
+            },
+            {
+                "quantity": "2",
+                "name": "ripe mangoes, diced",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1\/4 cup",
+                "name": "dried cranberries",
+                "type": "Produce"
+            },
+            {
+                "quantity": "2",
+                "name": "green onions, thinly sliced",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1",
+                "name": "celery stalk, finely chopped",
+                "type": "Produce"
+            },
+            {
+                "quantity": "6 leaves",
+                "name": "Boston lettuce",
+                "type": "Produce"
+            },
+            {
+                "quantity": "6",
+                "name": "English muffins, toasted",
+                "type": "Misc"
+            }
+        ],
+        "ingredientsFR": null,
+        "steps": [
+            "ARRANGE chicken in a single layer in a large pot.",
+            "Add water to just cover.",
+            "Bring to a boil over medium-high.",
+            "Flip chicken, reduce heat to medium and simmer until cooked, about 6 more min.",
+            "Cool.",
+            "STIR mayo with lemon zest, juice, curry and salt in large bowl.",
+            "Using 2 forks, shred chicken, then stir into mayo mixture with mango, cranberries, green onions and celery.",
+            "Divide among muffins with lettuce leaves",
+            "Sandwich with tops"
+        ],
+        "stepsFR": null,
+        "timers": [
+            0,
+            0,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
     }
 }

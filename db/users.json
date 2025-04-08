@@ -5,38 +5,49 @@
         "role": "ADMIN",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "id": "67ba0ccc42169",
-        "favorites": []
+        "favorites": [
+            "67ba2eae710f7",
+            "67ba1eae71069"
+        ]
     },
     "67ba0ccc421af": {
         "username": "new_bish",
         "email": "new_bish@bish.net",
-        "role": "requestTRANSLATOR",
+        "role": "COOK",
         "password": "$2y$12$XXjSq2v.GDkVcij4cViBuu6S4BtjLXaRwHnbdNFw4Zx8TjpyK6awy",
         "id": "67ba0ccc421af",
         "favorites": []
     },
     "67bc47c11ea94": {
+        "role": "CHEF",
         "username": "test_add",
-        "email": "test_add@add.com",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
-        "role": "COOK",
-        "id": "67bc47c11ea94",
-        "favorites": []
+        "email": "test_add@add.com",
+        "favorites": [],
+        "id": "67bc47c11ea94"
     },
     "67c96cf612531": {
         "username": "daneismyname",
         "email": "myemail@mail.com",
+        "role": "TRANSLATOR",
         "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
-        "role": "COOK",
         "id": "67c96cf612531",
         "favorites": []
     },
-    "67dbd814a92e3": {
-        "username": "raouf672346",
-        "email": "raouf@raouf.com",
-        "password": "$2y$12$crDhrpslQsz997ATuOu5uel6O1Cdw\/CsBo0M8cMlrYXgF6stCqvXe",
-        "role": "COOK",
-        "id": "67dbd814a92e3",
+    "67c96cf613531": {
+        "username": "daneismyname2",
+        "email": "myemail2@mail.com",
+        "role": "TRANSLATOR",
+        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
+        "id": "67c96cf613531",
+        "favorites": []
+    },
+    "67c96cf612631": {
+        "username": "daneismyname3",
+        "email": "myemail3@mail.com",
+        "role": "TRANSLATOR",
+        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
+        "id": "67c96cf612631",
         "favorites": []
     }
 }

@@ -29,6 +29,84 @@
         }
 
 
+        else if ($_GET['action'] == 'getbycategory') {
+            if (isset($_GET['category'])) {
+                $category = $_GET['category'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                
+                # La logique de filtrage:
+                if ($category == 'ALL') {
+                    $filtered_recipes = $recipes;
+                }
+                else if ($category == 'FAVORIS') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is-favorite'] == true;
+                    });
+                }
+                else if ($category == 'VEGAN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['diet'] == 'Vegan';
+                    });
+                }
+                else if ($category == 'VÉGÉTARIEN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['diet'] == 'Vegetarien';
+                    });
+                }
+                else if ($category == 'SANS GLUTEN') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is_gluten_free'] == true;
+                    });
+                }
+                else if ($category == 'SANS LACTOSE') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['is_dairy_free'] == true;
+                    });
+                }
+                else if ($category == 'EASY') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Easy';
+                    });
+                }
+                else if ($category == 'MEDIUM') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Medium';
+                    });
+                }
+                else if ($category == 'HARD') {
+                    $filtered_recipes = array_filter($recipes, function($recipe) {
+                        return $recipe['difficulty'] == 'Hard';
+                    });
+                }
+                else { http_response_code(400); echo '{"error" : "Invalid category"}'; exit; }
+
+                echo json_encode(array_values($filtered_recipes), JSON_PRETTY_PRINT);
+            }
+            else {
+                http_response_code(400); echo '{"error" : "Category is not defined"}';
+            }
+        }
+
+
+        else if ($_GET['action'] == 'getbyquery') {
+            if (isset($_GET['query'])) {
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $filtered_recipes = array_filter($recipes, function($recipe) {
+                    $query = $_GET['query'];
+                    return (
+                        str_contains(strtolower($recipe['name']), strtolower($query)) ||
+                        str_contains(strtolower($recipe['nameFR']), strtolower($query)) ||
+                        str_contains(strtolower($recipe['author']), strtolower($query))
+                    );
+                });
+                echo json_encode(array_values($filtered_recipes), JSON_PRETTY_PRINT);
+            }
+            else {
+                http_response_code(400); echo '{"error" : "query is not defined"}';
+            }
+        }
+
+
         else {
             http_response_code(400); echo '{"error" : "Invalid action"}';
         }
@@ -50,11 +128,12 @@
                 }
                 if ($found === null) {
                     $new_recipe['id'] = uniqid();
+                    $new_recipe['validated'] = false;
                     $new_recipe['name'] = $_POST['name'];
                     $new_recipe['nameFR'] = $_POST['nameFR'];
                     $new_recipe['author'] = $_POST['author'];
-                    $new_recipe['is-gluten-free'] = $_POST['is-gluten-free'];
-                    $new_recipe['is-dairy-free'] = $_POST['is-dairy-free'];
+                    $new_recipe['is_gluten_free'] = $_POST['is_gluten_free'];
+                    $new_recipe['is_dairy_free'] = $_POST['is_dairy_free'];
                     $new_recipe['diet'] = $_POST['diet'];
                     $new_recipe['difficulty'] = $_POST['difficulty'];
                     $new_recipe['imageURL'] = $_POST['imageURL'];
@@ -93,11 +172,12 @@
                     }
 
                     $modified_recipe['id'] = $id;
+                    set_attr('validated', $modified_recipe, $old_recipe, false);
                     set_attr('name', $modified_recipe, $old_recipe, false);
                     set_attr('nameFR', $modified_recipe, $old_recipe, false);
                     set_attr('author', $modified_recipe, $old_recipe, false);
-                    set_attr('is-gluten-free', $modified_recipe, $old_recipe, false);
-                    set_attr('is-dairy-free', $modified_recipe, $old_recipe, false);
+                    set_attr('is_gluten_free', $modified_recipe, $old_recipe, false);
+                    set_attr('is_dairy_free', $modified_recipe, $old_recipe, false);
                     set_attr('diet', $modified_recipe, $old_recipe, false);
                     set_attr('difficulty', $modified_recipe, $old_recipe, false);
                     set_attr('imageURL', $modified_recipe, $old_recipe, false);

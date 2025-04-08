@@ -11,6 +11,13 @@
     border-width: 1px;
     border-color: #26252229;
     margin: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.recipecard_container:hover {
+    box-shadow: 0px 8px 10px 1px #04a6ce6a;
+    transform: translateY(-5px);
+    
 }
 
 .recipecard_image {
@@ -36,7 +43,6 @@
 .recipecard_title {
     margin: 0;
     padding: 10px;
-
 }
 
 .recipecard_foot {
@@ -52,4 +58,17 @@
     border: solid;
     border-color: #262522;
     background-color: transparent;
+    margin-left: 2rem;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.recipecard_viewbutton:hover {
+    background-color: #FFA31A;
+    color: white;
+    border-color: #FFA31A;
 }
