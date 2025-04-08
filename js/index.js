@@ -166,6 +166,7 @@ function displayRecipes(recipes) {
         let hours = Math.floor(totalTime / 60);
         let minutes = totalTime % 60;
         let formattedTime = `${hours > 0 ? hours + "h " : ""}${minutes}min`;
+        console.log(recipe);
 
         let listItem = `
             <li class="recipecard_container">
@@ -178,7 +179,7 @@ function displayRecipes(recipes) {
                         <div class="recipecard_glance">
                             ${formattedTime} - ${recipe.difficulty} - ${recipe.diet}
                         </div>
-                        <button class="recipecard_viewbutton">
+                        <button class="recipecard_viewbutton" data-rec-id=${recipe.id}>
                             VOIR LA RECETTE
                         </button>
                     </div>
@@ -191,6 +192,7 @@ function displayRecipes(recipes) {
 
 $('#recipes_list').on('click', '.recipecard_viewbutton', function() {
     let rec_id = $(this).data('rec-id');
+    console.log(rec_id);
     console.log("entered");
     let rec_id2 = $(this).data('rec-id');
 
