@@ -56,59 +56,99 @@ function showRecipes() {
 
         const selectedCategory = $(this).text().trim();
 
+        fetchRecipesByCategory(selectedCategory);
+    });
+}
+
+async function fetchUserId() {
+    try {
+        const sessionData = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "POST",
+            data: { action: "getsession" }
+        });
+        return parseUserId(sessionData);
+    } catch (err) {
+        console.error("Error fetching user ID:", err);
+        return null;
+    }
+}
+
+async function fetchRecipesByCategory(selectedCategory) {
+    try {
+        let userId = await fetchUserId();
+
+        clearRecipes();
+
+        if (selectedCategory === 'FAVORIS') {
+            await fetchAndDisplayFavRecipes(userId);
+        } else {
+            const recipes = await fetchRecipesFromCategory(selectedCategory);
+            displayRecipes(recipes);
+        }
+
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+// Helper: Safe JSON parsing
+function parseUserId(data) {
+    try {
+        return JSON.parse(data).session || null;
+    } catch (e) {
+        console.error("Failed to parse session:", e);
+        return null;
+    }
+}
+
+// Helper: Fetch recipes by category
+async function fetchRecipesFromCategory(category) {
+    const data = await $.ajax({
+        url: "http://localhost:3000/api/recipeController.php",
+        method: "GET",
+        data: { action: "getbycategory", category }
+    });
+    return JSON.parse(data);
+}
+
+function loadRoleRequestButtons() {
+    $('#request-chef').on('click', async function () {
+        const userId = await fetchUserId();
         $.ajax({
             url: "http://localhost:3000/api/userController.php",
             method: "POST",
             data: { 
-                action: "getsession"
+                action: "request-role",
+                id: userId,
+                requested_role: "CHEF"
             }
         })
-        .done(function (data) {
-            let userId = null;
-            try {
-                userId = JSON.parse(data).session;
-            } catch (e) {
-                userId = null;
-                console.log(e);
-            }
-            
-            clearRecipes();
-        
-            if (selectedCategory == 'FAVORIS') {
-                fetchAndDisplayFavRecipes(userId);
-            }
-            else {
-                $.ajax({
-                    url: "http://localhost:3000/api/recipeController.php",
-                    method: "GET",
-                    data: { 
-                        action: "getbycategory",
-                        category: selectedCategory
-                    }
-                })
-                .done(function (data) {
-                    displayRecipes(JSON.parse(data));
-                })
-                .fail(function (err) {
-                    console.log(err);
-                });
-            }
+        .done(function (_) {
+            alert("Role de chef demandé avec succès!");
         })
         .fail(function (err) {
             console.log(err);
-        });
-    });
-}
-
-function loadRoleRequestButtons() {
-    $('#request-chef').on('click', function () {
-        alert("Chef role requested!");
-        // Add AJAX call here if needed
+        })
     });
 
-    $('#request-translator').on('click', function () {
-        alert("Translator role requested!");
-        // Add AJAX call here if needed
+    $('#request-translator').on('click', async function () {
+        const userId = await fetchUserId();
+        $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "POST",
+            data: { 
+                action: "request-role",
+                id: userId,
+                requested_role: "TRANSLATOR"
+            }
+        })
+        .done(function (_) {
+            alert("Role de traducteur demandé avec succès!");
+        })
+        .fail(function (err) {
+            console.log(err);
+        })
     });
 }
 

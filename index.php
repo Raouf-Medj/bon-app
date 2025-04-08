@@ -46,7 +46,7 @@
         <ul id="recipes_list"></ul>
         <script src="../js/index.js"></script>
 
-        <div class="rr_container">
+        <div id="rolerequest_section" class="rr_container">
             <div class="rr_card">
             <h1>NE MANQUEZ PAS LE PLAISIR!<br>DEVENEZ CHEF OU TRADUCTEUR!</h1>
             <p>
@@ -62,6 +62,6 @@
 </body>
 </html>
 
-<!-- <?php
+<?php
     include_once __DIR__.'/components/footer.php';
-?> -->
+?>

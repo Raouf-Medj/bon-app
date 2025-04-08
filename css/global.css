@@ -7,9 +7,9 @@ body {
     margin-bottom: 0;
 }
 
-.main_container {
+/* .main_container {
     height: 100vh;
-}
+} */
 
 input, textarea, select, button {
     font-family: inherit;
