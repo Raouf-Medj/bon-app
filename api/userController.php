@@ -60,6 +60,7 @@
                             if (isset($_POST['role'])) { 
                                 $new_user['role'] = $_POST['role'];
                                 $new_user['id'] = uniqid();
+                                $new_user['favorites'] = [];
     
                                 $users[$new_user['id']] = $new_user;
                                 file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
@@ -143,6 +144,7 @@
                     else { $modified_user['role'] = $old_user['role']; }
 
                     $modified_user['password'] = $old_user['password'];
+                    $modified_user['favorites'] = $old_user['favorites'];
                     $modified_user['id'] = $id;
 
                     $users[$modified_user['id']] = $modified_user;
@@ -185,13 +187,6 @@
 
                             $users[$user['id']] = $user;
                             file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
-
-                            $requests = json_decode(file_get_contents("../db/role_requests.json"), true);
-                            $new_request['id'] = uniqid();
-                            $new_request['id_user'] = $id;
-                            $new_request['requested_role'] = $_POST['requested_role'];
-                            $requests[$new_request['id']] = $new_request;
-                            file_put_contents("../db/role_requests.json", json_encode($requests, JSON_PRETTY_PRINT));
 
                             echo '{"user" : '.json_encode($user, JSON_PRETTY_PRINT).'}';
                         }
