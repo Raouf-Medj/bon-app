@@ -19,12 +19,12 @@
         "favorites": []
     },
     "67bc47c11ea94": {
+        "role": "CHEF",
         "username": "test_add",
-        "email": "test_add@add.com",
-        "role": "COOK",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
-        "id": "67bc47c11ea94",
-        "favorites": []
+        "email": "test_add@add.com",
+        "favorites": [],
+        "id": "67bc47c11ea94"
     },
     "67c96cf612531": {
         "username": "daneismyname",

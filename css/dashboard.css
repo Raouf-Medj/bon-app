@@ -48,6 +48,17 @@
     border-radius: 8px;
 }
 
+.req-user-item {
+    background: #ffe5dd;
+    color: #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
 .recipe-item {
     background: #eee;
     color: #111;
@@ -100,6 +111,11 @@
 
 .deleteRecipe {
     background: #EE6352;
+    color: #fff;
+}
+
+.validateRole {
+    background: #88e058;
     color: #fff;
 }
 

@@ -157,6 +157,38 @@
         }
 
         // POST: ~/api/userControllers.php {params in request body}
+        else if ($_POST['action'] == 'validate-role') {
+            if (isset($_POST['id'])) { 
+                $id = $_POST['id'];
+                $users = json_decode(file_get_contents("../db/users.json"), true);
+                $old_user = $users[$id] ?? null;
+
+                if ($old_user !== null) {
+                    if ($old_user['role'] == 'requestTRANSLATOR') {
+                        $role = 'TRANSLATOR';
+                    }
+                    else if ($old_user['role'] == 'requestCHEF') {
+                        $role = 'CHEF';
+                    }
+                    else { http_response_code(400); echo '{"error" : "Invalid role"}'; exit; }
+                    
+                    $modified_user['role'] = $role;
+                    $modified_user['username'] = $old_user['username'];
+                    $modified_user['password'] = $old_user['password'];
+                    $modified_user['email'] = $old_user['email'];
+                    $modified_user['favorites'] = $old_user['favorites'];
+                    $modified_user['id'] = $id;
+
+                    $users[$modified_user['id']] = $modified_user;
+                    file_put_contents("../db/users.json", json_encode($users, JSON_PRETTY_PRINT));
+                    echo '{"user" : '.json_encode($modified_user, JSON_PRETTY_PRINT).'}';
+                }
+                else { http_response_code(404); echo '{"error" : "Utilisateur introuvable"}'; }
+            } 
+            else { http_response_code(400); echo '{"error" : "Missing id"}'; }
+        }
+
+        // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'delete') {
             if (isset($_POST['id'])) { 
                 $id = $_POST['id'];

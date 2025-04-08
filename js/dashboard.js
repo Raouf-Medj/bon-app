@@ -112,7 +112,6 @@ $(document).ready(function () {
     // Validate recipe
     $(document).on('click', '.validateRecipe', function () {
         let recipeItem = $(this).closest('.unvalidated-recipe-item');
-        let recipeId = recipeItem.attr('id');
 
         openModal(`
             <h3>Valider cette recette ?</h3>
@@ -126,6 +125,31 @@ $(document).ready(function () {
                 recipeItem.removeClass('unvalidated-recipe-item').addClass('recipe-item');
                 recipeItem.find('.validateRecipe').remove();
                 recipeItem.find('span:contains("EN ATTENTE")').remove();
+
+                $('#popupModal').fadeOut();
+            } catch (error) {
+                console.error("Validation failed:", error);
+                $('#popupModal').html('<p>Échec de la validation. Veuillez réessayer.</p>');
+            }
+        });
+    });
+
+    // Approve role request
+    $(document).on('click', '.validateRole', function () {
+        let userItem = $(this).closest('.req-user-item');
+
+        openModal(`
+            <h3>Approuver cette demande de rôle ?</h3>
+            <button id="confirmValidateRole" style="background:#88e058;color:white;">Approuver</button>
+        `);
+    
+        $(document).off('click', '#confirmValidateRole').on('click', '#confirmValidateRole', async function () {
+            try {
+                await validateRole(userItem.attr('id'));
+
+                userItem.removeClass('req-user-item').addClass('user-item');
+                userItem.find('.validateRole').remove();
+                userItem.find('.userrole').text(userItem.find('.userrole').text().replace("request", ""));
 
                 $('#popupModal').fadeOut();
             } catch (error) {
@@ -173,13 +197,18 @@ function displayUsers(users) {
     userList.empty();
 
     Object.values(users).forEach(user => {
+        const requested = user.role == "requestCHEF" || user.role == "requestTRANSLATOR";
+        const liClass = requested ? "req-user-item" : "user-item";
+        const validationButton = !requested ? "" : `<button class="validateRole">Approuver</button>`;
+
         let listItem = `
-            <li id="${user.id}" class="user-item">
+            <li id="${user.id}" class="${liClass}">
                 <div>
                     <span class="username">${user.username}</span>
                     <span class="userrole">( ${user.role} )</span>
                 </div>
                 <div class="actions">
+                    ${validationButton}
                     <button class="editUser">Modifier</button>
                     <button class="deleteUser">Supprimer</button>
                 </div>
@@ -245,6 +274,22 @@ async function editUser(id, newName, newRole) {
         return response;
     } catch (error) {
         console.error("Error editing user:", error);
+    }
+}
+
+async function validateRole(id) {
+    try {
+        let response = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "POST",
+            data: { 
+                action: "validate-role",
+                id: id
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error("Error validating role:", error);
     }
 }
 
