@@ -189,6 +189,32 @@ function displayRecipes(recipes) {
     });
 }
 
+$('#recipes_list').on('click', '.recipecard_viewbutton', function() {
+    let rec_id = $(this).data('rec-id');
+    console.log("entered");
+    let rec_id2 = $(this).data('rec-id');
+
+    $.ajax({
+        url: 'public/recipe.php',
+        type: 'GET',
+        data: {
+            rec_id: rec_id
+        },
+        success: function(response) {
+            var page =  'public/recipe.php';
+            var param = 'rec_id=' + rec_id2;
+            var url = page + '?' + param;
+            window.location.href = url;
+        },
+        error: function(response) {
+            var page =  'public/recipe.php';
+            var param = 'rec_id=' + response.rec_id2;
+            var url = page + '?' + param;
+            alert("Could not find page: " + url)
+        }
+    });
+});
+
 function clearRecipes() {
     $("#recipes_list").empty();
 }
