@@ -166,7 +166,6 @@ function displayRecipes(recipes) {
         let hours = Math.floor(totalTime / 60);
         let minutes = totalTime % 60;
         let formattedTime = `${hours > 0 ? hours + "h " : ""}${minutes}min`;
-        console.log(recipe);
 
         let listItem = `
             <li class="recipecard_container">

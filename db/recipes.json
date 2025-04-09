@@ -82,7 +82,33 @@
             420
         ],
         "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
-        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208"
+        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
+        "comments": [
+            {
+                "comment_id": "id",
+                "user_id": "67ba0ccc42169",
+                "text": "lorem ipsum",
+                "image": "\/assets\/comments\/MicrosoftTeams-image_24.webp"
+            },
+            {
+                "comment_id": "67f5c30d7b5d7",
+                "user_id": "medj364",
+                "text": "sdf",
+                "image": null
+            },
+            {
+                "comment_id": "67f5c3d2b3043",
+                "user_id": "medj364",
+                "text": "lkj",
+                "image": null
+            },
+            {
+                "comment_id": "67f5c3e24a70f",
+                "user_id": "medj364",
+                "text": "klklkj",
+                "image": null
+            }
+        ]
     },
     "67ba1ebe710f7": {
         "id": "67ba1ebe710f7",
