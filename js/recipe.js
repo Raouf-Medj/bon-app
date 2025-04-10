@@ -19,20 +19,28 @@ function fetchRecipe(recId) {
     });
 }
 
+function changeLang() {
+    lang = (lang === "en") ? "fr" : "en";
+    createRecipeContent(recipeData);
+}
+
 
 function createRecipeContent(recipe) {
     let contentDiv = $("#content");
     contentDiv.empty();
-    console.log(recipe.ingredients);
 
+    // TODO: make sure missing names don't fuck up the view
     let name = lang === 'fr' && recipe.nameFR ? recipe.nameFR : recipe.name;
     let ingredients = lang === 'fr' && recipe.ingredientsFR ? recipe.ingredientsFR : recipe.ingredients;
     let steps = lang === 'fr' && recipe.stepsFR ? recipe.stepsFR : recipe.steps;
 
     let html = `
+        <button id="changeLang" onclick="changeLang()" >${lang === 'fr' ? 'Click here to see the english version!' : 'Cliquez ici pour voir la version française'}</button>
         <div class="recipe-container">
             <h1>${name}</h1>
             <p class="author">${lang === 'fr' ? 'Auteur' : 'Author'}: ${recipe.author || 'N/A'}</p>
+            ${recipe.imageURL ? `<img src="${recipe.imageURL}" alt="${name}" class="recipe-image">` : ''}
+            ${recipe.originalURL ? `<p><a href="${recipe.originalURL}" target="_blank">${lang === 'fr' ? 'Source originale' : 'Original Source'}</a></p>` : ''}
 
             <div class="ingredients-section">
                 <h2>${lang === 'fr' ? 'Ingrédients' : 'Ingredients'}</h2>
@@ -54,8 +62,6 @@ function createRecipeContent(recipe) {
                 <p>${lang === 'fr' ? 'Difficulté' : 'Difficulty'}: ${recipe.difficulty || 'N/A'}</p>
                 <p>${lang === 'fr' ? 'Sans gluten' : 'Gluten Free'}: ${recipe.is_gluten_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')}</p>
                 <p>${lang === 'fr' ? 'Sans produits laitiers' : 'Dairy Free'}: ${recipe.is_dairy_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')}</p>
-                ${recipe.imageURL ? `<img src="${recipe.imageURL}" alt="${name}" class="recipe-image">` : ''}
-                ${recipe.originalURL ? `<p><a href="${recipe.originalURL}" target="_blank">${lang === 'fr' ? 'Source originale' : 'Original Source'}</a></p>` : ''}
             </div>
 
             <div class="add-comment">
@@ -79,7 +85,7 @@ function createRecipeContent(recipe) {
                             <li class="comment">
                                 <p class="user">${comment.user_id}</p>
                                 <p class="text">${comment.text}</p>
-                                ${comment.image ? `<img src="${comment.image}" alt="Comment Image" class="comment-image">` : ''}
+                                ${comment.image ? `<img src="/assets/comments/${comment.image}" alt="Comment Image" class="comment-image">` : ''}
                             </li>
                         `).join('')}
                     </ul>
@@ -159,3 +165,34 @@ function recipeError(recId) {
     contentDiv.html(`<p>${lang === 'fr' ? 'Erreur lors du chargement de la recette avec l\'ID' : 'Error loading recipe with ID'} ${recId}.</p>`);
     console.error("Error loading recipe with ID: " + recId);
 }
+
+async function fetchUserId() {
+    try {
+        const sessionData = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "POST",
+            data: { action: "getsession" }
+        });
+        return parseUserId(sessionData);
+    } catch (err) {
+        console.error("Error fetching user ID:", err);
+        return null;
+    }
+}
+
+function parseUserId(data) {
+    try {
+        return JSON.parse(data).session || null;
+    } catch (e) {
+        console.error("Failed to parse session:", e);
+        return null;
+    }
+}
+
+//event listeners
+$(document).ready(function () {
+    $("#changeLang").click(function () {
+        lang = (lang === "en") ? "en" : "fr";
+        location.reload();
+    });
+});

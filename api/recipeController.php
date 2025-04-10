@@ -216,10 +216,30 @@
                     $comment["user_id"] = $_POST['user_id'];
                     $comment["text"] = $_POST['text'];
                     if (isset($_FILES['image'])) {
+                        if ($_FILES["image"]["error"] !== 0) {
+                            http_response_code(400); echo '{"error" : "Could not save file due to code: '.$_FILES["image"]["error"].'"}';
+                            return;
+                        }
                         $comment["image"] =  uniqid();
                         $file = $_FILES['image']['tmp_name'];
-                        $is_saved = move_uploaded_file("/assets/comments/".$comment['image'], $file);
+                        $uploadDir = __DIR__."/../assets/comments";
+                        if (!is_dir($uploadDir)) {
+                            echo "dir invalid";
+                        }
+                        $uploadPath = $uploadDir."/".$comment['image'];
+                        echo $uploadPath.'\n';
+                        echo $file;
+                        if (!is_uploaded_file($file)) {
+                            echo "ERROR: Not a valid uploaded file.";
+                        } elseif (!is_writable($uploadDir)) {
+                            echo "ERROR: Upload directory is not writable.";
+                        } else {
+                            echo "ERROR: Failed to move file.";
+                        }
+
+                        $is_saved = move_uploaded_file($file, $uploadPath);
                         if (!$is_saved) {
+                            var_dump($is_saved);
                             http_response_code(400); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
                             return;
                         }
