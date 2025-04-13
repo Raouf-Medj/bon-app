@@ -197,6 +197,44 @@
             else { http_response_code(400); echo '{"error" : "Missing id"}'; }
         }
 
+        // POST: ~/api/recipeController.php {params in request body}
+        else if($_POST['action'] == 'addComment') {
+            if (isset($_POST['id'])) { 
+                $id = $_POST['id'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $recipe = $recipes[$id] ?? null;
+
+                if ($recipe !== null) {
+                    if (!isset($_POST['user_id'])) {
+                        http_response_code(400); echo '{"error" : "Missing user"}';
+                    }
+                    if (!isset($_POST['text'])) {
+                        http_response_code(400); echo '{"error" : "Missing text"}';
+                    }
+                    $comment = [];
+                    $comment["comment_id"] = uniqid(); 
+                    $comment["user_id"] = $_POST['user_id'];
+                    $comment["text"] = $_POST['text'];
+                    if (isset($_FILES['image'])) {
+                        $comment["image"] =  uniqid();
+                        $file = $_FILES['image']['tmp_name'];
+                        $is_saved = move_uploaded_file("/assets/comments/".$comment['image'], $file);
+                        if (!$is_saved) {
+                            http_response_code(400); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
+                            return;
+                        }
+                    } else {
+                        $comment["image"] = null;
+                    }
+
+                    array_push($recipes[$id]["comments"], $comment);
+                    file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
+                    echo json_encode($recipes[$id]);
+                }
+                else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
+            } 
+            else { http_response_code(400); echo '{"error" : "Missing id"}'; }
+        }
 
         // POST: ~/api/recipeController.php {params in request body}
         else if($_POST['action'] == 'delete') {
