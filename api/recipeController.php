@@ -132,8 +132,8 @@
                     $new_recipe['name'] = $_POST['name'];
                     $new_recipe['nameFR'] = $_POST['nameFR'];
                     $new_recipe['author'] = $_POST['author'];
-                    $new_recipe['is_gluten_free'] = $_POST['is_gluten_free'];
-                    $new_recipe['is_dairy_free'] = $_POST['is_dairy_free'];
+                    $new_recipe['is_gluten_free'] = filter_var($_POST['is_gluten_free'], FILTER_VALIDATE_BOOLEAN);
+                    $new_recipe['is_dairy_free'] = filter_var($_POST['is_dairy_free'], FILTER_VALIDATE_BOOLEAN);
                     $new_recipe['diet'] = $_POST['diet'];
                     $new_recipe['difficulty'] = $_POST['difficulty'];
                     $new_recipe['imageURL'] = $_POST['imageURL'];
@@ -147,7 +147,7 @@
                     $recipes[$new_recipe['id']] = $new_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
 
-                    echo '{"id" : '.$new_recipe['id'].'}';
+                    echo '{"id" : "'.$new_recipe['id'].'"}';
                 }
                 else { http_response_code(409); echo '{"error" : "Nom de recette déjà existant"}'; }
             } 
@@ -166,7 +166,14 @@
                     function set_attr($attr, &$modified, $old, $is_obj) {
                         if (isset($_POST[$attr])) {
                             if ($is_obj) { $modified[$attr] = json_decode($_POST[$attr], true); }
-                            else { $modified[$attr] = $_POST[$attr]; }
+                            else {
+                                if (in_array($attr, ['is_gluten_free', 'is_dairy_free', 'validated'])) {
+                                    $modified[$attr] = filter_var($_POST[$attr], FILTER_VALIDATE_BOOLEAN);
+                                }
+                                else {
+                                    $modified[$attr] = $_POST[$attr];
+                                }
+                            }
                         }
                         else { $modified[$attr] = $old[$attr]; }
                     }
@@ -246,7 +253,7 @@
                 if ($recipe !== null) {
                     unset($recipes[$id]);
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
-                    echo '{"id" : '.$recipe['id'].'}';
+                    echo '{"id" : "'.$recipe['id'].'"}';
                 }
                 else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
             } 

@@ -18,6 +18,10 @@ $(document).ready(function () {
     $(document).on('click', '.editUser', function () {
         let userItem = $(this).closest('.user-item');
         let currentName = userItem.find('.username').text();
+        if (currentName == "") {
+            userItem = $(this).closest('.req-user-item');
+            currentName = userItem.find('.username').text();
+        }
         let currentRole = userItem.find('.userrole').text();
         
         openModal(`
@@ -27,12 +31,12 @@ $(document).ready(function () {
             <div style="margin-bottom: 15px;">
                 <label for="editRole">Rôle:</label><br>
                 <select id="editRole" style="width: 350px; padding: 8px;">
-                    <option value="COOK" ${currentRole === 'COOK' ? 'selected' : ''}>Cuisinier</option>
-                    <option value="CHEF" ${currentRole === 'CHEF' ? 'selected' : ''}>Chef</option>
-                    <option value="TRANSLATOR" ${currentRole === 'TRANSLATOR' ? 'selected' : ''}>Traducteur</option>
-                    <option value="ADMIN" ${currentRole === 'ADMIN' ? 'selected' : ''}>Administrateur</option>
-                    <option value="requestTRANSLATOR" ${currentRole === 'requestTRANSLATOR' ? 'selected' : ''}>Demandeur traducteur</option>
-                    <option value="requestCHEF" ${currentRole === 'requestCHEF' ? 'selected' : ''}>Demandeur chef</option>
+                    <option value="COOK" ${currentRole === '( COOK )' ? 'selected' : ''}>Cuisinier</option>
+                    <option value="CHEF" ${currentRole === '( CHEF )' ? 'selected' : ''}>Chef</option>
+                    <option value="TRANSLATOR" ${currentRole === '( TRANSLATOR )' ? 'selected' : ''}>Traducteur</option>
+                    <option value="ADMIN" ${currentRole === '( ADMIN )' ? 'selected' : ''}>Administrateur</option>
+                    <option value="requestTRANSLATOR" ${currentRole === '( requestTRANSLATOR )' ? 'selected' : ''}>Demandeur traducteur</option>
+                    <option value="requestCHEF" ${currentRole === '( requestCHEF )' ? 'selected' : ''}>Demandeur chef</option>
                 </select>
             </div>
             <button id="confirmEdit" style="background:#0891B2;color:white;">Enregistrer</button>
@@ -44,7 +48,7 @@ $(document).ready(function () {
             if (newName) {
                 await editUser(userItem.attr('id'), newName, newRole);
                 userItem.find('.username').text(newName);
-                userItem.find('.userrole').text(newRole);
+                userItem.find('.userrole').text(`( ${newRole} )`);
                 $('#popupModal').fadeOut();
             }
         });
@@ -67,35 +71,56 @@ $(document).ready(function () {
     });
 
     // Edit recipe
-    $(document).on('click', '.editRecipe', function () {
-        let userItem = $(this).closest('.recipe-item');
-        let currentName = userItem.find('.nameFR').text();
+    $(document).on('click', '.editRecipe', async function () {
+        let recipeId = $(this).closest('.recipe-item').attr('id');
+        if (recipeId == undefined) {
+            recipeId = $(this).closest('.unvalidated-recipe-item').attr('id');
+        }
+        const recipe = await getRecipe(recipeId);
         
-        openModal(`
-            <h3>Modifier l'utilisateur</h3>
-            <label for="editName">Nom d'utilisateur:</label><br>
-            <input type="text" id="editName" value="${currentName}" style="width: 350px; padding: 8px;"><br>
-            <div style="margin-bottom: 15px;">
+        $('#recipeForm')[0].reset(); // clear any previous values
+        $('#recipeForm').data('edit-mode', true);     // mark we're editing
+        $('#recipeForm').data('edit-id', recipeId);  
 
-            </div>
-            <button id="confirmEditRecipe" style="background:#0891B2;color:white;">Enregistrer</button>
-        `);
-    
-        $(document).off('click', '#confirmEditRecipe').on('click', '#confirmEditRecipe', async function () {
-            let newName = $('#editName').val().trim();
-            let newRole = $('#editRole').val().trim();
-            if (newName) {
-                await editUser(userItem.attr('id'), newName, newRole);
-                userItem.find('.username').text(newName);
-                userItem.find('.userrole').text(newRole);
-                $('#popupModal').fadeOut();
-            }
-        });
+        $('#recipeForm input[name="name"]').val(recipe.name || '');
+        $('#recipeForm input[name="nameFR"]').val(recipe.nameFR || '');
+        $('#recipeForm input[name="author"]').val(recipe.author || '');
+        $('#recipeForm input[name="imageURL"]').val(recipe.imageURL || '');
+        $('#recipeForm input[name="originalURL"]').val(recipe.originalURL || '');
+
+        $('#recipeForm select[name="diet"]').val(recipe.diet || 'Omnivore');
+        $('#recipeForm select[name="difficulty"]').val(recipe.difficulty || 'Easy');
+
+        $('#recipeForm input[name="is_gluten_free"]').prop('checked', !!recipe.is_gluten_free);
+        $('#recipeForm input[name="is_dairy_free"]').prop('checked', !!recipe.is_dairy_free);
+
+        // Clear and add ingredients
+        $('#ingredientsContainer').empty();
+        const ingLen = recipe.ingredients.length || recipe.ingredientsFR.length || 0;
+        for (let i = 0; i < ingLen; i++) {
+            const ing = recipe.ingredients?.[i] ?? {};
+            const ingFR = recipe.ingredientsFR?.[i] ?? {};
+            addIngredientRow(ing.quantity || '', ing.name || '', ingFR.name || '', ing.type || '');
+        }
+
+        // Clear and add steps
+        $('#steps-list').empty();
+        const stepLen = recipe.steps.length || recipe.stepsFR.length || 0;
+        for (let i = 0; i < stepLen; i++) {
+            addStepRow(recipe.steps?.[i] || '', recipe.stepsFR?.[i] || '', recipe.timers?.[i] || 0);
+        }
+
+        $('#recipeModal').show();
     });
   
     // Delete recipe
     $(document).on('click', '.deleteRecipe', function () {
         let recipeItem = $(this).closest('.recipe-item');
+        let recipeId = recipeItem.attr('id');
+        if (recipeId == undefined) {
+            recipeItem = $(this).closest('.unvalidated-recipe-item');
+            recipeId = recipeItem.attr('id');
+        }
         openModal(`
             <h3>Supprimer cette recette ?</h3>
             <p>Cette action est irréversible.</p>
@@ -103,7 +128,7 @@ $(document).ready(function () {
         `);
     
         $(document).off('click', '#confirmDeleteRecipe').on('click', '#confirmDeleteRecipe', async function () {
-            await deleteRecipe(recipeItem.attr('id'));
+            await deleteRecipe(recipeId);
             recipeItem.remove();
             $('#popupModal').fadeOut();
         });
@@ -162,31 +187,40 @@ $(document).ready(function () {
 
     // Add recipe modal
     const recipeModal = $('#recipeModal');
-    $('#addRecipeBtn').click(() => recipeModal.show());
+    $('#addRecipeBtn').click(() => { 
+        $('#recipeForm')[0].reset();
+        $('#recipeForm').data('edit-mode', false);     // mark we're NOT editing
+        $('#ingredientsContainer').empty();
+        $('#steps-list').empty();
+        recipeModal.show(); }
+    );
     $('.close').click(() => recipeModal.hide());
 
     $('#addIngredient').click(function () {
-        $('#ingredientsContainer').append(`
-            <div class="ingredient-row">
-                <input type="text" name="quantity[]" placeholder="Quantité" required>
-                <input type="text" name="ingredientNameFR[]" placeholder="Nom (FR)" required>
-                <input type="text" name="ingredientName[]" placeholder="Name (EN)" required>
-                <input type="text" name="ingredientType[]" placeholder="Type">
-            </div>
-        `);
+        addIngredientRow();
+    });
+
+    $('#ingredientsContainer').on('click', '.remove-ingredient', function () {
+        $(this).parent().remove();
+    });
+
+    $('#add-step').on('click', function () {
+        addStepRow();
+    });
+      
+    $('#steps-list').on('click', '.remove-step', function () {
+        $(this).parent().remove();
     });
 
     $('#recipeForm').submit(async function (e) {
         e.preventDefault();
-
+    
         const formData = $(this).serializeArray();
-        const recipe = {
-            id: Math.random().toString(16).slice(2),
-            validated: false
-        };
-
-        const ingredients = [], ingredientsFR = [], steps = [], stepsFR = [];
-
+        const recipe = {};
+    
+        const ingredients = [], ingredientsFR = [];
+        const steps = [], stepsFR = [], timers = [];
+    
         formData.forEach(field => {
             if (field.name === "quantity[]") {
                 ingredients.push({ quantity: field.value });
@@ -198,74 +232,89 @@ $(document).ready(function () {
             } else if (field.name === "ingredientType[]") {
                 ingredients[ingredients.length - 1].type = field.value;
                 ingredientsFR[ingredientsFR.length - 1].type = field.value;
-            } else if (field.name === "steps") {
-                steps.push(...field.value.split('\n').filter(Boolean));
-            } else if (field.name === "stepsFR") {
-                stepsFR.push(...field.value.split('\n').filter(Boolean));
+            } else if (field.name === "step_en[]") {
+                steps.push(field.value);
+            } else if (field.name === "step_fr[]") {
+                stepsFR.push(field.value);
+            } else if (field.name === "step_timer[]") {
+                const min = parseInt(field.value, 10);
+                timers.push(isNaN(min) ? 0 : min);
             } else if (field.name === "is_gluten_free" || field.name === "is_dairy_free") {
                 recipe[field.name] = true;
             } else {
                 recipe[field.name] = field.value;
             }
-        });
 
+            if (recipe.is_gluten_free == undefined) {
+                recipe.is_gluten_free = false;
+            }
+            if (recipe.is_dairy_free == undefined) {
+                recipe.is_dairy_free = false;
+            }
+        });
+    
         recipe.ingredients = ingredients;
         recipe.ingredientsFR = ingredientsFR;
         recipe.steps = steps;
         recipe.stepsFR = stepsFR;
-        recipe.timers = steps.map(() => 1); // default
+        recipe.timers = timers;
         recipe.imageURL = recipe.imageURL || "";
         recipe.originalURL = recipe.originalURL || "";
-
-        console.log("New Recipe:", recipe);
-        const recipeId = await addRecipe(recipe);
-        console.log("Recipe added with ID:", recipeId);
-        $("#recipeList").append(`
-            <li id="${recipeId}" class="unvalidated-recipe-item">
-                <div>
-                    <span class="recipename">${recipe.nameFR}</span><span> (EN ATTENTE DE VALIDATION)</span>
-                </div>
-                <div class="actions">
-                    <button class="validateRecipe">Valider</button>
-                    <button class="editRecipe">Modifier</button>
-                    <button class="deleteRecipe">Supprimer</button>
-                </div>
-            </li>
-        `)
+    
+        const isEdit = $('#recipeForm').data('edit-mode');
+    
+        if (isEdit) {
+            recipe.id = $('#recipeForm').data('edit-id');
+            recipe.validated = false;
+            await editRecipe(recipe);
+        }
+        else {
+            const recipeId = await addRecipe(recipe);
+            addRecipeRow(recipeId, recipe.nameFR, false);
+        }
         recipeModal.hide();
-    });
+    });    
 });
 
-function loadUsers() {
-    $.ajax({
-        url: "http://localhost:3000/api/userController.php",
-        method: "GET",
-        data: { 
-            action: "getall"
-        }
-    })
-    .done(function (data) {
-        displayUsers(JSON.parse(data));
-    })
-    .fail(function (err) {
-        console.log(err);
-    })
+function addRecipeRow(id, nameFR, validated = true) {
+    const validationText = validated ? "" : " (EN ATTENTE DE VALIDATION)";
+    const liClass = validated ? "recipe-item" : "unvalidated-recipe-item";
+    const validationButton = validated ? "" : `<button class="validateRecipe">Valider</button>`;
+    $("#recipeList").append(`
+        <li id="${id}" class="${liClass}">
+            <div>
+                <span class="recipename">${nameFR}</span><span>${validationText}</span>
+            </div>
+            <div class="actions">
+                ${validationButton}
+                <button class="editRecipe">Modifier</button>
+                <button class="deleteRecipe">Supprimer</button>
+            </div>
+        </li>
+    `);
 }
 
-function loadRecipes() {
-    $.ajax({
-        url: "http://localhost:3000/api/recipeController.php",
-        method: "GET",
-        data: { 
-            action: "getall"
-        }
-    })
-    .done(function (data) {
-        displayRecipes(JSON.parse(data));
-    })
-    .fail(function (err) {
-        console.log(err);
-    })
+function addIngredientRow(quantity = '', name = '', nameFR = '', type = '') {
+    $('#ingredientsContainer').append(`
+        <div class="ingredient-row">
+            <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required>
+            <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" required>
+            <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" required>
+            <input type="text" name="ingredientType[]" value="${type}" placeholder="Type">
+            <button type="button" class="remove-ingredient">❌</button>
+        </div>
+    `);
+}
+
+function addStepRow(stepEN = '', stepFR = '', timer = 0) {
+    $('#steps-list').append(`
+        <div class="step-row">
+          <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape en français">
+          <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step in English">
+          <input type="number" name="step_timer[]" value="${timer}" placeholder="Durée (min)" min="0">
+          <button type="button" class="remove-step">❌</button>
+        </div>
+      `);
 }
 
 function displayUsers(users) {
@@ -299,24 +348,42 @@ function displayRecipes(recipes) {
     recipeList.empty();
 
     Object.values(recipes).forEach(recipe => {
-        const validationText = recipe.validated ? "" : " (EN ATTENTE DE VALIDATION)";
-        const liClass = recipe.validated ? "recipe-item" : "unvalidated-recipe-item";
-        const validationButton = recipe.validated ? "" : `<button class="validateRecipe">Valider</button>`;
-
-        let listItem = `
-            <li id="${recipe.id}" class="${liClass}">
-                <div>
-                    <span class="recipename">${recipe.nameFR}</span><span>${validationText}</span>
-                </div>
-                <div class="actions">
-                    ${validationButton}
-                    <button class="editRecipe">Modifier</button>
-                    <button class="deleteRecipe">Supprimer</button>
-                </div>
-            </li>
-        `;
-        recipeList.append(listItem);
+        addRecipeRow(recipe.id, recipe.nameFR, recipe.validated);
     });
+}
+
+
+// AJAX functions
+function loadUsers() {
+    $.ajax({
+        url: "http://localhost:3000/api/userController.php",
+        method: "GET",
+        data: { 
+            action: "getall"
+        }
+    })
+    .done(function (data) {
+        displayUsers(JSON.parse(data));
+    })
+    .fail(function (err) {
+        console.log(err);
+    })
+}
+
+function loadRecipes() {
+    $.ajax({
+        url: "http://localhost:3000/api/recipeController.php",
+        method: "GET",
+        data: { 
+            action: "getall"
+        }
+    })
+    .done(function (data) {
+        displayRecipes(JSON.parse(data));
+    })
+    .fail(function (err) {
+        console.log(err);
+    })
 }
 
 async function deleteUser(id) {
@@ -369,6 +436,22 @@ async function validateRole(id) {
     }
 }
 
+async function getRecipe(id) {
+    try {
+        let response = await $.ajax({
+            url: "http://localhost:3000/api/recipeController.php",
+            method: "GET",
+            data: { 
+                action: "get",
+                id: id
+            }
+        });
+        return JSON.parse(response);
+    } catch (error) {
+        console.error("Error getting recipe:", error);
+    }
+}
+
 async function deleteRecipe(id) {
     try {
         let response = await $.ajax({
@@ -379,7 +462,7 @@ async function deleteRecipe(id) {
                 id: id
             }
         });
-        return response;
+        return JSON.parse(response).id;
     } catch (error) {
         console.error("Error deleting recipe:", error);
     }
@@ -393,6 +476,7 @@ async function editRecipe(recipe) {
             data: { 
                 action: "put",
                 id: recipe.id,
+                validated: recipe.validated,
                 name: recipe.name,
                 nameFR: recipe.nameFR,
                 author: recipe.author,
@@ -438,7 +522,7 @@ async function addRecipe(recipe) {
                 originalURL: recipe.originalURL
             }
         });
-        return response;
+        return JSON.parse(response).id;
     } catch (error) {
         console.error("Error adding recipe:", error);
     }

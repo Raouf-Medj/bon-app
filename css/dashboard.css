@@ -1,5 +1,10 @@
+body {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
 .user-dashboard {
-    margin: 2rem auto;
+    margin: 1rem auto;
     background: #262522;
     color: white;
     padding: 2rem 5rem;
@@ -176,7 +181,7 @@ input, select, textarea {
     box-sizing: border-box;
 }
   
-#addIngredient {
+#addIngredient, #add-step {
     margin-bottom: 10px;
 }
 
@@ -208,4 +213,18 @@ input, select, textarea {
 
 .column {
     flex: 1;
+}
+
+.step-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.step-row input {
+    flex: 1;
+}
+
+.step-row input[name="step_timer[]"] {
+    width: 80px;
 }

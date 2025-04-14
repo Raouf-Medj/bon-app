@@ -24,12 +24,12 @@
         </ul>
     <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "ADMIN") { ?>
         <div id="user-dashboard" class="user-dashboard">
-        <div class="header">
-            <h2>Gestion des utilisateurs</h2>
-        </div>
+            <div class="header">
+                <h2>Gestion des utilisateurs</h2>
+            </div>
 
-        <ul id="userList" class="user-list"></ul>
-    </div>
+            <ul id="userList" class="user-list"></ul>
+        </div>
     <?php } ?>
 
     <div id="recipe-dashboard" class="user-dashboard">
@@ -53,71 +53,64 @@
     <div id="recipeModal" class="modal">
         <div class="recipe-modal-content">
             <span class="close">&times;</span>
-            <h2>Ajouter une recette</h2>
+            <h2>Ajouter ou modifier une recette</h2>
             <form id="recipeForm">
-            <div class="row">
-                <div class="column">
-                <label>Nom (FR):</label>
-                <input type="text" name="nameFR" placeholder="Roti à la cocotte" required>
+                <div class="row">
+                    <div class="column">
+                    <label>Nom (FR):</label>
+                    <input type="text" name="nameFR" placeholder="Roti à la cocotte" required>
+                    </div>
+                    <div class="column">
+                    <label>Name (EN):</label>
+                    <input type="text" name="name" placeholder="Crock Pot Roast" required>
+                    </div>
                 </div>
-                <div class="column">
-                <label>Name (EN):</label>
-                <input type="text" name="name" placeholder="Crock Pot Roast" required>
+
+                <label>Auteur:</label>
+                <input type="text" name="author" placeholder="Jessica Lovebird"><br>
+
+                <div class="row">
+                    <div class="column">
+                    <label>Régime :</label>
+                    <select name="diet">
+                        <option>Omnivore</option>
+                        <option>Vegan</option>
+                        <option>Vegetarien</option>
+                    </select>
+                    </div>
+                    <div class="column">
+                    <label>Difficulté :</label>
+                    <select name="difficulty">
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                    </select>
+                    </div>
                 </div>
-            </div>
 
-            <label>Auteur:</label>
-            <input type="text" name="author" placeholder="Jessica Lovebird"><br>
-
-            <div class="row">
-                <div class="column">
-                <label>Régime :</label>
-                <select name="diet">
-                    <option>Omnivore</option>
-                    <option>Vegan</option>
-                    <option>Végétarien</option>
-                </select>
+                <div class="checkbox-row">
+                    <label for="gluten">Sans gluten</label>
+                    <input style="width: 30px;" type="checkbox" id="gluten" name="is_gluten_free">
                 </div>
-                <div class="column">
-                <label>Difficulté :</label>
-                <select name="difficulty">
-                    <option>Easy</option>
-                    <option>Medium</option>
-                    <option>Hard</option>
-                </select>
-                </div>
-            </div>
 
-            <div class="checkbox-row">
-                <label for="gluten">Sans gluten</label>
-                <input style="width: 30px;" type="checkbox" id="gluten" name="is_gluten_free">
-            </div>
+                <div class="checkbox-row">
+                    <label for="lactose">Sans lactose</label>
+                    <input style="width: 30px;" type="checkbox" id="lactose" name="is_dairy_free">
+                </div><br>
 
-            <div class="checkbox-row">
-                <label for="lactose">Sans lactose</label>
-                <input style="width: 30px;" type="checkbox" id="lactose" name="is_dairy_free">
-            </div><br>
+                <h3>Ingrédients</h3>
+                <div id="ingredientsContainer"></div>
+                <button type="button" id="addIngredient">+ Ajouter un ingrédient</button><br><br>
 
-            <h3>Ingrédients</h3>
-            <div id="ingredientsContainer"></div>
-            <button type="button" id="addIngredient">+ Ajouter un ingrédient</button><br><br>
+                <h3>Étapes (Steps)</h3>
+                <div id="steps-list"></div>
+                <button type="button" id="add-step">+ Ajouter une étape</button>
 
-            <h3>Étapes</h3>
-            <div class="row">
-                <div class="column">
-                <label>Étapes (FR)</label>
-                <textarea name="stepsFR" rows="4" placeholder="Étapes (FR) — une ligne par étape"></textarea>
-                </div>
-                <div class="column">
-                <label>Steps (EN)</label>
-                <textarea name="steps" rows="4" placeholder="Steps (EN) — separate by line"></textarea>
-                </div>
-            </div>
+                <h3>Liens</h3>
+                <input type="text" name="imageURL" placeholder="Lien d'image"><br>
+                <input type="text" name="originalURL" placeholder="Lien d’origine"><br><br>
 
-            <input type="text" name="imageURL" placeholder="Lien d'image"><br>
-            <input type="text" name="originalURL" placeholder="Lien d’origine"><br><br>
-
-            <button type="submit">Ajouter la recette</button>
+                <button type="submit">Enregistrer</button>
             </form>
         </div>
     </div>

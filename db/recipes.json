@@ -9,6 +9,8 @@
         "is_dairy_free": true,
         "diet": "Omnivore",
         "difficulty": "Hard",
+        "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
+        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
         "ingredients": [
             {
                 "quantity": "1",
@@ -40,27 +42,27 @@
             {
                 "quantity": "1",
                 "name": "roti de boeuf",
-                "type": "Viande"
+                "type": "Meat"
             },
             {
-                "quantity": "1 sachet",
+                "quantity": "1 package",
                 "name": "melange sauce au vin",
-                "type": "Aide culinaire"
+                "type": "Baking"
             },
             {
                 "quantity": "1 package",
-                "name": null,
+                "name": "null",
                 "type": "Condiments"
             },
             {
                 "quantity": "1 package",
-                "name": null,
+                "name": "null",
                 "type": "Condiments"
             },
             {
-                "quantity": "1\/2 verre",
+                "quantity": "1\/2 cup",
                 "name": "eau",
-                "type": "Boisson"
+                "type": "Drinks"
             }
         ],
         "steps": [
@@ -80,34 +82,6 @@
             1,
             1,
             420
-        ],
-        "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
-        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
-        "comments": [
-            {
-                "comment_id": "id",
-                "user_id": "67ba0ccc42169",
-                "text": "lorem ipsum",
-                "image": "\/assets\/comments\/MicrosoftTeams-image_24.webp"
-            },
-            {
-                "comment_id": "67f5c30d7b5d7",
-                "user_id": "medj364",
-                "text": "sdf",
-                "image": null
-            },
-            {
-                "comment_id": "67f5c3d2b3043",
-                "user_id": "medj364",
-                "text": "lkj",
-                "image": null
-            },
-            {
-                "comment_id": "67f5c3e24a70f",
-                "user_id": "medj364",
-                "text": "klklkj",
-                "image": null
-            }
         ]
     },
     "67ba1ebe710f7": {
@@ -794,13 +768,13 @@
     "67f5b52876a4a": {
         "id": "67f5b52876a4a",
         "validated": false,
-        "name": "ok",
-        "nameFR": "ok",
-        "author": "ok",
-        "is_gluten_free": "true",
-        "is_dairy_free": null,
-        "diet": "Omnivore",
-        "difficulty": "Easy",
+        "name": "okk",
+        "nameFR": "okkk",
+        "author": "oklol",
+        "is_gluten_free": false,
+        "is_dairy_free": true,
+        "diet": "Vegan",
+        "difficulty": "Medium",
         "imageURL": "ok",
         "originalURL": "ok",
         "ingredients": [
@@ -825,6 +799,91 @@
         ],
         "timers": [
             1
+        ]
+    },
+    "67fbe77b5b0d2": {
+        "id": "67fbe77b5b0d2",
+        "validated": false,
+        "name": "Crock Pot Roast copy",
+        "nameFR": "Roti \u00e0 la cocotte copie",
+        "author": "Unknown",
+        "is_gluten_free": true,
+        "is_dairy_free": true,
+        "diet": "Omnivore",
+        "difficulty": "Hard",
+        "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
+        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
+        "ingredients": [
+            {
+                "quantity": "1",
+                "name": "beef roast",
+                "type": "Meat"
+            },
+            {
+                "quantity": "1 package",
+                "name": "brown gravy mix",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1 package",
+                "name": "dried Italian salad dressing mix",
+                "type": "Condiments"
+            },
+            {
+                "quantity": "1 package",
+                "name": "dry ranch dressing mix",
+                "type": "Condiments"
+            },
+            {
+                "quantity": "1\/2 cup",
+                "name": "water",
+                "type": "Drinks"
+            }
+        ],
+        "ingredientsFR": [
+            {
+                "quantity": "1",
+                "name": "roti de boeuf",
+                "type": "Meat"
+            },
+            {
+                "quantity": "1 package",
+                "name": "melange sauce au vin",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1 package",
+                "name": "null",
+                "type": "Condiments"
+            },
+            {
+                "quantity": "1 package",
+                "name": "null",
+                "type": "Condiments"
+            },
+            {
+                "quantity": "1\/2 cup",
+                "name": "eau",
+                "type": "Drinks"
+            }
+        ],
+        "steps": [
+            "Place beef roast in crock pot.",
+            "Mix the dried mixes together in a bowl and sprinkle over the roast.",
+            "Pour the water around the roast.",
+            "Cook on low for 7-9 hours."
+        ],
+        "stepsFR": [
+            "Placer le roti dans la cocotte en fonte",
+            "Melanger les sachets de sauces en poudre dans un bol et saupoudrer le roti avec.",
+            "Arroser le roti",
+            "Cuire \u00e0 feu doux entre 7 et 9 heures."
+        ],
+        "timers": [
+            1,
+            1,
+            1,
+            420
         ]
     }
 }
