@@ -18,11 +18,35 @@
         "id": "67ba0ccc421af",
         "favorites": []
     },
+    "67bc25c11ea94": {
+        "role": "CHEF",
+        "username": "Chef01",
+        "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
+        "email": "chef1@chef.com",
+        "favorites": [],
+        "id": "67bc25c11ea94"
+    },
+    "672547c11ea94": {
+        "role": "CHEF",
+        "username": "Chef02",
+        "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
+        "email": "chef2@chef.com",
+        "favorites": [],
+        "id": "672547c11ea94"
+    },
+    "67bc47c112594": {
+        "role": "CHEF",
+        "username": "Chef03",
+        "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
+        "email": "chef3@chef.com",
+        "favorites": [],
+        "id": "67bc47c112594"
+    },
     "67bc47c11ea94": {
         "role": "CHEF",
-        "username": "chef",
+        "username": "Chef04",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
-        "email": "chef@chef.com",
+        "email": "chef4@chef.com",
         "favorites": [],
         "id": "67bc47c11ea94"
     },

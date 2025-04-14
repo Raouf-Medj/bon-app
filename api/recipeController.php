@@ -28,7 +28,28 @@
             }
         }
 
+        // GET: ~/api/recipeController.php?action=get&author=[userID]
+        else if ($_GET['action'] == 'getbyauthor') {
+            if (isset($_GET['author'])) {
+                $users = json_decode(file_get_contents("../db/users.json"), true);
+                $user = $users[$_GET['author']] ?? null;
+                if ($user === null) {
+                    http_response_code(404); echo '{"error" : "User not found"}';
+                    exit;
+                }
+                $author = $user['username'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $filtered_recipes = array_filter($recipes, function($recipe) use ($author) {
+                    return $recipe['author'] == $author;
+                });
+                echo json_encode(array_values($filtered_recipes), JSON_PRETTY_PRINT);
+            }
+            else {
+                http_response_code(400); echo '{"error" : "Author is not defined"}';
+            }
+        }
 
+        // GET: ~/api/recipeController.php?action=get&category=[category]
         else if ($_GET['action'] == 'getbycategory') {
             if (isset($_GET['category'])) {
                 $category = $_GET['category'];

@@ -1,8 +1,8 @@
 $(document).ready(async function () {
     // Load users on page load
     const session = await fetchSession();
-    loadUsers();
-    loadRecipes();
+    loadUsers(session.userRole);
+    loadRecipes(session.userRole, session.userId);
 
     // Open modal with content
     function openModal(content) {
@@ -364,36 +364,56 @@ async function displayRecipes(recipes) {
 
 
 // AJAX functions
-function loadUsers() {
-    $.ajax({
-        url: "http://localhost:3000/api/userController.php",
-        method: "GET",
-        data: { 
-            action: "getall"
-        }
-    })
-    .done(function (data) {
-        displayUsers(JSON.parse(data));
-    })
-    .fail(function (err) {
-        console.log(err);
-    })
+function loadUsers(role) {
+    if (role == 'ADMIN') {
+        $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "GET",
+            data: { 
+                action: "getall"
+            }
+        })
+        .done(function (data) {
+            displayUsers(JSON.parse(data));
+        })
+        .fail(function (err) {
+            console.log(err);
+        });
+    }
 }
 
-function loadRecipes() {
-    $.ajax({
-        url: "http://localhost:3000/api/recipeController.php",
-        method: "GET",
-        data: { 
-            action: "getall"
-        }
-    })
-    .done(function (data) {
-        displayRecipes(JSON.parse(data));
-    })
-    .fail(function (err) {
-        console.log(err);
-    })
+function loadRecipes(role, userId) {
+    if (role == 'CHEF') {
+        $.ajax({
+            url: "http://localhost:3000/api/recipeController.php",
+            method: "GET",
+            data: { 
+                action: "getbyauthor",
+                author: userId
+            }
+        })
+        .done(function (data) {
+            displayRecipes(JSON.parse(data));
+        })
+        .fail(function (err) {
+            console.log(err);
+        });
+    }
+    else {
+        $.ajax({
+            url: "http://localhost:3000/api/recipeController.php",
+            method: "GET",
+            data: { 
+                action: "getall"
+            }
+        })
+        .done(function (data) {
+            displayRecipes(JSON.parse(data));
+        })
+        .fail(function (err) {
+            console.log(err);
+        });
+    }
 }
 
 async function deleteUser(id) {

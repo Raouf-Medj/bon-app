@@ -61,7 +61,9 @@
         <div class="recipe-modal-content">
             <?php
                 $is_translator = isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR";
+                $is_chef = isset($_SESSION['userRole']) && $_SESSION['userRole'] == "CHEF";
                 $disabledAttr = $is_translator ? 'disabled' : '';
+                $disabledAttrAuthor = $is_translator || $is_chef ? 'disabled' : '';
             ?>
 
             <span class="close">&times;</span>
@@ -86,7 +88,7 @@
                 </div>
 
                 <label>Auteur:</label>
-                <input type="text" name="author" placeholder="Jessica Lovebird" <?= $disabledAttr ?>><br>
+                <input type="text" name="author" placeholder="Jessica Lovebird" <?= $disabledAttrAuthor ?>><br>
 
                 <div class="row">
                     <div class="column">
