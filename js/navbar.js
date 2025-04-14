@@ -14,6 +14,7 @@ $(document).ready(function () {
                 }
             })
             .done(function (_) {
+                localStorage.removeItem('likedRecipes');
                 window.location.href = "/";
             })
             .fail(function (err) {

@@ -5,9 +5,9 @@
 
         // getFavorites
         // GET: ~/api/favoriteController.php?action=getFavorites
-        if ($_GET['action'] === 'getFavorites') {
+        if ($_GET['action'] === 'get') {
             if (!isset($_GET['id'])) {
-                http_response_code(404);
+                http_response_code(400);
                 echo '{"error" : "ID is not defined"}';
                 return;
             }
@@ -35,10 +35,10 @@
     else if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['action']))) {
 
         // addFavorite
-        if ($_POST['action'] === 'addFavorite') {
+        if ($_POST['action'] === 'add') {
             if (!isset($_POST['id_usr']) || !isset($_POST['id_rec'])) {
-                http_response_code(404);
-                echo '{"error": "Missing id\'s."}';
+                http_response_code(400);
+                echo '{"error": "Missing user or recipe id\'s."}';
                 return;
             }
             $id_usr = $_POST['id_usr'];
@@ -81,10 +81,10 @@
         }
 
         // deleteFavorite
-        else if ($_POST['action'] === 'deleteFavorite') {
+        else if ($_POST['action'] === 'delete') {
             if (!isset($_POST['id_usr']) || !isset($_POST['id_rec'])) {
                 http_response_code(404);
-                echo '{"error": "Missing id\'s."}';
+                echo '{"error": "Missing user or recipe id\'s."}';
                 return;
             }
             $id_usr = $_POST['id_usr'];

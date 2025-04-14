@@ -11,6 +11,7 @@
     <link href="./css/global.css" rel="stylesheet">
     <link href="./css/index.css" rel="stylesheet">
     <link href="./css/recipeCard.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/14554ba1ac.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="main_container">

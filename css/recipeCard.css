@@ -46,7 +46,8 @@
 }
 
 .recipecard_foot {
-    display: flex
+    display: flex;
+    justify-content: space-between;
 }
 
 .recipecard_glance {
@@ -58,12 +59,9 @@
     border: solid;
     border-color: #262522;
     background-color: transparent;
-    margin-left: 2rem;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    margin-right: 0.5rem;
     cursor: pointer;
 }
 
@@ -71,4 +69,22 @@
     background-color: #FFA31A;
     color: white;
     border-color: #FFA31A;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+    color: #888;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+.like-button.liked {
+    color: #EE6352;
+}
+
+.hidden {
+    display: none;
 }

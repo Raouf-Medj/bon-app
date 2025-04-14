@@ -1,10 +1,12 @@
-$(document).ready(function () {
-    loadRecipes();
-    showRecipes();
-    loadRoleRequestButtons();
+$(document).ready(async function () {
+    const userId = await fetchUserId();
+    fetchFavoriteRecipes(userId);
+    loadRecipes(userId);
+    showRecipes(userId);
+    loadButtons();
 });
 
-function loadRecipes() {
+function loadRecipes(userId) {
     $.ajax({
         url: "http://localhost:3000/api/recipeController.php",
         method: "GET",
@@ -15,14 +17,14 @@ function loadRecipes() {
     .done(function (data) {
         const recipes = Object.values(JSON.parse(data));
         const validatedRecipes = recipes.filter(recipe => recipe.validated);
-        displayRecipes(validatedRecipes);
+        displayRecipes(validatedRecipes, userId);
     })
     .fail(function (err) {
         console.log(err);
     })
 }
 
-function showRecipes() {
+function showRecipes(userId) {
     // Gestion de la barre de recherche
     let debounceTimer;
 
@@ -44,7 +46,7 @@ function showRecipes() {
             .done(function (data) {
                 const recipes = Object.values(JSON.parse(data));
                 const validatedRecipes = recipes.filter(recipe => recipe.validated);
-                displayRecipes(validatedRecipes);
+                displayRecipes(validatedRecipes, userId);
             })
             .fail(function (err) {
                 console.log(err);
@@ -97,7 +99,7 @@ async function fetchRecipesByCategory(selectedCategory) {
             await fetchAndDisplayFavRecipes(userId);
         } else {
             const recipes = await fetchRecipesFromCategory(selectedCategory);
-            displayRecipes(recipes);
+            displayRecipes(recipes, userId);
         }
 
     } catch (err) {
@@ -117,7 +119,7 @@ async function fetchRecipesFromCategory(category) {
     return validatedRecipes;
 }
 
-function loadRoleRequestButtons() {
+function loadButtons() {
     $('#request-chef').on('click', async function () {
         const userId = await fetchUserId();
         $.ajax({
@@ -155,17 +157,70 @@ function loadRoleRequestButtons() {
             console.log(err);
         })
     });
+
+    $(document).on("click", ".like-button", async function () {
+        const button = $(this);
+        const recipeId = button.data("rec-id");
+        let liked = button.data("liked");
+
+        // Toggle like status
+        liked = !liked;
+
+        // Update the data attribute and icon
+        button.data("liked", liked);
+        button.toggleClass("liked");
+        button.find("i").attr("class", liked ? "fa-solid fa-heart" : "fa-regular fa-heart");
+
+        // Update localStorage and JSON database
+        let likedRecipes = getLikedRecipes();
+        const userId = await fetchUserId();
+        if (liked) {
+            if (!likedRecipes.includes(recipeId)) {
+                try {
+                    addFavRecipe(userId, recipeId);
+                    likedRecipes.push(recipeId);
+                }
+                catch (err) {
+                    console.error("Error adding favorite recipe:", err);
+                }
+            }
+        } else {
+            try {
+                removeFavRecipe(userId, recipeId);
+                likedRecipes = likedRecipes.filter(id => id !== recipeId);
+            }
+            catch (err) {
+                console.error("Error removing favorite recipe:", err);
+            }
+        }
+        saveLikedRecipes(likedRecipes);
+    });
+    
 }
 
-function displayRecipes(recipes) {
+function getLikedRecipes() {
+    return JSON.parse(localStorage.getItem("likedRecipes") || "[]");
+}
+
+function saveLikedRecipes(likedArray) {
+    localStorage.setItem("likedRecipes", JSON.stringify(likedArray));
+}
+
+function displayRecipes(recipes, userId = null) {
     let recipeList = $("#recipes_list");
     recipeList.empty();
+    const likedRecipes = getLikedRecipes();
 
     recipes.forEach(recipe => {
         let totalTime = recipe.timers.reduce((sum, time) => sum + time, 0);
         let hours = Math.floor(totalTime / 60);
         let minutes = totalTime % 60;
         let formattedTime = `${hours > 0 ? hours + "h " : ""}${minutes}min`;
+        const showLikeButton = userId !== null;
+        console.log("showLikeButton", showLikeButton);
+
+        const isLiked = likedRecipes.includes(recipe.id);
+        const heartClass = isLiked ? 'fa-solid' : 'fa-regular';
 
         let listItem = `
             <li class="recipecard_container">
@@ -176,8 +231,11 @@ function displayRecipes(recipes) {
                     <h3 class="recipecard_title">${recipe.nameFR}</h3>
                     <div class="recipecard_foot">
                         <div class="recipecard_glance">
-                            ${formattedTime} - ${recipe.difficulty} - ${recipe.diet}
+                            ${formattedTime} • ${recipe.difficulty} • ${recipe.diet}
                         </div>
+                        <button class="${showLikeButton ? '' : 'hidden'} like-button ${isLiked ? 'liked' : ''}" data-liked="${isLiked}" data-rec-id="${recipe.id}">
+                            <i class="${heartClass} fa-heart"></i>
+                        </button>
                         <button class="recipecard_viewbutton" data-rec-id=${recipe.id}>
                             VOIR LA RECETTE
                         </button>
@@ -188,6 +246,7 @@ function displayRecipes(recipes) {
         recipeList.append(listItem);
     });
 }
+
 
 $('#recipes_list').on('click', '.recipecard_viewbutton', function() {
     let rec_id = $(this).data('rec-id');
@@ -227,13 +286,7 @@ async function fetchAndDisplayFavRecipes(userId) {
     }
     else {
         try {
-            const favorites = await $.ajax({
-                url: "http://localhost:3000/api/favoriteController.php",
-                method: "GET",
-                data: { action: "getFavorites", id: userId }
-            });
-            const recipeIds = JSON.parse(favorites);
-    
+            const recipeIds = getLikedRecipes();
             const recipeLst = await Promise.all(
                 recipeIds.map(id => 
                     $.ajax({
@@ -244,11 +297,38 @@ async function fetchAndDisplayFavRecipes(userId) {
                 )
             );
 
-            const recipes = Object.values(recipeLst);
-            const validatedRecipes = recipes.filter(recipe => recipe.validated);
-            displayRecipes(validatedRecipes);
+            displayRecipes(recipeLst.filter(recipe => recipe.validated), userId);
         } catch (err) {
             console.log("Error:", err);
         }
     }
+}
+
+async function fetchFavoriteRecipes(userId) {
+    if (userId == null) {
+        return;
+    }
+    const favorites = await $.ajax({
+        url: "http://localhost:3000/api/favoriteController.php",
+        method: "GET",
+        data: { action: "get", id: userId }
+    });
+    const recipeIds = JSON.parse(favorites);
+    saveLikedRecipes(recipeIds);
+}
+
+async function addFavRecipe(userId, recipeId) {
+    await $.ajax({
+        url: "http://localhost:3000/api/favoriteController.php",
+        method: "POST",
+        data: { action: "add", id_usr: userId, id_rec: recipeId }
+    });
+}
+
+async function removeFavRecipe(userId, recipeId) {
+    await $.ajax({
+        url: "http://localhost:3000/api/favoriteController.php",
+        method: "POST",
+        data: { action: "delete", id_usr: userId, id_rec: recipeId }
+    });
 }
