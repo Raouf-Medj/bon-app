@@ -170,10 +170,10 @@ function displayRecipes(recipes) {
         let listItem = `
             <li class="recipecard_container">
                 <div class="recipecard_image">
-                    <img class="image" src="${recipe.imageURL}" alt="${recipe.name}" width="200">
+                    <img class="image" src="${recipe.imageURL}" alt="${recipe.nameFR}" width="200">
                 </div>
                 <div class="recipecard_content">
-                    <h3 class="recipecard_title">${recipe.name}</h3>
+                    <h3 class="recipecard_title">${recipe.nameFR}</h3>
                     <div class="recipecard_foot">
                         <div class="recipecard_glance">
                             ${formattedTime} - ${recipe.difficulty} - ${recipe.diet}

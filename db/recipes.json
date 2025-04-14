@@ -668,7 +668,7 @@
     },
     "67b69eae71069": {
         "id": "67b69eae71069",
-        "validated": false,
+        "validated": true,
         "name": "Curried chicken salad",
         "nameFR": "testDelete1",
         "author": "Unknown",
