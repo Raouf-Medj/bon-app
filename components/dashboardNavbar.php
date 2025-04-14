@@ -19,15 +19,15 @@
         </a>
         <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "CHEF") { ?>
             <ul class="navlinks">
-                <a href="#home_section" class="navlink">GÉRER MES RECETTES</a>
+                <a href="#chef-recipe-dashboard" class="navlink">GÉRER MES RECETTES</a>
             </ul>
         <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR") { ?>
             <ul class="navlinks">
-                <a href="#home_section" class="navlink">TRADUIRE DES RECETTES</a>
+                <a href="#translator-recipe-dashboard" class="navlink">TRADUIRE DES RECETTES</a>
             </ul>
         <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "ADMIN") { ?>
             <ul class="navlinks">
-                <a href="#user-dashboard" class="navlink">UTILISATEURS</a>
+                <a href="#user-dashboard" style="margin-right: 1.5rem" class="navlink">UTILISATEURS</a>
                 <a href="#recipe-dashboard" class="navlink">RECETTES</a>
             </ul>
         <?php } ?>

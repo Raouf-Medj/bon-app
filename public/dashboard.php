@@ -15,13 +15,21 @@
 </head>
 <body>
     <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "CHEF") { ?>
-        <ul class="navlinks">
-            <a href="#home_section" class="navlink">GÉRER MES RECETTES</a>
-        </ul>
+        <div id="chef-recipe-dashboard" class="user-dashboard">
+            <div class="header">
+                <h2>Gestion des recettes</h2>
+            </div>
+
+            <ul id="recipeList" class="recipe-list"></ul>
+        </div>
     <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR") { ?>
-        <ul class="navlinks">
-            <a href="#home_section" class="navlink">TRADUIRE DES RECETTES</a>
-        </ul>
+        <div id="translator-recipe-dashboard" class="user-dashboard">
+            <div class="header">
+                <h2>Gestion des recettes</h2>
+            </div>
+
+            <ul id="recipeList" class="recipe-list"></ul>
+        </div>
     <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "ADMIN") { ?>
         <div id="user-dashboard" class="user-dashboard">
             <div class="header">
@@ -30,16 +38,15 @@
 
             <ul id="userList" class="user-list"></ul>
         </div>
-    <?php } ?>
+        <div id="recipe-dashboard" class="user-dashboard">
+            <div class="header">
+                <h2>Gestion des recettes</h2>
+                <button id="addRecipeBtn" class="main-action">+ Ajouter une recette</button>
+            </div>
 
-    <div id="recipe-dashboard" class="user-dashboard">
-        <div class="header">
-            <h2>Gestion des recettes</h2>
-            <button id="addRecipeBtn" class="main-action">+ Ajouter une recette</button>
+            <ul id="recipeList" class="recipe-list"></ul>
         </div>
-
-        <ul id="recipeList" class="recipe-list"></ul>
-    </div>
+    <?php } ?>
 
     <!-- Popup modal -->
     <div class="modal" id="popupModal">
@@ -52,63 +59,75 @@
     <!-- Recipe Modal -->
     <div id="recipeModal" class="modal">
         <div class="recipe-modal-content">
+            <?php
+                $is_translator = isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR";
+                $disabledAttr = $is_translator ? 'disabled' : '';
+            ?>
+
             <span class="close">&times;</span>
-            <h2>Ajouter ou modifier une recette</h2>
+
+            <?php if ($is_translator) { ?>
+                <h2>Traduire une recette</h2>
+            <?php } else { ?>
+                <h2>Ajouter ou modifier une recette</h2>
+            <?php } ?>
+
             <form id="recipeForm">
+
                 <div class="row">
                     <div class="column">
-                    <label>Nom (FR):</label>
-                    <input type="text" name="nameFR" placeholder="Roti à la cocotte" required>
+                        <label>Nom (FR):</label>
+                        <input type="text" name="nameFR" placeholder="Roti à la cocotte" required>
                     </div>
                     <div class="column">
-                    <label>Name (EN):</label>
-                    <input type="text" name="name" placeholder="Crock Pot Roast" required>
+                        <label>Name (EN):</label>
+                        <input type="text" name="name" placeholder="Crock Pot Roast" required>
                     </div>
                 </div>
 
                 <label>Auteur:</label>
-                <input type="text" name="author" placeholder="Jessica Lovebird"><br>
+                <input type="text" name="author" placeholder="Jessica Lovebird" <?= $disabledAttr ?>><br>
 
                 <div class="row">
                     <div class="column">
-                    <label>Régime :</label>
-                    <select name="diet">
-                        <option>Omnivore</option>
-                        <option>Vegan</option>
-                        <option>Vegetarien</option>
-                    </select>
+                        <label>Régime :</label>
+                        <select name="diet" <?= $disabledAttr ?>>
+                            <option>Omnivore</option>
+                            <option>Vegan</option>
+                            <option>Vegetarien</option>
+                        </select>
                     </div>
                     <div class="column">
-                    <label>Difficulté :</label>
-                    <select name="difficulty">
-                        <option>Easy</option>
-                        <option>Medium</option>
-                        <option>Hard</option>
-                    </select>
+                        <label>Difficulté :</label>
+                        <select name="difficulty" <?= $disabledAttr ?>>
+                            <option>Easy</option>
+                            <option>Medium</option>
+                            <option>Hard</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="checkbox-row">
                     <label for="gluten">Sans gluten</label>
-                    <input style="width: 30px;" type="checkbox" id="gluten" name="is_gluten_free">
+                    <input style="width: 30px;" type="checkbox" id="gluten" name="is_gluten_free" <?= $disabledAttr ?>>
                 </div>
 
                 <div class="checkbox-row">
                     <label for="lactose">Sans lactose</label>
-                    <input style="width: 30px;" type="checkbox" id="lactose" name="is_dairy_free">
+                    <input style="width: 30px;" type="checkbox" id="lactose" name="is_dairy_free" <?= $disabledAttr ?>>
                 </div><br>
 
                 <h3>Ingrédients</h3>
                 <div id="ingredientsContainer"></div>
-                <button type="button" id="addIngredient">+ Ajouter un ingrédient</button><br><br>
+                <button type="button" id="addIngredient" <?= $disabledAttr ?>>+ Ajouter un ingrédient</button><br><br>
 
                 <h3>Étapes (Steps)</h3>
                 <div id="steps-list"></div>
-                <button type="button" id="add-step">+ Ajouter une étape</button>
+                <button type="button" id="add-step" <?= $disabledAttr ?>>+ Ajouter une étape</button>
 
                 <h3>Liens</h3>
-                <input type="text" name="imageURL" placeholder="Lien d'image"><br>
-                <input type="text" name="originalURL" placeholder="Lien d’origine"><br><br>
+                <input type="text" name="imageURL" placeholder="Lien d'image" <?= $disabledAttr ?>><br>
+                <input type="text" name="originalURL" placeholder="Lien d’origine" <?= $disabledAttr ?>><br><br>
 
                 <button type="submit">Enregistrer</button>
             </form>

@@ -27,6 +27,10 @@
             }
         }
 
+        else if ($_GET['action'] == 'getsession') {
+            echo '{ "userId" : "'.$_SESSION['userId'].'", "userRole" : "'.$_SESSION['userRole'].'" }';
+        }
+
 
         else {
             http_response_code(400); echo '{"error" : "Invalid action"}';
@@ -114,10 +118,6 @@
         // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'signout') {
             session_destroy();
-        }
-
-        else if ($_POST['action'] == 'getsession') {
-            echo '{ "session" : "'.$_SESSION['userId'].'" }';
         }
         
         // POST: ~/api/userControllers.php {params in request body}

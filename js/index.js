@@ -67,12 +67,22 @@ async function fetchUserId() {
     try {
         const sessionData = await $.ajax({
             url: "http://localhost:3000/api/userController.php",
-            method: "POST",
+            method: "GET",
             data: { action: "getsession" }
         });
         return parseUserId(sessionData);
     } catch (err) {
         console.error("Error fetching user ID:", err);
+        return null;
+    }
+}
+
+// Helper: Safe JSON parsing
+function parseUserId(data) {
+    try {
+        return JSON.parse(data).userId || null;
+    } catch (e) {
+        console.error("Failed to parse session:", e);
         return null;
     }
 }
@@ -92,16 +102,6 @@ async function fetchRecipesByCategory(selectedCategory) {
 
     } catch (err) {
         console.error("Error:", err);
-    }
-}
-
-// Helper: Safe JSON parsing
-function parseUserId(data) {
-    try {
-        return JSON.parse(data).session || null;
-    } catch (e) {
-        console.error("Failed to parse session:", e);
-        return null;
     }
 }
 

@@ -1,5 +1,6 @@
-$(document).ready(function () {
+$(document).ready(async function () {
     // Load users on page load
+    const session = await fetchSession();
     loadUsers();
     loadRecipes();
 
@@ -100,14 +101,14 @@ $(document).ready(function () {
         for (let i = 0; i < ingLen; i++) {
             const ing = recipe.ingredients?.[i] ?? {};
             const ingFR = recipe.ingredientsFR?.[i] ?? {};
-            addIngredientRow(ing.quantity || '', ing.name || '', ingFR.name || '', ing.type || '');
+            addIngredientRow(session.userRole, ing.quantity || '', ing.name || '', ingFR.name || '', ing.type || '');
         }
 
         // Clear and add steps
         $('#steps-list').empty();
         const stepLen = recipe.steps.length || recipe.stepsFR.length || 0;
         for (let i = 0; i < stepLen; i++) {
-            addStepRow(recipe.steps?.[i] || '', recipe.stepsFR?.[i] || '', recipe.timers?.[i] || 0);
+            addStepRow(session.userRole, recipe.steps?.[i] || '', recipe.stepsFR?.[i] || '', recipe.timers?.[i] || 0);
         }
 
         $('#recipeModal').show();
@@ -197,7 +198,7 @@ $(document).ready(function () {
     $('.close').click(() => recipeModal.hide());
 
     $('#addIngredient').click(function () {
-        addIngredientRow();
+        addIngredientRow(session.userRole);
     });
 
     $('#ingredientsContainer').on('click', '.remove-ingredient', function () {
@@ -205,16 +206,17 @@ $(document).ready(function () {
     });
 
     $('#add-step').on('click', function () {
-        addStepRow();
+        addStepRow(session.userRole);
     });
       
     $('#steps-list').on('click', '.remove-step', function () {
         $(this).parent().remove();
     });
 
+    // Recipe form submission (add / edit / translate)
     $('#recipeForm').submit(async function (e) {
         e.preventDefault();
-    
+        
         const formData = $(this).serializeArray();
         const recipe = {};
     
@@ -276,43 +278,50 @@ $(document).ready(function () {
     });    
 });
 
-function addRecipeRow(id, nameFR, validated = true) {
-    const validationText = validated ? "" : " (EN ATTENTE DE VALIDATION)";
+function addRecipeRow(id, nameFR, role = 'ADMIN', validated = true) {
+    const validateText = validated ? "" : " (EN ATTENTE DE VALIDATION)";
     const liClass = validated ? "recipe-item" : "unvalidated-recipe-item";
-    const validationButton = validated ? "" : `<button class="validateRecipe">Valider</button>`;
+    const validateButton = (role == 'ADMIN' && !validated) ? `<button class="validateRecipe">Valider</button>` : '';
+    const editButton = (role == 'ADMIN' || role == 'CHEF') ? `<button class="editRecipe">Modifier</button>` : '';
+    const deleteButton = (role == 'ADMIN') ? `<button class="deleteRecipe">Supprimer</button>` : '';
+    const translateButton = (role == 'TRANSLATOR') ? `<button class="editRecipe">Traduire</button>` : '';
+
     $("#recipeList").append(`
         <li id="${id}" class="${liClass}">
             <div>
-                <span class="recipename">${nameFR}</span><span>${validationText}</span>
+                <span class="recipename">${nameFR}</span><span class="validatetext">${validateText}</span>
             </div>
             <div class="actions">
-                ${validationButton}
-                <button class="editRecipe">Modifier</button>
-                <button class="deleteRecipe">Supprimer</button>
+                ${validateButton}
+                ${editButton}
+                ${deleteButton}
+                ${translateButton}
             </div>
         </li>
     `);
 }
 
-function addIngredientRow(quantity = '', name = '', nameFR = '', type = '') {
+function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = '') {
+    const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
     $('#ingredientsContainer').append(`
         <div class="ingredient-row">
             <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required>
             <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" required>
             <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" required>
             <input type="text" name="ingredientType[]" value="${type}" placeholder="Type">
-            <button type="button" class="remove-ingredient">❌</button>
+            <button type="button" class="remove-ingredient" ${disabled}>❌</button>
         </div>
     `);
 }
 
-function addStepRow(stepEN = '', stepFR = '', timer = 0) {
+function addStepRow(role, stepEN = '', stepFR = '', timer = 0) {
+    const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
     $('#steps-list').append(`
         <div class="step-row">
           <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape en français">
           <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step in English">
           <input type="number" name="step_timer[]" value="${timer}" placeholder="Durée (min)" min="0">
-          <button type="button" class="remove-step">❌</button>
+          <button type="button" class="remove-step" ${disabled}>❌</button>
         </div>
       `);
 }
@@ -343,12 +352,13 @@ function displayUsers(users) {
     });
 }
 
-function displayRecipes(recipes) {
+async function displayRecipes(recipes) {
+    const session = await fetchSession();
     let recipeList = $("#recipeList");
     recipeList.empty();
 
     Object.values(recipes).forEach(recipe => {
-        addRecipeRow(recipe.id, recipe.nameFR, recipe.validated);
+        addRecipeRow(recipe.id, recipe.nameFR, session.userRole, recipe.validated);
     });
 }
 
@@ -542,5 +552,19 @@ async function validateRecipe(id) {
         return response;
     } catch (error) {
         console.error("Error validating recipe:", error);
+    }
+}
+
+async function fetchSession() {
+    try {
+        const sessionData = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "GET",
+            data: { action: "getsession" }
+        });
+        return JSON.parse(sessionData);
+    } catch (err) {
+        console.error("Error fetching user ID:", err);
+        return null;
     }
 }
