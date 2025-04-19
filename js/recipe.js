@@ -1,19 +1,17 @@
 let recipeData = {};
 let lang = 'fr';
 
-function fetchRecipe(recId) {
+async function fetchRecipe(recId) {
     $.ajax({
         url: "/api/recipeController.php",
         type: 'GET',
         data: {action: "get", id: recId},
         dataType: "json",
         success: function(response) {
-            console.log(response);
             recipeData = response;
             createRecipeContent(recipeData);
         },
         error: function(response) {
-            console.log(response);
             recipeError(recId);
         }
     });
@@ -25,7 +23,7 @@ function changeLang() {
 }
 
 
-function createRecipeContent(recipe) {
+async function createRecipeContent(recipe) {
     let contentDiv = $("#content");
     contentDiv.empty();
 
@@ -34,71 +32,204 @@ function createRecipeContent(recipe) {
     let ingredients = lang === 'fr' && recipe.ingredientsFR ? recipe.ingredientsFR : recipe.ingredients;
     let steps = lang === 'fr' && recipe.stepsFR ? recipe.stepsFR : recipe.steps;
 
-    let html = `
-        <button id="changeLang" onclick="changeLang()" >${lang === 'fr' ? 'Click here to see the english version!' : 'Cliquez ici pour voir la version française'}</button>
-        <div class="recipe-container">
-            <h1>${name}</h1>
-            <p class="author">${lang === 'fr' ? 'Auteur' : 'Author'}: ${recipe.author || 'N/A'}</p>
-            ${recipe.imageURL ? `<img src="${recipe.imageURL}" alt="${name}" class="recipe-image">` : ''}
-            ${recipe.originalURL ? `<p><a href="${recipe.originalURL}" target="_blank">${lang === 'fr' ? 'Source originale' : 'Original Source'}</a></p>` : ''}
+    // language button
+    let languageButton = $("<button>")
+        .attr("id", "changeLang")
+        .on("click", changeLang)
+        .text(lang === 'fr' ? 'Click here to see the english version!' : 'Cliquez ici pour voir la version française');
+    contentDiv.append(languageButton);
 
-            <div class="ingredients-section">
-                <h2>${lang === 'fr' ? 'Ingrédients' : 'Ingredients'}</h2>
-                <ul>
-                    ${ingredients.map(item => `<li>${item.quantity ? item.quantity + ' ' : ''}${item.name || (lang === 'fr' ? 'Non spécifié' : 'Not specified')}</li>`).join('')}
-                </ul>
-            </div>
+    //recipeContainer
+    let recipeContainer = $("<div>")
+        .addClass("recipe-container");
+    contentDiv.append(recipeContainer);
 
-            <div class="steps-section">
-                <h2>${lang === 'fr' ? 'Instructions' : 'Instructions'}</h2>
-                <ol>
-                    ${steps.map(step => `<li>${step}</li>`).join('')}
-                </ol>
-            </div>
+    let title = $("<h1>")
+        .text(name);
+    recipeContainer.append(title);
 
-            <div class="details-section">
-                <h3>${lang === 'fr' ? 'Détails' : 'Details'}</h3>
-                <p>${lang === 'fr' ? 'Régime' : 'Diet'}: ${recipe.diet || 'N/A'}</p>
-                <p>${lang === 'fr' ? 'Difficulté' : 'Difficulty'}: ${recipe.difficulty || 'N/A'}</p>
-                <p>${lang === 'fr' ? 'Sans gluten' : 'Gluten Free'}: ${recipe.is_gluten_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')}</p>
-                <p>${lang === 'fr' ? 'Sans produits laitiers' : 'Dairy Free'}: ${recipe.is_dairy_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')}</p>
-            </div>
+    let authorPara = $("<p>")
+        .addClass("author")
+        .text((lang === 'fr' ? 'Auteur' : 'Author') + ": " + recipe.author || 'N/A');
+    recipeContainer.append(authorPara);
+    
+    if (recipe.imageURL) {
+        //TODO alt?
+        let image = $("<img>")
+            .attr("src", recipe.imageURL)
+            .addClass("recipe-image");
+        recipeContainer.append(image);
+    }
 
-            <div class="add-comment">
-                <h3>${lang === 'fr' ? 'Ajouter un commentaire' : 'Add a Comment'}</h3>
-                <textarea id="commentText" placeholder="${lang === 'fr' ? 'Votre commentaire...' : 'Your comment...'}"></textarea>
-                <div class="image-upload">
-                    <label for="commentImage">${lang === 'fr' ? 'Télécharger une image (facultatif)' : 'Upload Image (optional)'}:</label>
-                    <input type="file" id="commentImage" accept="image/*">
-                    <img id="imagePreview" src="#" alt="${lang === 'fr' ? 'Aperçu de l\'image' : 'Image Preview'}" style="display:none; max-width:100px; height:auto;">
-                </div>
-                <button onclick="submitComment('${recipe.id}')">${lang === 'fr' ? 'Envoyer le commentaire' : 'Submit Comment'}</button>
-                <div id="commentStatus" class="status-message"></div>
-            </div>
+    if (recipe.originalURL) {
+        let originUrl = $("<p>");
+        let originUrl_a = $("<a>")
+            .attr("href", recipe.originalURL)
+            .attr("target", "_blank")
+            .text(lang === 'fr' ? 'Source originale' : 'Original Source');
+        originUrl.append(originUrl_a);
+        recipeContainer.append(originUrl);
+    }
 
-            ${recipe.comments && recipe.comments.length > 0 ? `
-                <div class="comments-section">
-                
-                    <h2>${lang === 'fr' ? 'Commentaires' : 'Comments'}</h2>
-                    <ul>
-                        ${recipe.comments.map(comment => `
-                            <li class="comment">
-                                <p class="user">${comment.user_id}</p>
-                                <p class="text">${comment.text}</p>
-                                ${comment.image ? `<img src="/assets/comments/${comment.image}" alt="Comment Image" class="comment-image">` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-        </div>
-    `;
+    let ingredientsSection = $("<div>")
+        .addClass("ingredients-section");
+    recipeContainer.append(ingredientsSection);
 
-    contentDiv.append(html);
+    let ingredientsSectionTitle = $("<h2>")
+        .text(lang === 'fr' ? 'Ingrédients' : 'Ingredients');
+    ingredientsSection.append(ingredientsSectionTitle);
+
+    let ingredientList = $("<ul>");
+    ingredientsSection.append(ingredientList);
+
+    for (let item of ingredients) {
+        let listItem = $("<li>")
+            .text((item.quantity ? item.quantity + ' ' : '') + (item.name || (lang === 'fr' ? 'Non spécifié' : 'Not specified')));
+        ingredientList.append(listItem);
+    }
+
+    let divStepsSection = $("<div>")
+        .addClass("steps-section");
+    recipeContainer.append(divStepsSection);
+
+    let stepsTitle = $("<h2>")
+        .text(lang === 'fr' ? 'Instructions' : 'Instructions');
+    divStepsSection.append(stepsTitle);
+
+    let stepsList = $("<ol>");
+    divStepsSection.append(stepsList);
+    for (let step of steps) {
+        let listItem = $("<li>")
+            .text(step);
+        stepsList.append(listItem);
+    }
+
+    // details section
+    let divDetails = $("<div>")
+        .addClass("details-section");
+    recipeContainer.append(divDetails);
+
+    let detailsTitle = $("<h3>")
+        .text(lang === 'fr' ? 'Détails' : 'Details');
+    divDetails.append(detailsTitle);
+
+    let parDetailDiet = $("<p>")
+        .text((lang === 'fr' ? 'Régime: ' : 'Diet: ') + (recipe.diet || 'N/A'));
+    divDetails.append(parDetailDiet);
+    let parDetailDiff = $("<p>")
+        .text((lang === 'fr' ? 'Difficulté: ' : 'Difficulty: ') + (recipe.difficulty || 'N/A'));
+    divDetails.append(parDetailDiff);
+    let parDetailGluten = $("<p>")
+        .text((lang === 'fr' ? 'Sans gluten: ' : 'Gluten Free: ') + (recipe.is_gluten_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')));
+    divDetails.append(parDetailGluten);
+    let parDetailDairy = $("<p>")
+        .text((lang === 'fr' ? 'Sans produits laitiers: ' : 'Dairy Free: ') + (recipe.is_dairy_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')));
+    divDetails.append(parDetailDairy);
+
+    // add comments section
+    let divAddComment = $("<div>")
+        .addClass("add-comment");
+    recipeContainer.append(divAddComment);
+
+    let addCommentTitle = $("<h3>")
+        .text(lang === "fr" ? "Ajouter un commentaire" : "Add a comment!");
+    divAddComment.append(addCommentTitle);
+
+    let userId = await fetchUserId();
+
+    if (!userId) {
+        let divNotLoggedIn = $("<div>");
+        divAddComment.append(divNotLoggedIn);
+
+        let pNotloggedIn = $("<p>")
+            .text("You are not logged in.");
+        divNotLoggedIn.append(pNotloggedIn);
+        $("<button>")
+            .text("Sigin")
+            .on("click", function () {
+                window.location.href = "/public/signin.php";
+            })
+            .appendTo(divNotLoggedIn);
+    } else {
+
+        let commentTA = $("<textarea>")
+            .attr("id", "commentText")
+            .attr("placeholder" ,lang === 'fr' ? 'Votre commentaire...' : 'Your comment...');
+        divAddComment.append(commentTA);
+
+        let divImageUpload = $("<div>")
+            .addClass("image-upload");
+        divAddComment.append(divImageUpload);
+
+        let labelImage = $("<label>")
+            .attr("for", "commentImage")
+            .text(lang === 'fr' ? 'Télécharger une image (facultatif): ' : 'Upload Image (optional): ');
+        divImageUpload.append(labelImage);
+
+        let imageInput = $("<input>")
+            .attr("type", "file")
+            .attr("id", "commentImage")
+            .attr("accept", "image/*");
+        divImageUpload.append(imageInput);
+
+        let imagePreview = $("<img>")
+            .attr("id", "imagePreview")
+            .attr("src", "#")
+            .attr("alt", lang === 'fr' ? 'Aperçu de l\'image' : 'Image Preview')
+            .attr("style", "display:none; max-width:100px; height:auto;");
+        divImageUpload.append(imagePreview);
+
+        let submitButton = $("<button>")
+            .on("click", function() {
+                submitComment(recipe.id, userId);
+            })
+            .text(lang === 'fr' ? 'Envoyer le commentaire' : 'Submit Comment');
+        divAddComment.append(submitButton);
+
+        let divCommentStatus = $("<div>")
+            .attr("id", "commentStatus")
+            .addClass("status-message");
+        divAddComment.append(divCommentStatus);
+    }
+
+    if (recipe.comments && recipe.comments.length > 0) {
+        let divComments = $("<div>")
+            .addClass("comments-section");
+        
+        recipeContainer.append(divComments);
+
+        let commentsTitle = $("<h2>")
+            .text(lang === 'fr' ? 'Commentaires' : 'Comments');
+        divComments.append(commentsTitle);
+
+        let commentsList = $("<ul>")
+        divComments.append(commentsList);
+
+        for (let comment of recipe.comments) {
+            let listItem = $("<li>")
+            let pUserName = $("<p>")
+                .addClass("user")
+                .text(comment.user_name);
+            listItem.append(pUserName);
+
+            let pText = $("<p>")
+                .addClass("text")
+                .text(comment.text);
+            listItem.append(pText);
+
+            if (comment.image) {
+                let cImage = $("<img>")
+                    .attr("src", "/assets/comments/"+comment.image)
+                    .attr("alt", "Comment Image")
+                    .addClass("comment-image");
+                listItem.append(cImage);
+            }
+            commentsList.append(listItem);
+        }
+    }
 }
 
-function submitComment(recipeId) {
-    const userId = "medj364";
+function submitComment(recipeId, userId) {
     const commentText = document.getElementById('commentText').value;
     const commentImageInput = document.getElementById('commentImage');
     const commentImageFile = commentImageInput.files[0];
@@ -126,7 +257,6 @@ function submitComment(recipeId) {
         contentType: false,
         processData: false,
         success: function(response) {
-            console.log(response);
             try {
                 const data = JSON.parse(response);
                 if (data.success) {
