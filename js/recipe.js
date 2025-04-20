@@ -24,7 +24,8 @@ function changeLang() {
 
 
 async function createRecipeContent(recipe) {
-    let contentDiv = $("#content");
+    let contentDiv = $("#content")
+        .attr("class", "content");
     contentDiv.empty();
 
     // TODO: make sure missing names don't fuck up the view
@@ -33,16 +34,29 @@ async function createRecipeContent(recipe) {
     let steps = lang === 'fr' && recipe.stepsFR ? recipe.stepsFR : recipe.steps;
 
     // language button
+    let buttonDiv = $("<div>")
+        .attr("class", "button-div")
+        .appendTo(contentDiv);
+
     let languageButton = $("<button>")
         .attr("id", "changeLang")
+        .attr("class", "lang-button")
         .on("click", changeLang)
         .text(lang === 'fr' ? 'Click here to see the english version!' : 'Cliquez ici pour voir la version française');
-    contentDiv.append(languageButton);
+    buttonDiv.append(languageButton);
 
     //recipeContainer
     let recipeContainer = $("<div>")
         .addClass("recipe-container");
     contentDiv.append(recipeContainer);
+
+    let recipeLabelDiv = $("<div>")
+        .attr("class", "recipe-label")
+        .appendTo(recipeContainer);
+
+    $("<p>")
+        .text(lang === "fr" ? "RECETTE" : "RECIPE")
+        .appendTo(recipeLabelDiv);
 
     let title = $("<h1>")
         .text(name);
@@ -52,6 +66,22 @@ async function createRecipeContent(recipe) {
         .addClass("author")
         .text((lang === 'fr' ? 'Auteur' : 'Author') + ": " + recipe.author || 'N/A');
     recipeContainer.append(authorPara);
+
+    let detailsDiv = $("<div>")
+        .attr("class", "details")
+        .appendTo(recipeContainer);
+
+    let detailsSection = `
+        <div class="detailsItem"><span>${recipe.difficulty}</span></div>
+        <div class="sep">•</div>
+        <div class="detailsItem"><span>${recipe.diet}</span></div>
+        <div class="sep">•</div>
+        <div class="detailsItem"><span>${recipe.is_dairy_free ? (lang === 'fr' ? 'Sans produits laitiers' : 'No dairy') : (lang === 'fr' ? 'Contient produits laitiers' : 'Contains dairy')}</span></div>
+        <div class="sep">•</div>
+        <div class="detailsItem"><span>${recipe.is_gluten_free ? (lang === 'fr' ? 'Sans gluten' : 'Gluten free') : (lang === 'fr' ? 'Contient du gluten' : 'Contains gluten')}</span></div>
+    `;
+
+    detailsDiv.append(detailsSection)
     
     if (recipe.imageURL) {
         //TODO alt?
@@ -62,7 +92,8 @@ async function createRecipeContent(recipe) {
     }
 
     if (recipe.originalURL) {
-        let originUrl = $("<p>");
+        let originUrl = $("<p>")
+            .attr("class", "originUrl");
         let originUrl_a = $("<a>")
             .attr("href", recipe.originalURL)
             .attr("target", "_blank")
@@ -71,11 +102,12 @@ async function createRecipeContent(recipe) {
         recipeContainer.append(originUrl);
     }
 
+    //ingeredients section
     let ingredientsSection = $("<div>")
         .addClass("ingredients-section");
     recipeContainer.append(ingredientsSection);
 
-    let ingredientsSectionTitle = $("<h2>")
+    let ingredientsSectionTitle = $("<p>")
         .text(lang === 'fr' ? 'Ingrédients' : 'Ingredients');
     ingredientsSection.append(ingredientsSectionTitle);
 
@@ -104,36 +136,25 @@ async function createRecipeContent(recipe) {
         stepsList.append(listItem);
     }
 
-    // details section
-    let divDetails = $("<div>")
-        .addClass("details-section");
-    recipeContainer.append(divDetails);
 
-    let detailsTitle = $("<h3>")
-        .text(lang === 'fr' ? 'Détails' : 'Details');
-    divDetails.append(detailsTitle);
+    //commentsection
 
-    let parDetailDiet = $("<p>")
-        .text((lang === 'fr' ? 'Régime: ' : 'Diet: ') + (recipe.diet || 'N/A'));
-    divDetails.append(parDetailDiet);
-    let parDetailDiff = $("<p>")
-        .text((lang === 'fr' ? 'Difficulté: ' : 'Difficulty: ') + (recipe.difficulty || 'N/A'));
-    divDetails.append(parDetailDiff);
-    let parDetailGluten = $("<p>")
-        .text((lang === 'fr' ? 'Sans gluten: ' : 'Gluten Free: ') + (recipe.is_gluten_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')));
-    divDetails.append(parDetailGluten);
-    let parDetailDairy = $("<p>")
-        .text((lang === 'fr' ? 'Sans produits laitiers: ' : 'Dairy Free: ') + (recipe.is_dairy_free ? (lang === 'fr' ? 'Oui' : 'Yes') : (lang === 'fr' ? 'Non' : 'No')));
-    divDetails.append(parDetailDairy);
+    let commentSectionDiv = $("<div>")
+        .attr("class", "comments")
+        .appendTo(contentDiv);
+
+    let commentsLabelDiv = $("<div>")
+        .attr("class", "recipe-label")
+        .appendTo(commentSectionDiv);
+
+    $("<p>")
+        .text(lang === "fr" ? "COMMENTAIRES" : "COMMENTS")
+        .appendTo(commentsLabelDiv);
 
     // add comments section
     let divAddComment = $("<div>")
         .addClass("add-comment");
-    recipeContainer.append(divAddComment);
-
-    let addCommentTitle = $("<h3>")
-        .text(lang === "fr" ? "Ajouter un commentaire" : "Add a comment!");
-    divAddComment.append(addCommentTitle);
+    commentSectionDiv.append(divAddComment);
 
     let userId = await fetchUserId();
 
@@ -142,18 +163,27 @@ async function createRecipeContent(recipe) {
         divAddComment.append(divNotLoggedIn);
 
         let pNotloggedIn = $("<p>")
-            .text("You are not logged in.");
+            .attr("class", "not-logged-in")
+            .text(lang === "fr" ? "Vous n'êtes pas connecté." : "You are not logged in.");
         divNotLoggedIn.append(pNotloggedIn);
         $("<button>")
-            .text("Sigin")
+            .text(lang === "fr" ? "Se connecter" : "Sign-in")
+            .attr("class", "sign-in-button")
             .on("click", function () {
                 window.location.href = "/public/signin.php";
             })
             .appendTo(divNotLoggedIn);
     } else {
 
+        let userName = await fetchUserName(userId);
+        $("<p>")
+            .attr("class", "add-comment-username")
+            .text(userName)
+            .appendTo(divAddComment);
+
         let commentTA = $("<textarea>")
             .attr("id", "commentText")
+            .attr("class", "textarea")
             .attr("placeholder" ,lang === 'fr' ? 'Votre commentaire...' : 'Your comment...');
         divAddComment.append(commentTA);
 
@@ -169,6 +199,7 @@ async function createRecipeContent(recipe) {
         let imageInput = $("<input>")
             .attr("type", "file")
             .attr("id", "commentImage")
+            .attr("class", "image-input")
             .attr("accept", "image/*");
         divImageUpload.append(imageInput);
 
@@ -181,8 +212,9 @@ async function createRecipeContent(recipe) {
 
         let submitButton = $("<button>")
             .on("click", function() {
-                submitComment(recipe.id, userId);
+                submitComment(recipe.id, userId, userName);
             })
+            .attr("class", "submit-button")
             .text(lang === 'fr' ? 'Envoyer le commentaire' : 'Submit Comment');
         divAddComment.append(submitButton);
 
@@ -193,43 +225,31 @@ async function createRecipeContent(recipe) {
     }
 
     if (recipe.comments && recipe.comments.length > 0) {
-        let divComments = $("<div>")
-            .addClass("comments-section");
-        
-        recipeContainer.append(divComments);
 
-        let commentsTitle = $("<h2>")
-            .text(lang === 'fr' ? 'Commentaires' : 'Comments');
-        divComments.append(commentsTitle);
-
-        let commentsList = $("<ul>")
-        divComments.append(commentsList);
-
-        for (let comment of recipe.comments) {
-            let listItem = $("<li>")
-            let pUserName = $("<p>")
-                .addClass("user")
-                .text(comment.user_name);
-            listItem.append(pUserName);
-
-            let pText = $("<p>")
-                .addClass("text")
-                .text(comment.text);
-            listItem.append(pText);
-
+        for (let comment of recipe.comments.reverse()) {
+            let commentElement = `
+            <div class="single-comment">
+            <p class="comment-username">${comment.user_name}</p>
+            <p class="comment-text">${comment.text}</p>
+            `;
             if (comment.image) {
-                let cImage = $("<img>")
-                    .attr("src", "/assets/comments/"+comment.image)
-                    .attr("alt", "Comment Image")
-                    .addClass("comment-image");
-                listItem.append(cImage);
+                let cImage = `
+                <img src="/assets/comments/${comment.image}">
+                `;
+                commentElement += cImage;
             }
-            commentsList.append(listItem);
+            commentElement += "</div>";
+            commentSectionDiv.append(commentElement);
         }
+    } else {
+        $("<p>")
+            .attr("class", "no-comments")
+            .text(lang === "fr" ? "Pas de commentaires" : "No comments yet")
+            .appendTo(commentSectionDiv);
     }
 }
 
-function submitComment(recipeId, userId) {
+function submitComment(recipeId, userId, userName) {
     const commentText = document.getElementById('commentText').value;
     const commentImageInput = document.getElementById('commentImage');
     const commentImageFile = commentImageInput.files[0];
@@ -244,6 +264,7 @@ function submitComment(recipeId, userId) {
     const formData = new FormData();
     formData.append('action', 'addComment');
     formData.append('user_id', userId);
+    formData.append('user_name', userName);
     formData.append('id', recipeId);
     formData.append('text', commentText);
     if (commentImageFile) {
@@ -306,6 +327,31 @@ async function fetchUserId() {
         return parseUserId(sessionData);
     } catch (err) {
         console.error("Error fetching user ID:", err);
+        return null;
+    }
+}
+
+async function fetchUserName(id) {
+    try {
+        const sessionData = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "GET",
+            data: { action: "get",
+                    id: id
+            }
+        });
+        return parseUserName(sessionData);
+    } catch (err) {
+        console.error("Error fetching user name:", err);
+        return null;
+    }
+}
+
+function parseUserName(data) {
+    try {
+        return JSON.parse(data).username;
+    } catch (e) {
+        console.error("Failed to parse user: ", e);
         return null;
     }
 }

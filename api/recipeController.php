@@ -208,12 +208,18 @@
                     if (!isset($_POST['user_id'])) {
                         http_response_code(400); echo '{"error" : "Missing user"}';
                     }
+                    if (!isset($_POST['user_name'])) {
+                        http_response_code(400); echo '{"error" : "Missing user name"}';
+                    }
                     if (!isset($_POST['text'])) {
                         http_response_code(400); echo '{"error" : "Missing text"}';
                     }
                     $comment = [];
                     $comment["comment_id"] = uniqid(); 
+                    //TODO: check if user exists and if user id and user name match
                     $comment["user_id"] = $_POST['user_id'];
+                    $comment["user_name"] = $_POST['user_name'];
+
                     $comment["text"] = $_POST['text'];
                     if (isset($_FILES['image'])) {
                         if ($_FILES["image"]["error"] !== 0) {
@@ -227,15 +233,16 @@
                             echo "dir invalid";
                         }
                         $uploadPath = $uploadDir."/".$comment['image'];
-                        echo $uploadPath.'\n';
-                        echo $file;
+
                         if (!is_uploaded_file($file)) {
-                            echo "ERROR: Not a valid uploaded file.";
+                            http_response_code(400);
+                            echo '{ "error": "File upload failed"}';
+                            return;
                         } elseif (!is_writable($uploadDir)) {
-                            echo "ERROR: Upload directory is not writable.";
-                        } else {
-                            echo "ERROR: Failed to move file.";
-                        }
+                            http_response_code(400);
+                            echo '{ "error": "Server has not permission to write on directory" }';
+                            return;
+                        } 
 
                         $is_saved = move_uploaded_file($file, $uploadPath);
                         if (!$is_saved) {
@@ -249,7 +256,7 @@
 
                     array_push($recipes[$id]["comments"], $comment);
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
-                    echo json_encode($recipes[$id]);
+                    echo '{ "success": ' . json_encode($recipes[$id]) . ' }';
                 }
                 else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
             } 
