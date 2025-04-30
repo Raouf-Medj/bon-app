@@ -236,18 +236,45 @@
                     if (!isset($_POST['user_id'])) {
                         http_response_code(400); echo '{"error" : "Missing user"}';
                     }
+                    if (!isset($_POST['user_name'])) {
+                        http_response_code(400); echo '{"error" : "Missing user name"}';
+                    }
                     if (!isset($_POST['text'])) {
                         http_response_code(400); echo '{"error" : "Missing text"}';
                     }
                     $comment = [];
                     $comment["comment_id"] = uniqid(); 
+                    //TODO: check if user exists and if user id and user name match
                     $comment["user_id"] = $_POST['user_id'];
+                    $comment["user_name"] = $_POST['user_name'];
+
                     $comment["text"] = $_POST['text'];
                     if (isset($_FILES['image'])) {
+                        if ($_FILES["image"]["error"] !== 0) {
+                            http_response_code(400); echo '{"error" : "Could not save file due to code: '.$_FILES["image"]["error"].'"}';
+                            return;
+                        }
                         $comment["image"] =  uniqid();
                         $file = $_FILES['image']['tmp_name'];
-                        $is_saved = move_uploaded_file("/assets/comments/".$comment['image'], $file);
+                        $uploadDir = __DIR__."/../assets/comments";
+                        if (!is_dir($uploadDir)) {
+                            echo "dir invalid";
+                        }
+                        $uploadPath = $uploadDir."/".$comment['image'];
+
+                        if (!is_uploaded_file($file)) {
+                            http_response_code(400);
+                            echo '{ "error": "File upload failed"}';
+                            return;
+                        } elseif (!is_writable($uploadDir)) {
+                            http_response_code(400);
+                            echo '{ "error": "Server has not permission to write on directory" }';
+                            return;
+                        } 
+
+                        $is_saved = move_uploaded_file($file, $uploadPath);
                         if (!$is_saved) {
+                            var_dump($is_saved);
                             http_response_code(400); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
                             return;
                         }
@@ -257,7 +284,7 @@
 
                     array_push($recipes[$id]["comments"], $comment);
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
-                    echo json_encode($recipes[$id]);
+                    echo '{ "success": ' . json_encode($recipes[$id]) . ' }';
                 }
                 else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
             } 

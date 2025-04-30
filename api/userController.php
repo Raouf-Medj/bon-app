@@ -119,6 +119,14 @@
         else if ($_POST['action'] == 'signout') {
             session_destroy();
         }
+
+        else if ($_POST['action'] == 'getsession') {
+            if (isset($_SESSION['userId'])) {
+                echo '{ "session" : "'.$_SESSION['userId'].'" }';
+            } else {
+                echo '{ "session": null }';
+            }
+        }
         
         // POST: ~/api/userControllers.php {params in request body}
         else if ($_POST['action'] == 'put') {

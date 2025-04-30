@@ -68,5 +68,21 @@
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "id": "67c96cf613531",
         "favorites": []
+    },
+    "67c96cf612631": {
+        "username": "daneismyname3",
+        "email": "myemail3@mail.com",
+        "role": "TRANSLATOR",
+        "password": "$2y$12$Ve8UgKtgy4HuWbhxL8YPVeO4RT6DQuSpagbDvfzAViJQK1AX9nvcK",
+        "id": "67c96cf612631",
+        "favorites": []
+    },
+    "680527557a734": {
+        "username": "danilodanilo",
+        "email": "danilo@danilo.danilo",
+        "password": "$2y$12$493F75iDrYzii.m\/cTXA\/.qbpDhqNVPEVWgnjdfpwiCn\/ArX1E0dW",
+        "role": "COOK",
+        "id": "680527557a734",
+        "favorites": []
     }
 }
