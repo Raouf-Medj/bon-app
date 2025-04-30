@@ -968,11 +968,12 @@
         ],
         "timers": [
             1
-        ]
+        ],
+        "localImage": null
     },
     "67fbe77b5b0d2": {
         "id": "67fbe77b5b0d2",
-        "validated": false,
+        "validated": true,
         "name": "Crock Pot Roast copy",
         "nameFR": "Roti \u00e0 la cocotte copie",
         "author": "Chef04",
@@ -1053,6 +1054,7 @@
             1,
             1,
             420
-        ]
+        ],
+        "localImage": "D:\\Documents\\School\\UPS\\LDD3\\S2\\DWEB\\Project\\bon-app\\api\/..\/assets\/images\/recipes\/67fbe77b5b0d2.png"
     }
 }

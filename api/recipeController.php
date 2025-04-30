@@ -157,13 +157,50 @@
                     $new_recipe['is_dairy_free'] = filter_var($_POST['is_dairy_free'], FILTER_VALIDATE_BOOLEAN);
                     $new_recipe['diet'] = $_POST['diet'];
                     $new_recipe['difficulty'] = $_POST['difficulty'];
-                    $new_recipe['imageURL'] = $_POST['imageURL'];
-                    $new_recipe['originalURL'] = $_POST['originalURL'];
                     $new_recipe['ingredients'] = json_decode($_POST['ingredients'], true);
                     $new_recipe['ingredientsFR'] = json_decode($_POST['ingredientsFR'], true);
                     $new_recipe['steps'] = json_decode($_POST['steps'], true);
                     $new_recipe['stepsFR'] = json_decode($_POST['stepsFR'], true);
                     $new_recipe['timers'] = json_decode($_POST['timers'], true);
+                    $new_recipe['originalURL'] = $_POST['originalURL'];
+
+                    if (isset($_FILES['localImage'])) {
+                        if ($_FILES["localImage"]["error"] !== 0) {
+                            http_response_code(400); echo '{"error" : "Could not save file due to code: '.$_FILES["image"]["error"].'"}';
+                            return;
+                        }
+                        $new_recipe["localImage"] = $_FILES['localImage']['tmp_name'];
+                        $uploadDir = __DIR__."/../assets/images/recipes";
+                        if (!is_dir($uploadDir)) {
+                            http_response_code(500); echo '{"error" : "Invalid directory for recipe images"}';
+                            return;
+                        }
+                        $uploadPath = $uploadDir."/".$new_recipe['id'].".png";
+
+                        if (!is_uploaded_file($new_recipe["localImage"])) {
+                            http_response_code(500);
+                            echo '{ "error": "File upload failed"}';
+                            return;
+                        } elseif (!is_writable($uploadDir)) {
+                            http_response_code(500);
+                            echo '{ "error": "Server has not permission to write on directory" }';
+                            return;
+                        } 
+
+                        $is_saved = move_uploaded_file($new_recipe["localImage"], $uploadPath);
+
+                        if (!$is_saved) {
+                            var_dump($is_saved);
+                            http_response_code(500); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
+                            return;
+                        }
+                        $new_recipe["localImage"] = $uploadPath;
+
+                    } else {
+                        $new_recipe["localImage"] = null;
+                    }
+
+                    $new_recipe['imageURL'] = $_POST['imageURL'];
 
                     $recipes[$new_recipe['id']] = $new_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
@@ -216,9 +253,68 @@
                     set_attr('stepsFR', $modified_recipe, $old_recipe, true);
                     set_attr('timers', $modified_recipe, $old_recipe, true);
 
+                    if (isset($_FILES['localImage'])) {
+                        if ($_FILES["localImage"]["error"] !== 0) {
+                            http_response_code(400); echo '{"error" : "Could not save file due to code: '.$_FILES["image"]["error"].'"}';
+                            return;
+                        }
+                        $modified_recipe["localImage"] = $_FILES['localImage']['tmp_name'];
+                        $uploadDir = __DIR__."/../assets/images/recipes";
+                        if (!is_dir($uploadDir)) {
+                            http_response_code(500); echo '{"error" : "Invalid directory for recipe images"}';
+                            return;
+                        }
+                        $uploadPath = $uploadDir."/".$modified_recipe['id'].".png";
+
+                        if (!is_uploaded_file($modified_recipe["localImage"])) {
+                            http_response_code(500);
+                            echo '{ "error": "File upload failed"}';
+                            return;
+                        } elseif (!is_writable($uploadDir)) {
+                            http_response_code(500);
+                            echo '{ "error": "Server has not permission to write on directory" }';
+                            return;
+                        } 
+
+                        $is_saved = move_uploaded_file($modified_recipe["localImage"], $uploadPath);
+
+                        if (!$is_saved) {
+                            var_dump($is_saved);
+                            http_response_code(500); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
+                            return;
+                        }
+                        $modified_recipe["localImage"] = $uploadPath;
+
+                    } else {
+                        $modified_recipe["localImage"] = $old_recipe["localImage"];
+                    }
+
                     $recipes[$modified_recipe['id']] = $modified_recipe;
                     file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
                     echo '{"recipe" : '.json_encode($modified_recipe, JSON_PRETTY_PRINT).'}';
+                }
+                else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
+            } 
+            else { http_response_code(400); echo '{"error" : "Missing id"}'; }
+        }
+
+        // POST: ~/api/recipeController.php {params in request body}
+        else if($_POST['action'] == 'delete') {
+            if (isset($_POST['id'])) { 
+                $id = $_POST['id'];
+                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
+                $recipe = $recipes[$id] ?? null;
+
+                if ($recipe !== null) {
+                    if ($recipe['localImage'] !== null) {
+                        if (file_exists($recipe['localImage'])) {
+                            unlink($recipe['localImage']);
+                        }
+                    }
+
+                    unset($recipes[$id]);
+                    file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
+                    echo '{"id" : "'.$recipe['id'].'"}';
                 }
                 else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
             } 
@@ -235,12 +331,15 @@
                 if ($recipe !== null) {
                     if (!isset($_POST['user_id'])) {
                         http_response_code(400); echo '{"error" : "Missing user"}';
+                        return;
                     }
                     if (!isset($_POST['user_name'])) {
                         http_response_code(400); echo '{"error" : "Missing user name"}';
+                        return;
                     }
                     if (!isset($_POST['text'])) {
                         http_response_code(400); echo '{"error" : "Missing text"}';
+                        return;
                     }
                     $comment = [];
                     $comment["comment_id"] = uniqid(); 
@@ -258,16 +357,17 @@
                         $file = $_FILES['image']['tmp_name'];
                         $uploadDir = __DIR__."/../assets/images/comments";
                         if (!is_dir($uploadDir)) {
-                            echo "dir invalid";
+                            http_response_code(500); echo '{"error" : "Invalid directory for comment images"}';
+                            return;
                         }
                         $uploadPath = $uploadDir."/".$comment['image'].".png";
 
                         if (!is_uploaded_file($file)) {
-                            http_response_code(400);
+                            http_response_code(500);
                             echo '{ "error": "File upload failed"}';
                             return;
                         } elseif (!is_writable($uploadDir)) {
-                            http_response_code(400);
+                            http_response_code(500);
                             echo '{ "error": "Server has not permission to write on directory" }';
                             return;
                         } 
@@ -275,7 +375,7 @@
                         $is_saved = move_uploaded_file($file, $uploadPath);
                         if (!$is_saved) {
                             var_dump($is_saved);
-                            http_response_code(400); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
+                            http_response_code(500); echo '{"error" : "Could not save file due to: '.$is_saved.'"}';
                             return;
                         }
                     } else {
@@ -290,24 +390,6 @@
             } 
             else { http_response_code(400); echo '{"error" : "Missing id"}'; }
         }
-
-        // POST: ~/api/recipeController.php {params in request body}
-        else if($_POST['action'] == 'delete') {
-            if (isset($_POST['id'])) { 
-                $id = $_POST['id'];
-                $recipes = json_decode(file_get_contents("../db/recipes.json"), true);
-                $recipe = $recipes[$id] ?? null;
-
-                if ($recipe !== null) {
-                    unset($recipes[$id]);
-                    file_put_contents("../db/recipes.json", json_encode($recipes, JSON_PRETTY_PRINT));
-                    echo '{"id" : "'.$recipe['id'].'"}';
-                }
-                else { http_response_code(404); echo '{"error" : "Recette introuvable"}'; }
-            } 
-            else { http_response_code(400); echo '{"error" : "Missing id"}'; }
-        }
-
 
         else {
             http_response_code(400); echo '{"error" : "Invalid action"}';

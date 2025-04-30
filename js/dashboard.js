@@ -224,13 +224,14 @@ $(document).ready(async function () {
     $('#recipeForm').submit(async function (e) {
         e.preventDefault();
         
-        const formData = $(this).serializeArray();
+        const json = $(this).serializeArray();
+        const formData = new FormData();
         const recipe = {};
     
         const ingredients = [], ingredientsFR = [];
         const steps = [], stepsFR = [], timers = [];
     
-        formData.forEach(field => {
+        json.forEach(field => {
             if (field.name === "quantity[]") {
                 ingredients.push({ quantity: field.value });
                 ingredientsFR.push({ quantity: field.value });
@@ -253,32 +254,37 @@ $(document).ready(async function () {
             } else {
                 recipe[field.name] = field.value;
             }
-
-            if (recipe.is_gluten_free == undefined) {
-                recipe.is_gluten_free = false;
-            }
-            if (recipe.is_dairy_free == undefined) {
-                recipe.is_dairy_free = false;
-            }
         });
-    
+
+        recipe.is_gluten_free = recipe.is_gluten_free || false
+        recipe.is_dairy_free = recipe.is_dairy_free || false
         recipe.ingredients = ingredients;
         recipe.ingredientsFR = ingredientsFR;
         recipe.steps = steps;
         recipe.stepsFR = stepsFR;
         recipe.timers = timers;
-        recipe.imageURL = recipe.imageURL || "";
         recipe.originalURL = recipe.originalURL || "";
+        recipe.imageURL = recipe.imageURL || "";
+
+        for (const key in recipe) {
+            if (Array.isArray(recipe[key]) || typeof recipe[key] === 'object') {
+                formData.append(key, JSON.stringify(recipe[key]));
+            } else {
+                formData.append(key, recipe[key]);
+            }
+        }
+
+        formData.append('localImage', $('#localImage')[0]?.files[0] ?? null);
     
         const isEdit = $('#recipeForm').data('edit-mode');
     
         if (isEdit) {
-            recipe.id = $('#recipeForm').data('edit-id');
-            recipe.validated = false;
-            await editRecipe(recipe);
+            formData.append('id', $('#recipeForm').data('edit-id'));
+            formData.append('validated', false);
+            await editRecipe(formData);
         }
         else {
-            const recipeId = await addRecipe(recipe);
+            const recipeId = await addRecipe(formData);
             addRecipeRow(recipeId, recipe.nameFR, false);
         }
         recipeModal.hide();
@@ -506,29 +512,14 @@ async function deleteRecipe(id) {
 }
 
 async function editRecipe(recipe) {
+    recipe.append('action', 'put');
     try {
         let response = await $.ajax({
             url: "http://localhost:3000/api/recipeController.php",
             method: "POST",
-            data: { 
-                action: "put",
-                id: recipe.id,
-                validated: recipe.validated,
-                name: recipe.name,
-                nameFR: recipe.nameFR,
-                author: recipe.author,
-                is_gluten_free: recipe.is_gluten_free,
-                is_dairy_free: recipe.is_dairy_free,
-                diet: recipe.diet,
-                difficulty: recipe.difficulty,
-                ingredients: JSON.stringify(recipe.ingredients),
-                ingredientsFR: JSON.stringify(recipe.ingredientsFR),
-                steps: JSON.stringify(recipe.steps),
-                stepsFR: JSON.stringify(recipe.stepsFR),
-                timers: JSON.stringify(recipe.timers),
-                imageURL: recipe.imageURL,
-                originalURL: recipe.originalURL
-            }
+            processData: false,
+            contentType: false,
+            data: recipe
         });
         return response;
     } catch (error) {
@@ -537,27 +528,14 @@ async function editRecipe(recipe) {
 }
 
 async function addRecipe(recipe) {
+    recipe.append('action', 'add');
     try {
         let response = await $.ajax({
             url: "http://localhost:3000/api/recipeController.php",
             method: "POST",
-            data: {
-                action: "add",
-                name: recipe.name,
-                nameFR: recipe.nameFR,
-                author: recipe.author,
-                is_gluten_free: recipe.is_gluten_free,
-                is_dairy_free: recipe.is_dairy_free,
-                diet: recipe.diet,
-                difficulty: recipe.difficulty,
-                ingredients: JSON.stringify(recipe.ingredients),
-                ingredientsFR: JSON.stringify(recipe.ingredientsFR),
-                steps: JSON.stringify(recipe.steps),
-                stepsFR: JSON.stringify(recipe.stepsFR),
-                timers: JSON.stringify(recipe.timers),
-                imageURL: recipe.imageURL,
-                originalURL: recipe.originalURL
-            }
+            processData: false,
+            contentType: false,
+            data: recipe
         });
         return JSON.parse(response).id;
     } catch (error) {

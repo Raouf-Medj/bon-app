@@ -225,7 +225,7 @@ function displayRecipes(recipes, userId = null) {
         let listItem = `
             <li class="recipecard_container">
                 <div class="recipecard_image">
-                    <img class="image" src="${recipe.imageURL}" alt="${recipe.nameFR}" width="200">
+                    <img class="image" src="${recipe?.localImage?.split('bon-app\\')[1].replace(/\\/g, '/').replace('api/../', '') || recipe.imageURL}" alt="${recipe.nameFR}" width="200">
                 </div>
                 <div class="recipecard_content">
                     <h3 class="recipecard_title">${recipe.nameFR}</h3>

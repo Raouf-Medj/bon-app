@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonApp!</title>
+    <title>BonApp! - Dashboard</title>
     <link href="../css/global.css" rel="stylesheet">
     <link href="../css/dashboard.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -75,7 +75,7 @@
                 <h2>Ajouter ou modifier une recette</h2>
             <?php } ?>
 
-            <form id="recipeForm">
+            <form id="recipeForm" enctype="multipart/form-data">
 
                 <div class="row">
                     <div class="column">
@@ -129,8 +129,15 @@
                 <button type="button" id="add-step" <?= $disabledAttr ?>>+ Ajouter une étape</button>
 
                 <h3>Liens</h3>
+                <input type="text" name="originalURL" placeholder="Lien d’origine" <?= $disabledAttr ?>><br>
                 <input type="text" name="imageURL" placeholder="Lien d'image" <?= $disabledAttr ?>><br>
-                <input type="text" name="originalURL" placeholder="Lien d’origine" <?= $disabledAttr ?>><br><br>
+                Ou uploader votre image locale ci-dessous (priorité d'affichage supérieure) <input type="file" name="localImage" id="localImage" accept="image/png, image/jpeg, image/jpg"><br>
+                <img
+                    src=""
+                    alt="recipe img preview"
+                    id="preview_img"
+                    style="width: 2rem; height: auto; display: none"
+                /><br><br>
 
                 <button type="submit">Enregistrer</button>
             </form>
