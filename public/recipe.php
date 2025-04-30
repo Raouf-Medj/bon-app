@@ -9,14 +9,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonApp!</title>
+    <title>BonApp! - Recette</title>
     <link href="./../css/global.css" rel="stylesheet">
     <link href="./../css/recipe.css" rel="stylesheet">
 </head>
 <body>
-        <script src="/js/recipe.js"></script>
-        <div id="content"></div>
-        <script>
+    <script src="/js/recipe.js"></script>
+    <div id="content"></div>
+    <script>
         let recId = <?php echo json_encode($rec_id); ?>;
         //let currentLang = <?php echo json_encode($lang); ?>;
 
@@ -25,7 +25,7 @@
         } else {
             loadMissingIdPage();
         }
-        </script>
+    </script>
 </body>
 </html>
 
