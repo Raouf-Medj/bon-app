@@ -87,32 +87,139 @@
             {
                 "comment_id": "id",
                 "user_id": "67ba0ccc42169",
+                "user_name": "User1",
                 "text": "lorem ipsum",
-                "image": "\/assets\/comments\/MicrosoftTeams-image_24.webp"
+                "image": "MicrosoftTeams-image_24.webp"
             },
             {
                 "comment_id": "67f5c30d7b5d7",
-                "user_id": "medj364",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
                 "text": "sdf",
                 "image": null
             },
             {
                 "comment_id": "67f5c3d2b3043",
                 "user_id": "medj364",
+                "user_name": "medj364",
                 "text": "lkj",
                 "image": null
             },
             {
                 "comment_id": "67f5c3e24a70f",
                 "user_id": "medj364",
+                "user_name": "medj364",
                 "text": "klklkj",
                 "image": null
             },
             {
-                "comment_id": "67f781815c258",
-                "user_id": "medj364",
-                "text": "ggg",
+                "comment_id": "680530ee5b56a",
+                "user_id": "680527557a734",
+                "text": "Something",
+                "image": "680530ee5b570"
+            },
+            {
+                "comment_id": "68053164a3075",
+                "user_id": "680527557a734",
+                "text": "fffff",
+                "image": "68053164a307a"
+            },
+            {
+                "comment_id": "6805319584a85",
+                "user_id": "680527557a734",
+                "text": "asdf",
                 "image": null
+            },
+            {
+                "comment_id": "680531a63ac0d",
+                "user_id": "680527557a734",
+                "text": "sdfsdf",
+                "image": null
+            },
+            {
+                "comment_id": "6805329d4de2d",
+                "user_id": "680527557a734",
+                "text": "sfff",
+                "image": null
+            },
+            {
+                "comment_id": "68053320c3d74",
+                "user_id": "680527557a734",
+                "text": "ddddd",
+                "image": null
+            },
+            {
+                "comment_id": "6805338eb4aa1",
+                "user_id": "680527557a734",
+                "text": "dddd",
+                "image": null
+            },
+            {
+                "comment_id": "680533be95295",
+                "user_id": "680527557a734",
+                "text": "fffff",
+                "image": null
+            },
+            {
+                "comment_id": "680533c5c0417",
+                "user_id": "680527557a734",
+                "text": "dddd",
+                "image": null
+            },
+            {
+                "comment_id": "680533d595c20",
+                "user_id": "680527557a734",
+                "text": "ddd",
+                "image": "680533d595c25"
+            },
+            {
+                "comment_id": "680534bc7c0bc",
+                "user_id": "680527557a734",
+                "user_name": null,
+                "text": "dddd",
+                "image": null
+            },
+            {
+                "comment_id": "680534c4bec91",
+                "user_id": "680527557a734",
+                "user_name": null,
+                "text": "fsdfsdf",
+                "image": null
+            },
+            {
+                "comment_id": "680534e03826a",
+                "user_id": "680527557a734",
+                "user_name": null,
+                "text": "fsdfsdf",
+                "image": null
+            },
+            {
+                "comment_id": "680534e390a5e",
+                "user_id": "680527557a734",
+                "user_name": null,
+                "text": "ddddd",
+                "image": null
+            },
+            {
+                "comment_id": "680534f83425d",
+                "user_id": "680527557a734",
+                "user_name": "danilodanilo",
+                "text": "ddddd",
+                "image": null
+            },
+            {
+                "comment_id": "6805350a5845e",
+                "user_id": "680527557a734",
+                "user_name": "danilodanilo",
+                "text": "asfff",
+                "image": "6805350a58466"
+            },
+            {
+                "comment_id": "6805363dec01a",
+                "user_id": "680527557a734",
+                "user_name": "danilodanilo",
+                "text": "ffff",
+                "image": "6805363dec01e"
             }
         ]
     },
@@ -168,7 +275,16 @@
             0
         ],
         "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/50\/84\/7\/picMcSyVd.jpg",
-        "originalURL": "http:\/\/www.food.com\/recipe\/roasted-asparagus-50847"
+        "originalURL": "http:\/\/www.food.com\/recipe\/roasted-asparagus-50847",
+        "comments": [
+            {
+                "comment_id": "680536ab2fc36",
+                "user_id": "680527557a734",
+                "user_name": "danilodanilo",
+                "text": "fffff",
+                "image": null
+            }
+        ]
     },
     "67ba1eae710f0": {
         "id": "67ba1eae710f0",

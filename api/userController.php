@@ -117,7 +117,11 @@
         }
 
         else if ($_POST['action'] == 'getsession') {
-            echo '{ "session" : "'.$_SESSION['userId'].'" }';
+            if (isset($_SESSION['userId'])) {
+                echo '{ "session" : "'.$_SESSION['userId'].'" }';
+            } else {
+                echo '{ "session": null }';
+            }
         }
         
         // POST: ~/api/userControllers.php {params in request body}
