@@ -17,7 +17,8 @@
     <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "CHEF") { ?>
         <div id="chef-recipe-dashboard" class="user-dashboard">
             <div class="header">
-                <h2>Gestion des recettes</h2>
+                <h2>Gestion de mes recettes</h2>
+                <button id="addRecipeBtn" class="main-action">+ Ajouter une recette</button>
             </div>
 
             <ul id="recipeList" class="recipe-list"></ul>
@@ -25,7 +26,7 @@
     <?php } else if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR") { ?>
         <div id="translator-recipe-dashboard" class="user-dashboard">
             <div class="header">
-                <h2>Gestion des recettes</h2>
+                <h2>Traduction des recettes</h2>
             </div>
 
             <ul id="recipeList" class="recipe-list"></ul>

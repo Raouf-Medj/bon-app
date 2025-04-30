@@ -188,13 +188,20 @@ $(document).ready(async function () {
 
     // Add recipe modal
     const recipeModal = $('#recipeModal');
-    $('#addRecipeBtn').click(() => { 
+    $('#addRecipeBtn').click(async () => { 
         $('#recipeForm')[0].reset();
         $('#recipeForm').data('edit-mode', false);     // mark we're NOT editing
         $('#ingredientsContainer').empty();
         $('#steps-list').empty();
-        recipeModal.show(); }
-    );
+
+        const session = await fetchSession();
+        if (session.userRole == 'CHEF') {
+            const user = await fetchUser(session.userId);
+            $('#recipeForm input[name="author"]').val(user.username || '');
+        }
+        recipeModal.show(); 
+    });
+
     $('.close').click(() => recipeModal.hide());
 
     $('#addIngredient').click(function () {
@@ -584,7 +591,21 @@ async function fetchSession() {
         });
         return JSON.parse(sessionData);
     } catch (err) {
-        console.error("Error fetching user ID:", err);
+        console.error("Error fetching session:", err);
+        return null;
+    }
+}
+
+async function fetchUser(id) {
+    try {
+        const userData = await $.ajax({
+            url: "http://localhost:3000/api/userController.php",
+            method: "GET",
+            data: { action: "get", id: id }
+        });
+        return JSON.parse(userData);
+    } catch (err) {
+        console.error("Error fetching user:", err);
         return null;
     }
 }

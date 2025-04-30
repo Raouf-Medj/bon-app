@@ -16,7 +16,10 @@
         "role": "COOK",
         "password": "$2y$12$ljpllKhY6XRyfZ.RUuIGA.3AyLQQnHhIsd7Hfi9oAmr\/nHqp0nZca",
         "id": "67ba0ccc421af",
-        "favorites": []
+        "favorites": [
+            "67ba1ebe710f7",
+            "67ba1eae710f0"
+        ]
     },
     "67bc25c11ea94": {
         "role": "CHEF",
