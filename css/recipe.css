@@ -199,5 +199,10 @@ input[type="file"]::file-selector-button {
 
 }
 
+.comment-image {
+    width: 12rem;
+    height: auto;
+}
+
 
 

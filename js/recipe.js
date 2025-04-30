@@ -234,7 +234,7 @@ async function createRecipeContent(recipe) {
             `;
             if (comment.image) {
                 let cImage = `
-                <img src="/assets/comments/${comment.image}">
+                <img src="/assets/images/comments/${comment.image}.png" class="comment-image">
                 `;
                 commentElement += cImage;
             }
@@ -306,7 +306,6 @@ function submitComment(recipeId, userId, userName) {
 }
 
 function loadMissingIdPage() {
-    let conentDiv = $("#content");
     let contentDiv = $("#content");
     contentDiv.html(`<p>${lang === 'fr' ? 'ID de recette manquant.' : 'Missing recipe ID.'}</p>`);
 }

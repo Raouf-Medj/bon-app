@@ -9,8 +9,8 @@
         "is_dairy_free": true,
         "diet": "Omnivore",
         "difficulty": "Hard",
-        "imageURL": "https:\/\/cdn.apartmenttherapy.info\/image\/upload\/f_auto,q_auto:eco,c_fill,g_auto,w_1456,h_1092\/k%2FPhoto%2FRecipes%2F2024-11-slow-cooker-pot-roast%2FSEO-slow-cooker-pot-roast-1502_d45208-cropped",
-        "originalURL": "",
+        "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
+        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
         "ingredients": [
             {
                 "quantity": "1",
@@ -83,8 +83,6 @@
             1,
             420
         ],
-        "imageURL": "http:\/\/img.sndimg.com\/food\/image\/upload\/w_266\/v1\/img\/recipes\/27\/20\/8\/picVfzLZo.jpg",
-        "originalURL": "http:\/\/www.food.com\/recipe\/to-die-for-crock-pot-roast-27208",
         "comments": [
             {
                 "comment_id": "id",
@@ -222,6 +220,13 @@
                 "user_name": "danilodanilo",
                 "text": "ffff",
                 "image": "6805363dec01e"
+            },
+            {
+                "comment_id": "68122e7e9fe54",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "test",
+                "image": "68122e7e9fe58"
             }
         ]
     },
@@ -285,6 +290,20 @@
                 "user_name": "danilodanilo",
                 "text": "fffff",
                 "image": null
+            },
+            {
+                "comment_id": "68122a83300e8",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "so I'm testing a normal comment",
+                "image": null
+            },
+            {
+                "comment_id": "68122ac79446c",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "now I'm testing an image comment",
+                "image": "68122ac794471"
             }
         ]
     },

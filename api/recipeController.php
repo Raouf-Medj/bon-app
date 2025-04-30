@@ -256,11 +256,11 @@
                         }
                         $comment["image"] =  uniqid();
                         $file = $_FILES['image']['tmp_name'];
-                        $uploadDir = __DIR__."/../assets/comments";
+                        $uploadDir = __DIR__."/../assets/images/comments";
                         if (!is_dir($uploadDir)) {
                             echo "dir invalid";
                         }
-                        $uploadPath = $uploadDir."/".$comment['image'];
+                        $uploadPath = $uploadDir."/".$comment['image'].".png";
 
                         if (!is_uploaded_file($file)) {
                             http_response_code(400);
