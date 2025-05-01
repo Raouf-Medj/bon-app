@@ -71,7 +71,13 @@ async function createRecipeContent(recipe) {
         .attr("class", "details")
         .appendTo(recipeContainer);
 
+    let totalTime = recipe.timers.reduce((sum, time) => sum + time, 0);
+    let hours = Math.floor(totalTime / 60);
+    let minutes = totalTime % 60;
+    let formattedTime = `${hours > 0 ? hours + "h " : ""}${minutes}min`;
     let detailsSection = `
+        <div class="detailsItem"><span>${formattedTime}</span></div>
+        <div class="sep">•</div>
         <div class="detailsItem"><span>${recipe.difficulty}</span></div>
         <div class="sep">•</div>
         <div class="detailsItem"><span>${recipe.diet}</span></div>
@@ -102,7 +108,7 @@ async function createRecipeContent(recipe) {
         recipeContainer.append(originUrl);
     }
 
-    //ingeredients section
+    // ingeredients section
     let ingredientsSection = $("<div>")
         .addClass("ingredients-section");
     recipeContainer.append(ingredientsSection);
@@ -120,6 +126,7 @@ async function createRecipeContent(recipe) {
         ingredientList.append(listItem);
     }
 
+    // instructions section
     let divStepsSection = $("<div>")
         .addClass("steps-section");
     recipeContainer.append(divStepsSection);
@@ -130,15 +137,12 @@ async function createRecipeContent(recipe) {
 
     let stepsList = $("<ol>");
     divStepsSection.append(stepsList);
-    for (let step of steps) {
-        let listItem = $("<li>")
-            .text(step);
+    steps.forEach((step, index) => {
+        let listItem = $("<li>").text(`${step} (${recipe.timers[index]} min)`);
         stepsList.append(listItem);
-    }
-
+    });
 
     //commentsection
-
     let commentSectionDiv = $("<div>")
         .attr("class", "comments")
         .appendTo(contentDiv);
