@@ -84,7 +84,6 @@ function parseUserId(data) {
     try {
         return JSON.parse(data).userId || null;
     } catch (e) {
-        console.error("Failed to parse session:", e);
         return null;
     }
 }
@@ -122,6 +121,10 @@ async function fetchRecipesFromCategory(category) {
 function loadButtons() {
     $('#request-chef').on('click', async function () {
         const userId = await fetchUserId();
+        if (userId == null) {
+            alert("Veuillez vous connecter pour voir vos favoris.");
+            return;
+        }
         $.ajax({
             url: "http://localhost:3000/api/userController.php",
             method: "POST",
@@ -141,6 +144,10 @@ function loadButtons() {
 
     $('#request-translator').on('click', async function () {
         const userId = await fetchUserId();
+        if (userId == null) {
+            alert("Veuillez vous connecter pour voir vos favoris.");
+            return;
+        }
         $.ajax({
             url: "http://localhost:3000/api/userController.php",
             method: "POST",
@@ -217,7 +224,6 @@ function displayRecipes(recipes, userId = null) {
         let minutes = totalTime % 60;
         let formattedTime = `${hours > 0 ? hours + "h " : ""}${minutes}min`;
         const showLikeButton = userId !== null;
-        console.log("showLikeButton", showLikeButton);
 
         const isLiked = likedRecipes.includes(recipe.id);
         const heartClass = isLiked ? 'fa-solid' : 'fa-regular';
