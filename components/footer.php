@@ -40,8 +40,6 @@
 
             <div class='copyright'>
                 <div>©<span class='year'>2025</span><span class='brand'>BonApp</span></div>
-                <a href="/public/about.php
-                " class="foot_link">À Propos</a>
             </div>
         </div>
     </footer>

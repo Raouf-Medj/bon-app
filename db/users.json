@@ -78,11 +78,11 @@
         "favorites": []
     },
     "680527557a734": {
-        "username": "danilodanilo",
+        "username": "danilodaniloo",
         "email": "danilo@danilo.danilo",
-        "password": "$2y$12$493F75iDrYzii.m\/cTXA\/.qbpDhqNVPEVWgnjdfpwiCn\/ArX1E0dW",
         "role": "COOK",
-        "id": "680527557a734",
-        "favorites": []
+        "password": "$2y$12$493F75iDrYzii.m\/cTXA\/.qbpDhqNVPEVWgnjdfpwiCn\/ArX1E0dW",
+        "favorites": [],
+        "id": "680527557a734"
     }
 }

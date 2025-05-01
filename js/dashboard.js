@@ -40,7 +40,7 @@ $(document).ready(async function () {
                     <option value="requestCHEF" ${currentRole === '( requestCHEF )' ? 'selected' : ''}>Demandeur chef</option>
                 </select>
             </div>
-            <button id="confirmEdit" style="background:#0891B2;color:white;">Enregistrer</button>
+            <button id="confirmEdit" style="background:#0891B2; color:white; padding: 0.3rem 0.5rem; border-radius: 1rem; border: none;">Enregistrer</button>
         `);
     
         $(document).off('click', '#confirmEdit').on('click', '#confirmEdit', async function () {
@@ -61,7 +61,7 @@ $(document).ready(async function () {
         openModal(`
             <h3>Supprimer cet utilisateur ?</h3>
             <p>Cette action est irréversible.</p>
-            <button id="confirmDelete" style="background:#f44336;color:white;">Supprimer</button>
+            <button id="confirmDelete" style="background:#f44336; color:white; padding: 0.3rem 0.5rem; border-radius: 1rem; border: none;">Supprimer</button>
         `);
     
         $(document).off('click', '#confirmDelete').on('click', '#confirmDelete', async function () {
@@ -83,11 +83,11 @@ $(document).ready(async function () {
         $('#recipeForm').data('edit-mode', true);     // mark we're editing
         $('#recipeForm').data('edit-id', recipeId);  
 
-        $('#recipeForm input[name="name"]').val(recipe.name || '');
-        $('#recipeForm input[name="nameFR"]').val(recipe.nameFR || '');
-        $('#recipeForm input[name="author"]').val(recipe.author || '');
-        $('#recipeForm input[name="imageURL"]').val(recipe.imageURL || '');
-        $('#recipeForm input[name="originalURL"]').val(recipe.originalURL || '');
+        $('#recipeForm input[name="name"]').val(recipe.name ?? '').prop('disabled', session.userRole === 'TRANSLATOR' && (recipe.name?.trim() ?? '').length > 0);
+        $('#recipeForm input[name="nameFR"]').val(recipe.nameFR ?? '').prop('disabled', session.userRole === 'TRANSLATOR' && (recipe.nameFR?.trim() ?? '').length > 0);
+        $('#recipeForm input[name="author"]').val(recipe.author ?? '');
+        $('#recipeForm input[name="imageURL"]').val(recipe.imageURL ?? '');
+        $('#recipeForm input[name="originalURL"]').val(recipe.originalURL ?? '');
 
         $('#recipeForm select[name="diet"]').val(recipe.diet || 'Omnivore');
         $('#recipeForm select[name="difficulty"]').val(recipe.difficulty || 'Easy');
@@ -125,7 +125,7 @@ $(document).ready(async function () {
         openModal(`
             <h3>Supprimer cette recette ?</h3>
             <p>Cette action est irréversible.</p>
-            <button id="confirmDeleteRecipe" style="background:#f44336;color:white;">Supprimer</button>
+            <button id="confirmDeleteRecipe" style="background:#f44336; color:white; padding: 0.3rem 0.5rem; border-radius: 1rem; border: none;">Supprimer</button>
         `);
     
         $(document).off('click', '#confirmDeleteRecipe').on('click', '#confirmDeleteRecipe', async function () {
@@ -141,7 +141,7 @@ $(document).ready(async function () {
 
         openModal(`
             <h3>Valider cette recette ?</h3>
-            <button id="confirmValidateRecipe" style="background:#88e058;color:white;">Valider</button>
+            <button id="confirmValidateRecipe" style="background:#88e058; color:white; padding: 0.3rem 0.5rem; border-radius: 1rem; border: none;">Valider</button>
         `);
     
         $(document).off('click', '#confirmValidateRecipe').on('click', '#confirmValidateRecipe', async function () {
@@ -166,7 +166,7 @@ $(document).ready(async function () {
 
         openModal(`
             <h3>Approuver cette demande de rôle ?</h3>
-            <button id="confirmValidateRole" style="background:#88e058;color:white;">Approuver</button>
+            <button id="confirmValidateRole" style="background:#88e058; color:white; padding: 0.3rem 0.5rem; border-radius: 1rem; border: none;">Approuver</button>
         `);
     
         $(document).off('click', '#confirmValidateRole').on('click', '#confirmValidateRole', async function () {
@@ -321,8 +321,8 @@ function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = ''
     $('#ingredientsContainer').append(`
         <div class="ingredient-row">
             <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required ${disabled}>
-            <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" data-required-group="ingredientName" ${disabled1}>
-            <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" data-required-group="ingredientName" ${disabled2}>
+            <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" ${disabled1}>
+            <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" ${disabled2}>
             <input type="text" name="ingredientType[]" value="${type}" placeholder="Type" ${disabled}>
             <button type="button" class="remove-ingredient" ${disabled}>❌</button>
         </div>
@@ -335,8 +335,8 @@ function addStepRow(role, stepEN = '', stepFR = '', timer = 0) {
     const disabled2 = role == 'TRANSLATOR' && stepEN != "" ? 'disabled' : '';
     $('#steps-list').append(`
         <div class="step-row">
-          <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape (FR)" data-required-group="step" ${disabled1}>
-          <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step (EN)" data-required-group="step" ${disabled2}>
+          <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape (FR)" ${disabled1}>
+          <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step (EN)" ${disabled2}>
           <input type="number" name="step_timer[]" value="${timer}" placeholder="Durée (min)" min="0" ${disabled}>
           <button type="button" class="remove-step" ${disabled}>❌</button>
         </div>
