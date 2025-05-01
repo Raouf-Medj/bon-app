@@ -71,7 +71,7 @@ Open your browser and go to:
 
 ### 🌐 Language Toggle
 
-- Easily switch between French and English versions of the site using a toggle or checkbox
+- Easily switch between French and English versions of the site using a toggle button.
 
 ---
 
