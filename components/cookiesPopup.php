@@ -1,1 +1,0 @@
-<!-- add a cookie confirmation popup, upon refusal kick user out -->
