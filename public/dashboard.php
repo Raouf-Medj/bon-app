@@ -131,13 +131,7 @@
                 <h3>Liens</h3>
                 <input type="text" name="originalURL" placeholder="Lien d’origine" <?= $disabledAttr ?>><br>
                 <input type="text" name="imageURL" placeholder="Lien d'image" <?= $disabledAttr ?>><br>
-                Ou uploader votre image locale ci-dessous (priorité d'affichage supérieure) <input type="file" name="localImage" id="localImage" accept="image/png, image/jpeg, image/jpg"><br>
-                <img
-                    src=""
-                    alt="recipe img preview"
-                    id="preview_img"
-                    style="width: 2rem; height: auto; display: none"
-                /><br><br>
+                Ou uploader votre image locale ci-dessous (priorité d'affichage supérieure) <input type="file" name="localImage" id="localImage" accept="image/png, image/jpeg, image/jpg" <?= $disabledAttr ?>><br><br>
 
                 <button type="submit">Enregistrer</button>
             </form>

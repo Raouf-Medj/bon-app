@@ -223,7 +223,7 @@ $(document).ready(async function () {
     // Recipe form submission (add / edit / translate)
     $('#recipeForm').submit(async function (e) {
         e.preventDefault();
-        
+
         const json = $(this).serializeArray();
         const formData = new FormData();
         const recipe = {};
@@ -316,12 +316,14 @@ function addRecipeRow(id, nameFR, role = 'ADMIN', validated = true) {
 
 function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = '') {
     const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
+    const disabled1 = role == 'TRANSLATOR' && nameFR != "" ? 'disabled' : '';
+    const disabled2 = role == 'TRANSLATOR' && name != "" ? 'disabled' : '';
     $('#ingredientsContainer').append(`
         <div class="ingredient-row">
-            <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required>
-            <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" required>
-            <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" required>
-            <input type="text" name="ingredientType[]" value="${type}" placeholder="Type">
+            <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required ${disabled}>
+            <input type="text" name="ingredientNameFR[]" value="${nameFR}" placeholder="Nom (FR)" data-required-group="ingredientName" ${disabled1}>
+            <input type="text" name="ingredientName[]" value="${name}" placeholder="Name (EN)" data-required-group="ingredientName" ${disabled2}>
+            <input type="text" name="ingredientType[]" value="${type}" placeholder="Type" ${disabled}>
             <button type="button" class="remove-ingredient" ${disabled}>❌</button>
         </div>
     `);
@@ -329,11 +331,13 @@ function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = ''
 
 function addStepRow(role, stepEN = '', stepFR = '', timer = 0) {
     const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
+    const disabled1 = role == 'TRANSLATOR' && stepFR != "" ? 'disabled' : '';
+    const disabled2 = role == 'TRANSLATOR' && stepEN != "" ? 'disabled' : '';
     $('#steps-list').append(`
         <div class="step-row">
-          <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape en français">
-          <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step in English">
-          <input type="number" name="step_timer[]" value="${timer}" placeholder="Durée (min)" min="0">
+          <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape (FR)" data-required-group="step" ${disabled1}>
+          <input type="text" name="step_en[]" value="${stepEN}" placeholder="Step (EN)" data-required-group="step" ${disabled2}>
+          <input type="number" name="step_timer[]" value="${timer}" placeholder="Durée (min)" min="0" ${disabled}>
           <button type="button" class="remove-step" ${disabled}>❌</button>
         </div>
       `);
