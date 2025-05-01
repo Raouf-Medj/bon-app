@@ -63,8 +63,8 @@
             <?php
                 $is_translator = isset($_SESSION['userRole']) && $_SESSION['userRole'] == "TRANSLATOR";
                 $is_chef = isset($_SESSION['userRole']) && $_SESSION['userRole'] == "CHEF";
-                $disabledAttr = $is_translator ? 'disabled' : '';
-                $disabledAttrAuthor = $is_translator || $is_chef ? 'disabled' : '';
+                $disabledAttr = $is_translator ? 'readonly' : '';
+                $disabledAttrAuthor = $is_translator || $is_chef ? 'readonly' : '';
             ?>
 
             <span class="close">&times;</span>

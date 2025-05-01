@@ -83,8 +83,8 @@ $(document).ready(async function () {
         $('#recipeForm').data('edit-mode', true);     // mark we're editing
         $('#recipeForm').data('edit-id', recipeId);  
 
-        $('#recipeForm input[name="name"]').val(recipe.name ?? '').prop('disabled', session.userRole === 'TRANSLATOR' && (recipe.name?.trim() ?? '').length > 0);
-        $('#recipeForm input[name="nameFR"]').val(recipe.nameFR ?? '').prop('disabled', session.userRole === 'TRANSLATOR' && (recipe.nameFR?.trim() ?? '').length > 0);
+        $('#recipeForm input[name="name"]').val(recipe.name ?? '').prop('readonly', session.userRole === 'TRANSLATOR' && (recipe.name?.trim() ?? '').length > 0);
+        $('#recipeForm input[name="nameFR"]').val(recipe.nameFR ?? '').prop('readonly', session.userRole === 'TRANSLATOR' && (recipe.nameFR?.trim() ?? '').length > 0);
         $('#recipeForm input[name="author"]').val(recipe.author ?? '');
         $('#recipeForm input[name="imageURL"]').val(recipe.imageURL ?? '');
         $('#recipeForm input[name="originalURL"]').val(recipe.originalURL ?? '');
@@ -256,8 +256,8 @@ $(document).ready(async function () {
             }
         });
 
-        recipe.is_gluten_free = recipe.is_gluten_free || false
-        recipe.is_dairy_free = recipe.is_dairy_free || false
+        recipe.is_gluten_free = recipe.is_gluten_free || false;
+        recipe.is_dairy_free = recipe.is_dairy_free || false;
         recipe.ingredients = ingredients;
         recipe.ingredientsFR = ingredientsFR;
         recipe.steps = steps;
@@ -275,8 +275,12 @@ $(document).ready(async function () {
         }
 
         formData.append('localImage', $('#localImage')[0]?.files[0] ?? null);
+
+        console.log(recipe);
     
         const isEdit = $('#recipeForm').data('edit-mode');
+
+        console.log(isEdit);
     
         if (isEdit) {
             formData.append('id', $('#recipeForm').data('edit-id'));
@@ -315,9 +319,9 @@ function addRecipeRow(id, nameFR, role = 'ADMIN', validated = true) {
 }
 
 function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = '') {
-    const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
-    const disabled1 = role == 'TRANSLATOR' && nameFR != "" ? 'disabled' : '';
-    const disabled2 = role == 'TRANSLATOR' && name != "" ? 'disabled' : '';
+    const disabled = role == 'TRANSLATOR' ? 'readonly' : '';
+    const disabled1 = role == 'TRANSLATOR' && nameFR != "" ? 'readonly' : '';
+    const disabled2 = role == 'TRANSLATOR' && name != "" ? 'readonly' : '';
     $('#ingredientsContainer').append(`
         <div class="ingredient-row">
             <input type="text" name="quantity[]" value="${quantity}" placeholder="Quantité" required ${disabled}>
@@ -330,9 +334,9 @@ function addIngredientRow(role, quantity = '', name = '', nameFR = '', type = ''
 }
 
 function addStepRow(role, stepEN = '', stepFR = '', timer = 0) {
-    const disabled = role == 'TRANSLATOR' ? 'disabled' : '';
-    const disabled1 = role == 'TRANSLATOR' && stepFR != "" ? 'disabled' : '';
-    const disabled2 = role == 'TRANSLATOR' && stepEN != "" ? 'disabled' : '';
+    const disabled = role == 'TRANSLATOR' ? 'readonly' : '';
+    const disabled1 = role == 'TRANSLATOR' && stepFR != "" ? 'readonly' : '';
+    const disabled2 = role == 'TRANSLATOR' && stepEN != "" ? 'readonly' : '';
     $('#steps-list').append(`
         <div class="step-row">
           <input type="text" name="step_fr[]" value="${stepFR}" placeholder="Étape (FR)" ${disabled1}>

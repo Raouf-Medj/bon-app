@@ -159,6 +159,27 @@
                 "user_name": "medj364",
                 "text": "now I'm testing an image comment",
                 "image": "68122ac794471"
+            },
+            {
+                "comment_id": "68139050c8234",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "test 01\/05",
+                "image": null
+            },
+            {
+                "comment_id": "6813905cce6e7",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "hyello",
+                "image": "6813905cce6ea"
+            },
+            {
+                "comment_id": "68139064e08b5",
+                "user_id": "67ba0ccc42169",
+                "user_name": "medj364",
+                "text": "",
+                "image": "68139064e08b8"
             }
         ]
     },
@@ -692,7 +713,7 @@
     },
     "67b69eae71069": {
         "id": "67b69eae71069",
-        "validated": true,
+        "validated": false,
         "name": "Curried chicken salad",
         "nameFR": "testDelete1",
         "author": "Chef03",
@@ -764,7 +785,68 @@
                 "type": "Misc"
             }
         ],
-        "ingredientsFR": null,
+        "ingredientsFR": [
+            {
+                "quantity": "3",
+                "name": "",
+                "type": "Meat"
+            },
+            {
+                "quantity": "1\/2 cup",
+                "name": "",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1 tbsp",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1 tbsp ",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1 1\/2 tsp",
+                "name": "",
+                "type": "Baking"
+            },
+            {
+                "quantity": "1\/4 tsp",
+                "name": "",
+                "type": "Baking"
+            },
+            {
+                "quantity": "2",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1\/4 cup",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "2",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "1",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "6 leaves",
+                "name": "",
+                "type": "Produce"
+            },
+            {
+                "quantity": "6",
+                "name": "",
+                "type": "Misc"
+            }
+        ],
         "steps": [
             "ARRANGE chicken in a single layer in a large pot.",
             "Add water to just cover.",
@@ -776,7 +858,17 @@
             "Divide among muffins with lettuce leaves",
             "Sandwich with tops"
         ],
-        "stepsFR": null,
+        "stepsFR": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ],
         "timers": [
             0,
             0,
@@ -787,7 +879,8 @@
             0,
             0,
             0
-        ]
+        ],
+        "localImage": null
     },
     "67f5b52876a4a": {
         "id": "67f5b52876a4a",
@@ -828,7 +921,7 @@
     },
     "67fbe77b5b0d2": {
         "id": "67fbe77b5b0d2",
-        "validated": true,
+        "validated": false,
         "name": "Crock Pot Roast copy",
         "nameFR": "Roti \u00e0 la cocotte copie",
         "author": "Chef04",
