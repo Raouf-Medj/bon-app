@@ -79,7 +79,9 @@
         "username": "danilodanilo",
         "password": "$2y$12$493F75iDrYzii.m\/cTXA\/.qbpDhqNVPEVWgnjdfpwiCn\/ArX1E0dW",
         "email": "danilo@danilo.danilo",
-        "favorites": [],
+        "favorites": [
+            "67ba1ebe710f7"
+        ],
         "id": "680527557a734"
     }
 }

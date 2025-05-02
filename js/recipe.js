@@ -276,26 +276,21 @@ function submitComment(recipeId, userId, userName) {
     }
 
     $.ajax({
-        url: "/api/recipeController.php", // Pfad zum recipeController anpassen
+        url: "/api/recipeController.php",
         type: 'POST',
         data: formData,
+        dataType: "json",
         contentType: false,
         processData: false,
-        success: function(response) {
-            try {
-                const data = JSON.parse(response);
-                if (data.success) {
-                    commentStatus.textContent = lang === 'fr' ? 'Commentaire ajouté avec succès!' : 'Comment added successfully!';
-                    commentStatus.className = 'status-message success';
-                    fetchRecipe(recipeId); // Reload, um die neuen Kommentare anzuzeigen
-                } else {
-                    commentStatus.textContent = lang === 'fr' ? 'Erreur lors de l\'ajout du commentaire: ' + data.error : 'Error adding comment: ' + data.error;
-                    commentStatus.className = 'status-message error';
-                }
-            } catch (error) {
-                console.error("Error parsing JSON response:", error);
-                commentStatus.textContent = lang === 'fr' ? 'Erreur inattendue.' : 'Unexpected error.';
+        success: function(data) {
+            if (data.success) {
+                commentStatus.textContent = lang === 'fr' ? 'Commentaire ajouté avec succès!' : 'Comment added successfully!';
+                commentStatus.className = 'status-message success';
+                fetchRecipe(recipeId); // Reload, to show the new comments
+            } else {
+                commentStatus.textContent = lang === 'fr' ? 'Erreur lors de l\'ajout du commentaire: ' + data.error : 'Error adding comment: ' + data.error;
                 commentStatus.className = 'status-message error';
+                fetchRecipe(recipeId); // Reload, to show the new comments
             }
             document.getElementById('commentText').value = '';
             document.getElementById('commentImage').value = '';
@@ -369,9 +364,9 @@ function parseUserId(data) {
 }
 
 //event listeners
-$(document).ready(function () {
-    $("#changeLang").click(function () {
-        lang = (lang === "en") ? "en" : "fr";
-        location.reload();
-    });
-});
+//$(document).ready(function () {
+//    $("#changeLang").click(function () {
+//        lang = (lang === "en") ? "en" : "fr";
+//        location.reload();
+//    });
+//});
