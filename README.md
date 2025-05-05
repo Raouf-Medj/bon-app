@@ -35,7 +35,7 @@ php -S localhost:8000
 3. **Visit the site**
 
 Open your browser and go to:  
-[http://localhost:8000](http://localhost:8000)
+[http://localhost:8000](http://localhost:3000) (very important to use port 3000)
 
 ---
 
