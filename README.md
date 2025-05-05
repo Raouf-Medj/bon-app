@@ -29,7 +29,7 @@ cd bon-app
 2. **Start the development server (PHP built-in)**
 
 ```bash
-php -S localhost:8000
+php -S localhost:3000
 ```
 
 3. **Visit the site**
