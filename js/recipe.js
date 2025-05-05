@@ -8,8 +8,11 @@ async function fetchRecipe(recId) {
         data: {action: "get", id: recId},
         dataType: "json",
         success: function(response) {
-            recipeData = response;
-            createRecipeContent(recipeData);
+            if (response.error) {
+                recipeError(recId);
+            } else {
+                createRecipeContent(response);
+            }
         },
         error: function(response) {
             recipeError(recId);
