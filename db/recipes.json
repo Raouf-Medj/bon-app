@@ -530,7 +530,7 @@
             },
             {
                 "quantity": "1",
-                "name": "",
+                "name": "verre d'eau",
                 "type": "Drinks"
             },
             {
@@ -620,8 +620,7 @@
             8,
             0
         ],
-        "localImage": null,
-        "comments": []
+        "localImage": null
     },
     "67ba2eae710f7": {
         "id": "67ba2eae710f7",
