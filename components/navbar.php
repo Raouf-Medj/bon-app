@@ -18,9 +18,9 @@
         </a>
 
         <ul class="navlinks">
-            <a href="#home_section" class="navlink">ACCUEIL</a>
-            <a href="#recipes_section" class="navlink">RECETTES</a>
-            <a href="#rolerequest_section" class="navlink">REJOIGNEZ-NOUS</a>
+            <a href="/#home_section" class="navlink">ACCUEIL</a>
+            <a href="/#recipes_section" class="navlink">RECETTES</a>
+            <a href="/#rolerequest_section" class="navlink">REJOIGNEZ-NOUS</a>
         </ul>
 
         <div class="nav_buttons">
