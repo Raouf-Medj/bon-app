@@ -122,7 +122,7 @@ function loadButtons() {
     $('#request-chef').on('click', async function () {
         const userId = await fetchUserId();
         if (userId == null) {
-            alert("Veuillez vous connecter pour voir vos favoris.");
+            alert("Veuillez vous connecter afin de pouvoir demander un rôle.");
             return;
         }
         $.ajax({
@@ -145,7 +145,7 @@ function loadButtons() {
     $('#request-translator').on('click', async function () {
         const userId = await fetchUserId();
         if (userId == null) {
-            alert("Veuillez vous connecter pour voir vos favoris.");
+            alert("Veuillez vous connecter afin de pouvoir demander un rôle.");
             return;
         }
         $.ajax({
