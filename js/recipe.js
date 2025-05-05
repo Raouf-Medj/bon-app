@@ -11,6 +11,7 @@ async function fetchRecipe(recId) {
             if (response.error) {
                 recipeError(recId);
             } else {
+                recipeData = response
                 createRecipeContent(response);
             }
         },
